@@ -4,22 +4,26 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * DAO基类 Copyright 2013 - 2014
- * 
- * @project pdkj － BaseDao
- * @author pdkj
- * @version 2014年3月22日下午11:41:41 - BaseDao.java
- */
+
 public abstract class BaseDao<T extends Serializable> {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	
+	
+	@SuppressWarnings({ "unchecked" })
+	public BaseDao() {
+		// 获取当前泛型类
+		setEntityClass((Class<T>) ((ParameterizedType) getClass()
+				.getGenericSuperclass()).getActualTypeArguments()[0]);
+	}
 	// 当前泛型类
 	@SuppressWarnings("rawtypes")
 	private Class entityClass;
@@ -42,12 +46,6 @@ public abstract class BaseDao<T extends Serializable> {
 		return sessionFactory.getCurrentSession();
 	}
 
-	@SuppressWarnings({ "unchecked" })
-	public BaseDao() {
-		// 获取当前泛型类
-		setEntityClass((Class<T>) ((ParameterizedType) getClass()
-				.getGenericSuperclass()).getActualTypeArguments()[0]);
-	}
 	//数据库备份与还原
 	//sql sql语句，返回值0代表成功，1代表失败
 	public int backup(String sql) {
@@ -67,13 +65,10 @@ public abstract class BaseDao<T extends Serializable> {
 		}
 		return flag;
 	}
-
-	
-	
 	
 
 	@SuppressWarnings("unchecked")
-	public List<T> findByCondition(StringBuffer querySql) {
+	public List<T> findEntryByExecSQL(StringBuffer querySql) {
 		List<T> list = null;
 		Session session = null;
 
@@ -112,7 +107,7 @@ public abstract class BaseDao<T extends Serializable> {
 	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<Map> findByCondition1(StringBuffer querySql) {
+	public List<Map> findMapByExecSQL(StringBuffer querySql) {
 		List<Map> list = null;
 		Session session = null;
 
@@ -242,8 +237,23 @@ public abstract class BaseDao<T extends Serializable> {
 				throw new RuntimeException("hql can't be auto count, hql is:"
 						+ fromHql, e);
 			}
-
-			// total = (Long) criteria.uniqueResult();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return total;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<T> getList(String table) {
+		List<T> total = null;
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			String sql = "from "+table; 
+			Query que = session.createQuery(sql); 
+			total = que.list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {

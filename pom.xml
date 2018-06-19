@@ -12,6 +12,7 @@
 		<!--Spring版本号 -->
 		<spring.version>4.2.6.RELEASE</spring.version>
 		<hibernateVersion>4.3.5.Final</hibernateVersion>
+		<jackson.version>2.5.4</jackson.version>
 	</properties>
 
 	<dependencies>
@@ -89,7 +90,16 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernateVersion}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
 
 	</dependencies>
 	<build>
