@@ -1,15 +1,13 @@
 package org.kzcw.service;
 import org.kzcw.core.BaseService;
-import org.kzcw.model.lockdevice;
+import org.kzcw.model.Role;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
-@Component("lockdeviceService")
+@Component("roleService")
 
-public interface lockdeviceService extends BaseService<lockdevice>{
-	 
-	
-	
-	 
+
+public interface RoleService extends BaseService<Role>{
+
 }

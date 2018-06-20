@@ -3,10 +3,10 @@ package org.kzcw.service.Imp;
 import java.util.List;
 
 import org.kzcw.core.BaseServiceImpl;
-import org.kzcw.dao.operatehistoryDao;
-import org.kzcw.model.operatehistory;
-import org.kzcw.service.lightboxService;
-import org.kzcw.service.operatehistoryService;
+import org.kzcw.dao.OperatehistoryDao;
+import org.kzcw.model.Operatehistory;
+import org.kzcw.service.LightboxService;
+import org.kzcw.service.OperatehistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -14,23 +14,23 @@ import org.springframework.stereotype.Service;
 
 @Service("operatehistoryService")
 @Component
-public class operatehistoryServiceImpl extends BaseServiceImpl<operatehistory> implements operatehistoryService{
+public class OperatehistoryServiceImpl extends BaseServiceImpl<Operatehistory> implements OperatehistoryService{
 	
 	@Autowired 
-	private lightboxService operLogService;
+	private LightboxService operLogService;
 	
-	private operatehistoryDao dao;
+	private OperatehistoryDao dao;
 	
 	
 	@Autowired
 	@Qualifier("operatehistoryDao")
-	public void setoperatehistoryDao(operatehistoryDao dao) {
+	public void setoperatehistoryDao(OperatehistoryDao dao) {
 		this.dao = dao;
 	}
 
 
-	public List<operatehistory> list() {
+	public List<Operatehistory> list() {
 		// TODO Auto-generated method stub
-		return dao.getList("t_operatehistory");
+		return dao.getList("Operatehistory");
 	}
 }

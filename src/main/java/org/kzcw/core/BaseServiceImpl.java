@@ -48,7 +48,7 @@ public abstract class BaseServiceImpl<T extends Serializable> implements BaseSer
 		}
 		if (m == null) {
 			return true;
-		} else if (m.getId() == id) {
+		} else if (m.getID() == id) {
 			return true;
 		} else {
 			return false;

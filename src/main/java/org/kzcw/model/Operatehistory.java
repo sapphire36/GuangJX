@@ -4,18 +4,20 @@ import java.sql.Blob;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.kzcw.core.General;
 
 @Entity
 @Table(name="t_operatehistory")
-public class operatehistory extends General{
+public class Operatehistory extends General{
 	//操作历史表
 	
 	private static final long serialVersionUID = -3254940818328212382L;
 
-	private long HISTORYID; //操作历史编号
 	private long BOXID;//光交箱体编号
 	private long ORGANIZATIONID;//施工单位编号
 	private Blob BEFOR_MAINTAIN; //维修前照片
@@ -23,13 +25,6 @@ public class operatehistory extends General{
 	private Blob FIN_MAINTAIN; //关箱后照片
 	private int SCORE;//评分
 	
-	@Column(nullable = false,length=20)
-	public long getHISTORYID() {
-		return HISTORYID;
-	}
-	public void setHISTORYID(long hISTORYID) {
-		HISTORYID = hISTORYID;
-	}
 	
 	@Column(nullable = false,length=20)
 	public long getBOXID() {

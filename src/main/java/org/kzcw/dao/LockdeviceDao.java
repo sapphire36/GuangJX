@@ -1,11 +1,11 @@
 package org.kzcw.dao;
 import org.kzcw.core.BaseDao;
-import org.kzcw.model.role;
+import org.kzcw.model.Lockdevice;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-@Repository("roleDao")
+@Repository("lockdeviceDao")
 @Component
-public class roleDao extends BaseDao<role>{
+public class LockdeviceDao extends BaseDao<Lockdevice>{
 
 }

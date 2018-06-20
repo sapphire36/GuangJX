@@ -2,32 +2,26 @@ package org.kzcw.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.kzcw.core.General;
 
 @Entity
 @Table(name="t_organization")
-public class organization extends General{
+public class Organization extends General{
 	//施工单位信息表
 	
 	
 	private static final long serialVersionUID = -165494081832825L;
 
-	private long OID; //单位编号
 	private String ONAME;//单位名称
 	private String ADDRESS;//公司地址
 	private String TEL;//电话
 	private String DEPOSIT;//押金
 	private int STATUS; //状态,1表示激活,0表示未激活
-	
-	@Column(nullable = false,length=50)
-	public long getOID() {
-		return OID;
-	}
-	public void setOID(long oID) {
-		OID = oID;
-	}
 	
 	@Column(nullable = false,length=50)
 	public String getONAME() {

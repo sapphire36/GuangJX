@@ -1,13 +1,15 @@
 package org.kzcw.service;
 import org.kzcw.core.BaseService;
-import org.kzcw.model.role;
+import org.kzcw.model.Organization;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
-@Component("roleService")
+@Component("organizationService")
 
-
-public interface roleService extends BaseService<role>{
-
+public interface OrganizationService extends BaseService<Organization>{
+	 
+	
+	
+	 
 }

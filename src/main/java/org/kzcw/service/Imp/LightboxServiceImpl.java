@@ -3,9 +3,9 @@ package org.kzcw.service.Imp;
 import java.util.List;
 
 import org.kzcw.core.BaseServiceImpl;
-import org.kzcw.dao.lightboxDao;
-import org.kzcw.model.lightbox;
-import org.kzcw.service.lightboxService;
+import org.kzcw.dao.LightboxDao;
+import org.kzcw.model.Lightbox;
+import org.kzcw.service.LightboxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -13,25 +13,25 @@ import org.springframework.stereotype.Service;
 
 @Service("lightboxService")
 @Component
-public class lightboxServiceImpl extends BaseServiceImpl<lightbox> implements lightboxService{
+public class LightboxServiceImpl extends BaseServiceImpl<Lightbox> implements LightboxService{
 
 
-	private lightboxDao dao;
+	private LightboxDao dao;
 	
 	
 	@Autowired
 	@Qualifier("lightboxDao")
-	public void setlightboxDao(lightboxDao dao) {
+	public void setlightboxDao(LightboxDao dao) {
 		this.dao = dao;
 	}
 
 
-	public List<lightbox> list() {
+	public List<Lightbox> list() {
 		// TODO Auto-generated method stub
-		return dao.getList("t_lightbox");
+		return dao.getList("Lightbox");
 	}
 	
-	public lightbox findById(long id) {
+	public Lightbox findById(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
