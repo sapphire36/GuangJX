@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository("lightboxDao")
 @Component
 public class LightboxDao extends BaseDao<Lightbox> {
-
+	
 }

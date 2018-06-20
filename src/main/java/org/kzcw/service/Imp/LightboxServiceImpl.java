@@ -31,8 +31,4 @@ public class LightboxServiceImpl extends BaseServiceImpl<Lightbox> implements Li
 		return dao.getList("Lightbox");
 	}
 	
-	public Lightbox findById(long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

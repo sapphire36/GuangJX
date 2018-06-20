@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/home")
-public class IndexController {
-
+@RequestMapping("/login")
+public class LoginController {
+    //登录管理
 	@Autowired
 	LightboxServiceImpl lservice;
 	

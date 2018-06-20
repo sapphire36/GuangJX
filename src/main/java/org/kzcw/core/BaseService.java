@@ -1,10 +1,6 @@
 package org.kzcw.core;
 import java.util.List;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.transform.Transformers;
-
 /**
  * 业务逻辑基础接口
  * Copyright 2013 - 2014

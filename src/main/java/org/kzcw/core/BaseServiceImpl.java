@@ -7,7 +7,6 @@ public abstract class BaseServiceImpl<T extends Serializable> implements BaseSer
 
 
 	protected BaseDao<T> dao;
-
 	public void setBaseDao(BaseDao<T> dao) {
 		this.dao = dao;
 	}

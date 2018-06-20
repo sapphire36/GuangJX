@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository("userDao")
 @Component
 public class UserDao extends BaseDao<User>{
-
+	
 }
 
