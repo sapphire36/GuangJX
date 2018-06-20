@@ -1,6 +1,7 @@
 package org.kzcw.controller;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.kzcw.common.Iot.youren.YourenManager;
@@ -22,29 +23,17 @@ public class DemoController {
 
 
 	@Autowired
-	UserService lservice;
+	LightboxService lservice;
 	
     @RequestMapping("/index")
     public String index(ModelMap model,HttpServletRequest request){
     	
-    	Lightbox lightbox=new Lightbox();
-    	lightbox.setLOCATION("1234,21");
-    	lightbox.setLOCKID(11);
-    	lightbox.setMADEADDRESS("test");
-    	lightbox.setSPEC("tt");
-    	
-    	User user=new User();
-    	user.setNAME("test");
-    	user.setPASSWD("ttt");
-    	user.setSTATUS(1);
-    	try {
-    		lservice.save(user);
-    		model.addAttribute("info","ok");
-		} catch (Exception e) {
-			// TODO: handle exception
-			model.addAttribute("info",e.getStackTrace().toString());
-		}
-    	
+    	List<Lightbox> list=lservice.list();
+    	String str="";
+    	for(int i=0;i<list.size();i++) {
+    		str=str+list.get(i).getLOCATION()+" ";
+    	}
+    	model.addAttribute("info",str);
         return "demo";
     }
     
