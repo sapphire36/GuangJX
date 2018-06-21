@@ -6,5 +6,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/monitor")
 public class MonitorManager {
-
+       //监控中心
 }
