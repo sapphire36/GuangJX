@@ -1,17 +1,24 @@
 package org.kzcw.core;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class BaseServiceImpl<T extends Serializable> implements BaseService<T> {
 
 
+	@Autowired
 	protected BaseDao<T> dao;
+	
 	public void setBaseDao(BaseDao<T> dao) {
 		this.dao = dao;
 	}
 	
 	public void save(T t){
+		General am = (General)t;
+		am.setADDTIME(new Date()); 
 		dao.save(t);
 	}
 	

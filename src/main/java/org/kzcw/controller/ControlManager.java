@@ -15,9 +15,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/control")
 public class ControlManager {
 	//开锁,关锁队列管理
-
+	
 	@Autowired
 	LightboxService lservice;
+	
+	@RequestMapping(value = "/getcontrolview", method = RequestMethod.GET)
+    public String getcontrolview(ModelMap model,HttpServletRequest request){
+    	//控制界面
+		return "/control/control";
+    }
 	
 	@RequestMapping(value = "/getopenlist", method = RequestMethod.POST)
 	@ResponseBody

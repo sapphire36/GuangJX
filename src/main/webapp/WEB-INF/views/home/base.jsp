@@ -113,7 +113,7 @@
                                 <a href="/GuangJX/monitor/getmap">地图</a>
                             </li>
                             <li>
-                                <a href="#">数据</a>
+                                <a href="/GuangJX/control/getcontrolview">数据</a>
                             </li>
                         </ul>
                     </li>

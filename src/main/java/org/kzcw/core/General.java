@@ -17,7 +17,7 @@ public abstract class General extends Model {
 	//public long id; //ID
 	public long ID;//ID编号
 	public String OPERATION;  //操作人员
-	public String ADDTIME;  //创建时间
+	public Date ADDTIME;  //创建时间
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,10 +38,10 @@ public abstract class General extends Model {
 	}
 	
 	@Column(nullable = true,length=50)
-	public String getADDTIME() {
+	public Date getADDTIME() {
 		return ADDTIME;
 	}
-	public void setADDTIME(String aDDTIME) {
+	public void setADDTIME(Date aDDTIME) {
 		ADDTIME = aDDTIME;
 	}
 }

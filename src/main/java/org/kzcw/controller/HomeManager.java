@@ -1,5 +1,7 @@
 package org.kzcw.controller;
 import javax.servlet.http.HttpServletRequest;
+
+import org.kzcw.model.Lightbox;
 import org.kzcw.service.LightboxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,13 @@ public class HomeManager {
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String indexview(ModelMap map,HttpServletRequest request){
+		Lightbox box=new Lightbox();
+		box.setLOCATION("tettt");
+		box.setLOCKID(1);
+		box.setSPEC("tete");
+		box.setMADEADDRESS("tetete");
+		box.setID(1234);
+		lservice.save(box);
 		return "/home/index";
 	}
 }
