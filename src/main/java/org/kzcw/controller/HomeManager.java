@@ -19,13 +19,9 @@ public class HomeManager {
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String indexview(ModelMap map,HttpServletRequest request){
-		Lightbox box=new Lightbox();
-		box.setLOCATION("tettt");
-		box.setLOCKID(1);
-		box.setSPEC("tete");
-		box.setMADEADDRESS("tetete");
-		box.setID(1234);
-		lservice.save(box);
+		Lightbox box=lservice.findById(4);
+		if(box!=null)
+		  lservice.delete(box);
 		return "/home/index";
 	}
 }

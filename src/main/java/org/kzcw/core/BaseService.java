@@ -69,4 +69,6 @@ public interface BaseService<T> {
 	public boolean ExecSQL(String sql);
 	
 	public List<T> findByExecSQL(StringBuffer querySql); 
+	
+    public void deleteById(long id);
 }

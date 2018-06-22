@@ -30,5 +30,4 @@ public class LightboxServiceImpl extends BaseServiceImpl<Lightbox> implements Li
 		// TODO Auto-generated method stub
 		return dao.getList("Lightbox");
 	}
-	
 }

@@ -24,6 +24,7 @@ public class UserManager {
 	@RequestMapping(value = "/userlist", method = RequestMethod.GET)
 	public String indexview(ModelMap map,HttpServletRequest request){
 		//获取用户列表
+		map.addAttribute("llist",userservice.list());
 		return "user/userlist";
 	}
 	

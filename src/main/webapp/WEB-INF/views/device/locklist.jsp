@@ -7,7 +7,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <rapid:override name="title">
-	<title>光交箱管理</title>
+	<title>通信锁管理</title>
 </rapid:override>
 <rapid:override name="content">
 	<div class="panel panel-default">
@@ -22,25 +22,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
-							<th>锁编号</th>
-							<th>规格</th>
-							<th>出产地</th>
-							<th>安装位置</th>
+							<th>IMEI编号</th>
+							<th>PSK码</th>
+							<th>规格</th>							
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="p" items="${llist}">
+						<c:forEach var="lock" items="${llist}">
 							<tr>
-								<td align="center">${p.ID}</td>
-								<td align="center">${p.SPEC}</td>
-								<td align="center">${p.MADEADDRESS}</td>
-								<td align="center">${p.LOCATION}</td>								
+								<td align="center">${lock.IMEI}</td>
+								<td align="center">${lock.PSK}</td>
+								<td align="center">${lock.SPEC}</td>
 								<td align="center">
 									<button class="btn btn-primary">
 										<i class="fa fa-edit "></i> Edit
 									</button>
-									<button class="btn btn-danger"  href="${pageContext.request.contextPath}/device/dodelete?id=${p.ID}" onclick='return confirm("确认要删除吗?")'>
+									<button class="btn btn-danger">
 										<i class="fa fa-pencil"></i> Delete
 									</button>
 								</td>
@@ -61,7 +59,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    添加光交箱
+                    添加通信锁信息
                 </h4>
             </div>
             <div class="modal-body">
@@ -69,36 +67,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <table class="table table-striped">
                         <tr>
                             <td align="right">
-                                锁编号：
+       		IEMI编号：
                             </td>
                             <td align="left">
-                                <input type="text" name="ID" placeholder="" required/>
+                                <input type="text" name="IEMI" placeholder="" required/>
                             </td>
                         </tr>
                         <tr>
                             <td align="right">
-                                规格：
+      		PSK码：
+                            </td>
+                            <td align="left">
+                                <input type="text" name="PSK" placeholder="" required/>
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td align="right">
+          	规格：
                             </td>
                             <td align="left">
                                 <input type="text" name="SPEC" placeholder="" required/>
                             </td>
-                        </tr>
-                        <tr>
-                            <td align="right">
-                                出产地：
-                            </td>
-                            <td align="left">
-                                <input type="text" name="MADEADDRESS" placeholder="" required/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">
-                               安装位置：
-                            </td>
-                            <td align="left">
-                                <input type="text" name="LOCATION" placeholder="" required/>
-                            </td>
-                        </tr>                                                                                           
+                        </tr>                                               
                         <tr>
                             <td align="right">
                                 <button id="submit" class="btn btn-default" type="submit">添加</button>

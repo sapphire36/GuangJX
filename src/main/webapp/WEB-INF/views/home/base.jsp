@@ -124,7 +124,7 @@
                                 <a href="/GuangJX/device/lightboxlist">光交箱管理</a>
                             </li>
                             <li>
-                                <a href="#">通信锁管理</a>
+                                <a href="/GuangJX/device/locklist">通信锁管理</a>
                             </li>
                         </ul>
                     </li>
@@ -148,7 +148,7 @@
                                 <a href="#">角色管理</a>
                             </li>
                             <li>
-                                <a href="#">用户管理</a>
+                                <a href="/GuangJX//user/userlist">用户管理</a>
                             </li>
                         </ul>
                     </li>
