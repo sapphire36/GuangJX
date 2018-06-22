@@ -1,17 +1,7 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
-%>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>位置分布图</title>
-<!--css-->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid"%>
 <link href="style/demo.css" rel="stylesheet" type="text/css" />
-<!--javascript-->
 <script src="scripts/jquery-1.9.1.js" type="text/javascript"></script>
 <script src="scripts/demo.js" type="text/javascript"></script>
 <script type="text/javascript"
@@ -20,20 +10,17 @@
 	src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
 <link rel="stylesheet"
 	href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
-</head>
-<script>
-	function f() {
-		window.alert('page.html')
-	}
-</script>
-<body>
-	<div class="demo_main">
-		<div>
-			<input type="checkbox" />aaa <input type="button" onclick="f()"></input>
+
+<rapid:override name="title">
+	<title>地图</title>
+</rapid:override>
+<rapid:override name="content">
+	<div class="panel panel-default">
+		<div style="min-height: 400px; width: 100%; margin: 0px" id="map">
 		</div>
-		<div style="min-height: 400px; width: 80%; margin: 0px" id="map">
-		</div>
-		<script type="text/javascript">
+	</div>
+</rapid:override>
+<script type="text/javascript">
 			var markerArr = [ {
 				title : "名称：小寨",
 				point : "108.953196,34.229055",
@@ -142,6 +129,4 @@
 			}
 			window.onload = map_load;
 		</script>
-	</div>
-</body>
-</html>
+<%@ include file="../home/base.jsp"%>
