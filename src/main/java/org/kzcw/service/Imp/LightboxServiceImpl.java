@@ -24,10 +24,4 @@ public class LightboxServiceImpl extends BaseServiceImpl<Lightbox> implements Li
 	public void setlightboxDao(LightboxDao dao) {
 		this.dao = dao;
 	}
-
-
-	public List<Lightbox> list() {
-		// TODO Auto-generated method stub
-		return dao.getList("Lightbox");
-	}
 }

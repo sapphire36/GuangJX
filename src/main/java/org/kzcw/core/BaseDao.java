@@ -2,20 +2,23 @@ package org.kzcw.core;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
-import java.util.Map;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
 public abstract class BaseDao<T extends Serializable> {
-
+    //数据库操作基类
+	
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+	// 当前泛型类
+	@SuppressWarnings("rawtypes")
+	private Class entityClass;
 	
 	
 	@SuppressWarnings({ "unchecked" })
@@ -24,9 +27,6 @@ public abstract class BaseDao<T extends Serializable> {
 		setEntityClass((Class<T>) ((ParameterizedType) getClass()
 				.getGenericSuperclass()).getActualTypeArguments()[0]);
 	}
-	// 当前泛型类
-	@SuppressWarnings("rawtypes")
-	private Class entityClass;
 
 	@SuppressWarnings("rawtypes")
 	public Class getEntityClass() {
@@ -45,33 +45,76 @@ public abstract class BaseDao<T extends Serializable> {
 	public Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}
-
-	//数据库备份与还原
-	//sql sql语句，返回值0代表成功，1代表失败
-	public int backup(String sql) {
-		int flag=-1;
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<T> list() {
+		//获取列表
+		List<T> total = null;
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
-			session.beginTransaction();
-			session.createSQLQuery(sql).executeUpdate();
-			flag=0;
-			session.getTransaction().commit();
+			Criteria criteria = session.createCriteria(getEntityClass());
+			total=criteria.list();
 		} catch (HibernateException e) {
-			flag=1;
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
-		return flag;
+		return total;
 	}
 	
+	public void save(T t) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			session.save(t);
+			session.getTransaction().commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+
+	public void update(T t) {
+		//修改实例
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			session.update(t);
+			session.getTransaction().commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			throw new HibernateException(e);
+		} finally {
+			session.close();
+		}
+	}
+	
+	public void delete(T t) {
+		//删除实例
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			session.delete(t);
+			session.getTransaction().commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			throw new HibernateException(e);
+		} finally {
+			session.close();
+		}
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<T> findEntryByExecSQL(StringBuffer querySql) {
+		//根据sql语句访问实体类列表
 		List<T> list = null;
 		Session session = null;
-
 		try {
 			String sql = "";
 			sql = querySql.toString();
@@ -80,7 +123,6 @@ public abstract class BaseDao<T extends Serializable> {
 					.createSQLQuery(sql)
 					.setResultTransformer(
 							Transformers.aliasToBean(getEntityClass())).list();
-
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
@@ -90,6 +132,7 @@ public abstract class BaseDao<T extends Serializable> {
 	}
 	
 	public boolean ExecSQL(StringBuffer querySql) {
+		//执行SQL语句
 		Session session = null;
 		try {
 			String sql = "";
@@ -105,160 +148,39 @@ public abstract class BaseDao<T extends Serializable> {
 		}
 	}
 	
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<Map> findMapByExecSQL(StringBuffer querySql) {
-		List<Map> list = null;
-		Session session = null;
-
-		try {
-			String sql = "";
-			sql = querySql.toString();
-			session = sessionFactory.openSession();
-			list = session
-					.createSQLQuery(sql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
-
-		} catch (HibernateException e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return list;
-	}
-
-	public int save(StringBuffer querySql) {
-		int row = 0;
-		Session session = null;
-
-		try {
-			String sql = "";
-			sql = querySql.toString();
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			row = session.createSQLQuery(sql).executeUpdate();
-			session.getTransaction().commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return row;
-	}
-
-	/**
-	 * 保存实例
-	 * 
-	 * @param t
-	 * @throws HibernateException
-	 */
-	public void save(T t) {
-		Session session = null;
-		try {
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			session.save(t);
-			session.getTransaction().commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-	}
-
-	/**
-	 * 修改实例
-	 * 
-	 * @param t
-	 * @throws HibernateException
-	 *             void
-	 */
-	public void update(T t) {
-		Session session = null;
-		try {
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			session.update(t);
-			session.getTransaction().commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			throw new HibernateException(e);
-		} finally {
-			session.close();
-		}
-	}
-
-	/**
-	 * 删除实例
-	 * 
-	 * @param t
-	 * @throws HibernateException
-	 *             void
-	 */
-	public void delete(T t) {
-		Session session = null;
-		try {
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			session.delete(t);
-			session.getTransaction().commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			throw new HibernateException(e);
-		} finally {
-			session.close();
-		}
-	}
-
-  
-	protected org.hibernate.Query createQuery(StringBuffer queryString,
-			Object... values) {
-		org.hibernate.Query query = getSession().createQuery(
-				queryString.toString());
-		if (values != null) {
-			for (int i = 0; i < values.length; i++) {
-				query.setParameter(i, values[i]);
-			}
-		}
-		return query;
-	}
-
-
 	@SuppressWarnings("unchecked")
-	public List<Object> queryByWhere(StringBuffer queryString, Object... values) {
-		List<Object> total = null;
-		String fromHql = queryString.toString();
-		Session session = null;
-		try {
-			session = sessionFactory.openSession();
-			org.hibernate.Query query = this.createQuery(queryString, values);
-			try {
-				total = (List<Object>) query.list();
-			} catch (Exception e) {
-				throw new RuntimeException("hql can't be auto count, hql is:"
-						+ fromHql, e);
-			}
-		} catch (HibernateException e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return total;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<T> getList(String table) {
+	public List<T> findListByProperty(String name,String value) {
+		//根据属性查找记录集合
 		List<T> total = null;
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
-			String sql = "from "+table; 
-			Query que = session.createQuery(sql); 
-			total = que.list();
+			Criteria criteria = session.createCriteria(getEntityClass());
+			criteria.add(Restrictions.eq(name, value));
+			total=criteria.list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
 		return total;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public T findUniqByProperty(String name,Object value) {
+		//根据属性查找一条记录
+		Session session = null;
+		T result=null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria criteria = session.createCriteria(getEntityClass());
+			criteria.add(Restrictions.eq(name, value));
+			result=(T) criteria.uniqueResult();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return result;
 	}
 }

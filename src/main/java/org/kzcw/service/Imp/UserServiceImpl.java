@@ -28,13 +28,6 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		this.dao = dao;
 	}
 
-
-	public List<User> list() {
-		// TODO Auto-generated method stub
-		return dao.getList("User");
-	}
-	
-
 	public List<User> keeList() {
 		// TODO Auto-generated method stub
 		return null;

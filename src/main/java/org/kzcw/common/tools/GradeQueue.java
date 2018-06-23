@@ -5,8 +5,9 @@ import java.util.Queue;
 
 public class GradeQueue {
 
-	Queue<ControlMessage> queue = new LinkedList<ControlMessage>();
+	public Queue<ControlMessage> queue = new LinkedList<ControlMessage>();
 	private static GradeQueue instance = new GradeQueue();
+	public boolean IsFlush=false;
 
 	public static GradeQueue getInstance() {
 		return instance;
@@ -14,6 +15,7 @@ public class GradeQueue {
 
 	public void InQueue(ControlMessage message) {
 		// 入队,关锁后,将消息添加到待评价队列
+		IsFlush=true; //执行更新
 		queue.offer(message);
 	}
 
@@ -27,6 +29,7 @@ public class GradeQueue {
 			//当开锁队列,被开锁时,将开锁队列元素添加到关锁队列当中
 			CloseLockQueue closequeue=CloseLockQueue.getInstance();
 			closequeue.InQueue(message);
+			IsFlush=true; //执行更新
 			//返回请求消息
 			return message;
 		}

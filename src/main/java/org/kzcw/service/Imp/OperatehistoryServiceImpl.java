@@ -28,9 +28,4 @@ public class OperatehistoryServiceImpl extends BaseServiceImpl<Operatehistory> i
 		this.dao = dao;
 	}
 
-
-	public List<Operatehistory> list() {
-		// TODO Auto-generated method stub
-		return dao.getList("Operatehistory");
-	}
 }

@@ -8,16 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/GuangJX/css/bootstrap.css" rel="stylesheet" />
     <link href="/GuangJX/css/font-awesome.css" rel="stylesheet" />
-    <link href="/GuangJX/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
     <link href="/GuangJX/css/custom-styles.css" rel="stylesheet" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-    <script src="/GuangJX/js/jquery-1.10.2.js"></script>
+    <script src="/GuangJX/js/jquery.min.js"></script>
     <script src="/GuangJX/js/bootstrap.min.js"></script>
     <script src="/GuangJX/js/jquery.metisMenu.js"></script>
-    <script src="/GuangJX/js/morris/raphael-2.1.0.min.js"></script>
     <script src="/GuangJX/js/custom-scripts.js"></script>
-    <script src="assets/js/easypiechart.js"></script>
-	<script src="assets/js/easypiechart-data.js"></script>
     
     <rapid:block name="title"> 
        <title>Home</title>

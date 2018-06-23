@@ -26,10 +26,4 @@ public class LockdeviceServiceImpl extends BaseServiceImpl<Lockdevice> implement
 	public void setlockdeviceDao(LockdeviceDao dao) {
 		this.dao = dao;
 	}
-
-
-	public List<Lockdevice> list() {
-		// TODO Auto-generated method stub
-		return dao.getList("Lockdevice");
-	}
 }

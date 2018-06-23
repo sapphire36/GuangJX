@@ -31,45 +31,29 @@ public abstract class BaseServiceImpl<T extends Serializable> implements BaseSer
 
 	public long findCount() {
 		return 1;
-		// return dao.findCount();
 	}
 
-	public T findUniqueBy(String propertyName, Object value) {
-		return null;
-		// return dao.findUniqueBy(query);
+	public T findUniqueByProperty(String propertyName, Object value) {
+		return dao.findUniqByProperty(propertyName,value);
 	}
 
 	// 按照ID查找
 	public T findById(long id) {
-		return this.findUniqueBy("id", id);
+		return this.findUniqueByProperty("ID", id);
+	}
+	
+	public List<T> list(){
+		//返回列表
+		List<T> total = null;
+		total=dao.list();
+		return total;
 	}
 
-	// 判断是否存在
-	public boolean isExist(String propertyName, String value, long id) {
-		General m = null;
-		if ("number".equals(propertyName)) {
-			m = (General) this.findUniqueBy(propertyName, Integer.valueOf(value));
-		} else {
-			m = (General) this.findUniqueBy(propertyName, value);
-		}
-		if (m == null) {
-			return true;
-		} else if (m.getID() == id) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean ExecSQL(String sql) {
-		return true;
+	public boolean ExecSQL(StringBuffer sql) {
+		return dao.ExecSQL(sql);
 	}
 
 	public List<T> findByExecSQL(StringBuffer querySql) {
 		return dao.findEntryByExecSQL(querySql);
-	}
-
-	public void deleteById(long id) {
-		
 	}
 }

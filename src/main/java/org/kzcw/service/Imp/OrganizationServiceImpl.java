@@ -28,9 +28,4 @@ public class OrganizationServiceImpl extends BaseServiceImpl<Organization> imple
 		this.dao = dao;
 	}
 
-
-	public List<Organization> list() {
-		// TODO Auto-generated method stub
-		return dao.getList("Organization");
-	}
 }

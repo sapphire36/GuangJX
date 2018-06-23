@@ -27,10 +27,4 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 	public void setroleDao(RoleDao dao) {
 		this.dao = dao;
 	}
-
-
-	public List<Role> list() {
-		// TODO Auto-generated method stub
-		return dao.getList("Role");
-	}
 }

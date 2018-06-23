@@ -6,8 +6,9 @@ import java.util.Queue;
 public class CloseLockQueue {
 	// 关箱队列 单例模式,保证在全局可以访问
 
-	Queue<ControlMessage> queue = new LinkedList<ControlMessage>();
+	public Queue<ControlMessage> queue = new LinkedList<ControlMessage>();
 	private static CloseLockQueue instance = new CloseLockQueue();
+	public boolean IsFlush=false;
 
 	public static CloseLockQueue getInstance() {
 		return instance;
@@ -16,6 +17,7 @@ public class CloseLockQueue {
 	public void InQueue(ControlMessage message) {
 		// 入队,有人申请开锁时添加该队列
 		queue.offer(message);
+		IsFlush=true; //执行更新
 	}
 
 	public ControlMessage OutQueue() {
@@ -23,11 +25,12 @@ public class CloseLockQueue {
 		if (IsEmpty()) {
 			return null;
 		} else {
-			ControlMessage message = queue.element();
+			ControlMessage message = queue.poll();
 			
 			//当开锁队列,被开锁时,将开锁队列元素添加到关锁队列当中
 			GradeQueue grandequeue=GradeQueue.getInstance();
 			grandequeue.InQueue(message);
+			IsFlush=true; //执行更新
 			//返回请求消息
 			return message;
 		}
