@@ -116,10 +116,10 @@
                         <a href="#"><i class="fa fa-table"></i>设备管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="/GuangJX/device/lightboxlist">光交箱管理</a>
+                                <a href="/GuangJX/device/lightboxlist">光交箱信息管理</a>
                             </li>
                             <li>
-                                <a href="/GuangJX/device/locklist">通信锁管理</a>
+                                <a href="/GuangJX/device/statuslist">光交箱状态管理</a>
                             </li>
                         </ul>
                     </li>
@@ -131,7 +131,19 @@
                                 <a href="/GuangJX/constructor/constructorlist">施工方管理</a>
                             </li>
                             <li>
+                                <a href="/GuangJX/constructor/constructorlist">施工方角色</a>
+                            </li>
+                            <li>
+                                <a href="/GuangJX/constructor/constructorlist">押金管理</a>
+                            </li>
+                            <li>
+                                <a href="/GuangJX/constructor/constructorlist">施工方账号</a>
+                            </li>
+                            <li>
                                 <a href="/GuangJX/constructor/operahistorylist">施工操作历史</a>
+                            </li>
+                            <li>
+                                <a href="/GuangJX/constructor/operahistorylist">安装信息审核</a>
                             </li>
                         </ul>
                     </li>

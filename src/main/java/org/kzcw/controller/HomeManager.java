@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/home")
@@ -29,11 +30,5 @@ public class HomeManager {
 		return "/home/index";
 	}
 	
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String deleteview(ModelMap map,HttpServletRequest request){
-		Lightbox box=lservice.findById(4);
-		if(box!=null)
-		  lservice.delete(box);
-		return "/home/index";
-	}
+	
 }

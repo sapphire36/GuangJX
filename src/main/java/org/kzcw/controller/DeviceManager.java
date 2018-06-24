@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.kzcw.model.Lightbox;
+import org.kzcw.model.Status;
 import org.kzcw.service.LightboxService;
 import org.kzcw.service.LockdeviceService;
+import org.kzcw.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,17 +23,10 @@ public class DeviceManager {
 	@Autowired
 	LightboxService lservice;
 	
-	//通讯锁信息管理
+	//光交箱状态管理
 	@Autowired
-	LockdeviceService lockservice;
-    
-    @RequestMapping(value="/lightboxlist",method = RequestMethod.GET)
-    public String lightboxinfo(ModelMap model,HttpServletRequest request){
-		//获取设备列表
-     	model.addAttribute("llist",lservice.list());
-        return "/device/lightboxlist";
-    }
-    
+	StatusService staservice;
+	
     @RequestMapping(value="/getlightbox",method = RequestMethod.GET)
     @ResponseBody
     public Lightbox getlightbox(ModelMap model,@RequestParam int ID,HttpServletRequest request){
@@ -57,20 +52,22 @@ public class DeviceManager {
         return result;
     }
     
-    @RequestMapping(value="/dodelete",method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,String> dodelete(ModelMap model,@RequestParam int ID,HttpServletRequest request){
-		//删除设备
-    	Map<String,String> result=new HashMap<String,String>();
-     	Lightbox lightbox=lservice.findById(ID);
-        return result;
-    }
+	public String deleteview(ModelMap map,@RequestParam int ID,HttpServletRequest request){
+    	//删除设备
+		Lightbox box=lservice.findById(ID);
+		if(box!=null)
+		  lservice.delete(box);
+		return "/device/lightboxlist";
+	}
     
-    @RequestMapping(value="/locklist",method = RequestMethod.GET)
-    public String lockservice(ModelMap model,HttpServletRequest request){
-		//获取通讯锁列表
-     	model.addAttribute("llist",lockservice.list());
-        return "/device/locklist";
-    }
+    @RequestMapping(value = "/statuslist", method = RequestMethod.GET)
+	public String onstructlist(ModelMap map,HttpServletRequest request){
+		//获取光交箱状态方列表
+		map.addAttribute("llist",staservice.list());
+		return "/device/statuslist";
+	}
     
+   
 }
