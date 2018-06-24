@@ -1,0 +1,20 @@
+package org.kzcw.common.tools;
+
+public class BaseMessage {
+	
+	public String USERNAME;//用户名字
+	public String Location;//开锁位置
+	public String time;//开锁时间
+	public String EMEI;
+	
+	public BaseMessage(String uid,String emei) {
+		//基本控制信息
+		// TODO Auto-generated constructor stub
+		this.USERNAME=uid;
+		this.EMEI=emei;
+	}
+	
+	public BaseMessage() {
+		// TODO Auto-generated constructor stub
+	}
+}

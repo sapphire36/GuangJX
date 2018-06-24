@@ -1,5 +1,4 @@
 package org.kzcw.common.Iot.youren;
-
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 import cn.usr.UsrCloudMqttClientAdapter;
