@@ -30,7 +30,7 @@ public class Lockdevice extends General{
 		NAME = nAME;
 	}
 
-	@Column(nullable = true)
+	@Column(nullable = true,columnDefinition="INT default 0")
 	public int getSTATUS() {
 		return STATUS;
 	}
@@ -63,7 +63,7 @@ public class Lockdevice extends General{
 		SPEC = sPEC;
 	}
 
-	@Column(nullable = true)
+	@Column(nullable = true,columnDefinition="INT default 0")
 	public int getISONLINE() {
 		return ISONLINE;
 	}
@@ -72,7 +72,7 @@ public class Lockdevice extends General{
 		ISONLINE = iSONLINE;
 	}
 	
-	@Column(nullable = true)
+	@Column(nullable = true,columnDefinition="INT default 0")
 	public int getISREGIST() {
 		return ISREGIST;
 	}

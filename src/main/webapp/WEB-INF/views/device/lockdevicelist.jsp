@@ -11,48 +11,144 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <rapid:override name="title">
 <title>NB-IoT锁管理</title>
 <script type="text/javascript">
+//script内容需要放在rapid override标签之间
 $(document).ready(function(){
-	//页面加载时访问
+	//页面加载时自动执行该函数
 	$("#doadd").click(function(){
-		//绑定时间  #xx代表以xx为id的控件
-		toastr.success("ok");
+		//绑定事件  #xx代表以xx为id的控件
+		//参考文档:http://www.w3school.com.cn/jquery/jquery_ref_selectors.asp
+		 doaddlockdevice();//执行添加
+	  }); 
+	  
+	 $("#doedit").click(function(){
+		//绑定 id为doedit的控件事件处理
+		 doeditlockdevice();//执行编辑
 	  });
+	
+	$("#refresh").click(function(){
+		//绑定事件  #xx代表以xx为id的控件
+		//参考文档:http://www.w3school.com.cn/jquery/jquery_ref_selectors.asp
+	     location.reload();//刷新界面
+	  });
+	
+	$("#body button.btn-primary").click(function(){
+		//根据class来选择 编辑
+		//var emeielem= $(this).parent().prev().prev().prev().prev();
+		//获取emei内容 this代表当前点击的控件
+		//详见:https://www.runoob.com/jquery/jquery-traversing-siblings.html
+		//var emeitext=emeielem.text();
+		var id=$(this).prev().val();
+		$.ajax({
+			type : "POST",
+			url : "<%=basePath%>/device/getlockdevice",
+			data:{"ID":id
+			},
+			success:function(data) {
+                 if(data.data=="true"){
+                	 $("#editdevicename").attr("value",data.NAME);
+                	 $("#editemeiid").attr("value",data.IMEI);
+                	 $("#editid").attr("value",id);
+                 }else{
+                     toastr.error("数据库连接错误!");
+                 }
+           
+			}
+		});
+	  });
+	$("#body button.btn-default").click(function(){
+		//根据class来选择 删除
+		//var emeielem= $(this).parent().prev().prev().prev().prev();
+		//获取emei内容 this代表当前点击的控件
+		//详见:https://www.runoob.com/jquery/jquery-traversing-siblings.html
+		//var emeitext=emeielem.text();
+		var id=$(this).prev().prev().val();
+	    if(confirm("确定删除吗")){  
+			$.ajax({
+				type : "POST",
+				url : "<%=basePath%>/device/deletelockdevice",
+				data:{"ID":id
+				},
+				success : function(data) {
+					if(data.data=="true"){
+						toastr.success("删除设备成功!");
+						location.reload();//刷新界面
+					}else{
+						toastr.error("删除设备失败!");
+					}
+				}
+			});
+	       return true;  
+	    }  
+	});
 });
 
 function doaddlockdevice(){
+	//添加函数
+	var name=$("#devicename").val();//获取id为devicename的值
+	var emei=$("#emeiid").val();//获取id为emeiid的值
+	//根据选择器获取数据
+	//参考文档:http://www.w3school.com.cn/jquery/attributes_attr.asp
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath%>/control/dograde",
-		data:{"ID":0},
+		url : "<%=basePath%>/device/addlockdevice",
+		data:{"NAME":name,
+			  "EMEI":emei},
 		success : function(data) {
 			if(data.data=="true"){
-				toastr.success("评价成功!");
+				toastr.success("设备添加成功!");
+				location.reload();//刷新界面
 			}else{
-				toastr.error("评价失败!");
+				toastr.error("设备添加失败!");
 			}
 		}
 	});
 }
+
+function doeditlockdevice(){
+	//编辑函数
+	var name=$("#editdevicename").val();//获取id为devicename的值
+	var emei=$("#editemeiid").val();//获取id为emeiid的值
+	var id=$("#editid").val();
+	//根据选择器获取数据
+	//参考文档:http://www.w3school.com.cn/jquery/attributes_attr.asp
+	$.ajax({
+		type : "POST",
+		url : "<%=basePath%>/device/editlockdevice",
+		data:{"ID":id,
+			  "NAME":name,
+			  "EMEI":emei},
+		success : function(data) {
+			if(data.data=="true"){
+				toastr.success("设备修改成功!");
+				location.reload();//刷新界面
+			}else{
+				toastr.error("设备修改失败!");
+			}
+		}
+	});
+}
+ 
 </script>
 </rapid:override>
 <rapid:override name="content">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<button class="btn btn-primary" data-toggle="modal" data-backdrop="static" data-target="#add">添加</button>
-			<button class="btn btn-default">
+			<button id="refresh" class="btn btn-default">
 				<i class=" fa fa-refresh "></i>更新
 			</button>
 		</div>
-		<div class="panel-body">
+		<div class="panel-body" id="body">
 			<div class="table-responsive">
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
-							<th>设备名称</th>
-							<th>IMEI编号</th>
-							<th>是否在线</th>
-							<th>设备状态</th>
-							<th>注册状态</th>
+							<th align="center">设备名称</th>
+							<th align="center">IMEI编号</th>
+							<th align="center">是否在线</th>
+							<th align="center">设备状态</th>
+							<th align="center">注册状态</th>
+							<th align="center"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -60,9 +156,37 @@ function doaddlockdevice(){
 							<tr>
 								<td align="center">${p.NAME}</td>
 								<td align="center">${p.IMEI}</td>
-								<td align="center">${p.ISONLINE}</td>
-								<td align="center">${p.STATUS}</td>
-								<td align="center">${p.ISREGIST}</td>
+								
+								 <c:if test="${p.ISONLINE==1}">
+                                 <td align="center">在线</td>
+                                 </c:if>
+                                 <c:if test="${p.ISONLINE==0}">
+                                 <td align="center">离线</td>
+                                 </c:if>
+                                 
+                                 <c:if test="${p.STATUS==1}">
+                                 <td align="center">开</td>
+                                 </c:if>
+                                 <c:if test="${p.STATUS==0}">
+                                 <td align="center">关</td>
+                                 </c:if>
+                                
+                                 <c:if test="${p.ISREGIST==1}">
+                                 <td align="center">已注册</td>
+                                 </c:if>
+                                 <c:if test="${p.ISREGIST==0}">
+                                 <td align="center"><a>未注册</a></td>
+                                 </c:if>
+                                 
+                                 <td align="center">
+                                    <input type="hidden" name="field＿name" value="${p.ID}"> 
+									<button class="btn btn-primary" data-toggle="modal" data-backdrop="static" data-target="#edit">
+										<i class="fa fa-edit "></i> 编辑
+									</button>
+									<button class="btn btn-default">
+										<i class="fa fa-pencil"></i> 删除
+									</button>
+								 </td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -72,7 +196,7 @@ function doaddlockdevice(){
 	</div>
 	
 	
-	<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -90,7 +214,7 @@ function doaddlockdevice(){
                                 设备名称：
                             </td>
                             <td align="left">
-                                <input type="text" name="NAME" placeholder=""/>
+                                <input id="devicename" type="text" name="NAME" placeholder=""/>
                             </td>
                         </tr>
                         <tr>
@@ -98,12 +222,56 @@ function doaddlockdevice(){
                                 IMEI编号：
                             </td>
                             <td align="left">
-                                <input type="text" name="LOCKID" placeholder=""/>
+                                <input id="emeiid" type="text" name="EMEI" placeholder=""/>
                             </td>
                         </tr>                                                                                       
                         <tr>
                             <td align="right">
                                 <button id="doadd" class="btn btn-default" data-dismiss="modal">添加</button>
+                            </td>
+                            <td align="left">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            </td>
+                        </tr>
+                    </table>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel1">
+                    编辑NB-IoT锁
+                </h4>
+            </div>
+            <div class="modal-body">
+                    <table class="table table-striped">
+                        <tr>
+                            <td align="right">
+                                设备名称：
+                            </td>
+                            <td align="left">
+                                <input id="editdevicename" type="text" name="NAME" placeholder=""/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                IMEI编号：
+                            </td>
+                            <td align="left">
+                                <input id="editemeiid" type="text" name="EMEI" placeholder=""/>
+                            </td>
+                        </tr>                                                                                       
+                        <tr>
+                            <td align="right">
+                                <input id="editid" type="hidden" name="field＿name" value=""> 
+                                <button id="doedit" class="btn btn-default" data-dismiss="modal">确认编辑</button>
                             </td>
                             <td align="left">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

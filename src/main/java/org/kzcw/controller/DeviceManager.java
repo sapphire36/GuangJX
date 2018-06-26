@@ -81,27 +81,89 @@ public class DeviceManager {
 		//map.addAttribute("llist",staservice.list());
      	//String sql="select * from t_lightbox";
      	//lockservice.findMapByExecSQL(sql);
-     	map.addAttribute("llist",lockservice.list());
+     	map.addAttribute("list",lockservice.list());
 		return "/device/lockdevicelist";
 	}
-    
-    @RequestMapping(value="/getlockdevice",method = RequestMethod.POST)
-    @ResponseBody
-    public Lightbox getlockdevice(ModelMap map,@RequestParam int ID,HttpServletRequest request){
-		//获取设备
-     	Lightbox lightbox=lservice.findById(ID);
-
-        return lightbox;
-    }
     
     @RequestMapping(value="/addlockdevice",method = RequestMethod.POST)
     @ResponseBody
     public Map<String,String> addlockdevice(ModelMap map,HttpServletRequest request){
-		//获取设备
+		//添加NB-IoT设备
         Map<String,String> result=new HashMap<String,String>();
-        String name=request.getParameter("NAME");
-        System.out.println(name);
-        Lockdevice ld=new Lockdevice();
+        String name=request.getParameter("NAME"); //获取参数NAME
+        String emei=request.getParameter("EMEI"); //获取参数EMEI
+        try {
+            Lockdevice ld=new Lockdevice();
+            ld.setIMEI(emei);
+            ld.setNAME(name);
+            lockservice.save(ld);
+            result.put("data","true"); //执行成功
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data","false");
+		}
+        return result;
+    }
+    
+    @RequestMapping(value="/getlockdevice",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,String> getlockdevice(ModelMap map,HttpServletRequest request){
+		//获取NB-IoT设备
+        Map<String,String> result=new HashMap<String,String>();
+        String ID=request.getParameter("ID"); //获取参数ID
+        try {
+            Lockdevice ld=lockservice.findUniqueByProperty("ID",Long.parseLong(ID));
+            if(ld!=null) {
+            	result.put("NAME",ld.getNAME());
+            	result.put("IMEI",ld.getIMEI());
+            	result.put("data","true");
+            	System.out.println("yes");
+            } else {
+            	System.out.println("not found");
+            }
+            
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data","false");
+		}
+        return result;
+    }
+    
+    @RequestMapping(value="/editlockdevice",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,String> editlockdevice(ModelMap map,HttpServletRequest request){
+		//编辑NB-IoT设备
+        Map<String,String> result=new HashMap<String,String>();
+        String name=request.getParameter("NAME"); //获取参数NAME
+        String emei=request.getParameter("EMEI"); //获取参数EMEI
+        String ID=request.getParameter("ID"); //获取参数ID
+        try {
+            Lockdevice ld=lockservice.findUniqueByProperty("ID",Long.parseLong(ID));
+            ld.setIMEI(emei);
+            ld.setNAME(name);
+            lockservice.update(ld);
+            result.put("data","true"); //执行成功
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data","false");
+		}
+        return result;
+    }
+    
+    @RequestMapping(value="/deletelockdevice",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,String> deletelockdevice(ModelMap map,HttpServletRequest request){
+		//删除NB-IoT设备
+        Map<String,String> result=new HashMap<String,String>();
+        String ID=request.getParameter("ID"); //获取参数ID
+        try {
+            Lockdevice ld=lockservice.findUniqueByProperty("ID",Long.parseLong(ID));
+            lockservice.delete(ld);
+            result.put("data","true"); //执行成功
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data","false");
+		}
         return result;
     }
 }
