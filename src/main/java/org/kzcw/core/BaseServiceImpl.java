@@ -3,6 +3,7 @@ package org.kzcw.core;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -49,11 +50,16 @@ public abstract class BaseServiceImpl<T extends Serializable> implements BaseSer
 		return total;
 	}
 
-	public boolean ExecSQL(StringBuffer sql) {
+	public boolean ExecSQL(String sql) {
 		return dao.ExecSQL(sql);
 	}
 
-	public List<T> findByExecSQL(StringBuffer querySql) {
+	public List<T> findByExecSQL(String querySql) {
 		return dao.findEntryByExecSQL(querySql);
+	}
+	
+	public List<Map> findMapByExecSQL(String sql){
+		//根据sql语句查询结果,返回Map集合
+		return dao.findMapByExecSQL(sql);
 	}
 }

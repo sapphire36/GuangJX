@@ -1,10 +1,9 @@
 package org.kzcw.controller;
-
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.kzcw.model.Lightbox;
-import org.kzcw.model.Status;
+import org.kzcw.model.Lockdevice;
 import org.kzcw.service.LightboxService;
 import org.kzcw.service.LockdeviceService;
 import org.kzcw.service.StatusService;
@@ -22,11 +21,15 @@ public class DeviceManager {
 	//箱体信息管理
 	@Autowired
 	LightboxService lservice;
-	
+	//设备锁数据库服务
+	@Autowired 
+	LockdeviceService lockservice;
 	//光交箱状态管理
 	@Autowired
 	StatusService staservice;
 	
+	//************************************箱体信息管理**************************
+	//************************************箱体信息管理**************************
     @RequestMapping(value="/getlightbox",method = RequestMethod.GET)
     @ResponseBody
     public Lightbox getlightbox(ModelMap model,@RequestParam int ID,HttpServletRequest request){
@@ -69,5 +72,36 @@ public class DeviceManager {
 		return "/device/statuslist";
 	}
     
-   
+    
+    //**********************************设备锁管理*******************************
+    //**********************************设备锁管理*******************************
+    @RequestMapping(value = "/lockdevicelist", method = RequestMethod.GET)
+	public String lockdevicelist(ModelMap map,HttpServletRequest request){
+		//获取锁设备列表
+		//map.addAttribute("llist",staservice.list());
+     	//String sql="select * from t_lightbox";
+     	//lockservice.findMapByExecSQL(sql);
+     	map.addAttribute("llist",lockservice.list());
+		return "/device/lockdevicelist";
+	}
+    
+    @RequestMapping(value="/getlockdevice",method = RequestMethod.POST)
+    @ResponseBody
+    public Lightbox getlockdevice(ModelMap map,@RequestParam int ID,HttpServletRequest request){
+		//获取设备
+     	Lightbox lightbox=lservice.findById(ID);
+
+        return lightbox;
+    }
+    
+    @RequestMapping(value="/addlockdevice",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,String> addlockdevice(ModelMap map,HttpServletRequest request){
+		//获取设备
+        Map<String,String> result=new HashMap<String,String>();
+        String name=request.getParameter("NAME");
+        System.out.println(name);
+        Lockdevice ld=new Lockdevice();
+        return result;
+    }
 }

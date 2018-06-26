@@ -1,9 +1,10 @@
 package org.kzcw.common.Iot.youren;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.springframework.stereotype.Service;
 
+@Service("yourenmanager")
 public class YouRenManger {
 	//有人物联网控制端
 	private ClientAdapter clientAdapter = new ClientAdapter();
@@ -24,7 +25,7 @@ public class YouRenManger {
 		return instance;
 	}
 	
-	public void Init() {
+	private void Init() {
 		InitDevice();
 		try {
 			doConnect();

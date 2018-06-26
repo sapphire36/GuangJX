@@ -9,11 +9,8 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
 %>
 <rapid:override name="title">
-	<title>业务控制</title>
-	<link href="/GuangJX/css/toastr.css" rel="stylesheet" />
-	<script src="/GuangJX/js/toastr.js"></script>
-	<script src="http://code.jquery.com/jquery-latest.js"></script>
-	<script type="text/javascript">
+<title>业务控制</title>
+<script type="text/javascript">
 // 测试引用是否成功
 window.onbeforeunload=function(){
 	return "是否要离开";

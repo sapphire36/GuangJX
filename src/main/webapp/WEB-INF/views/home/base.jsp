@@ -13,6 +13,9 @@
     <script src="/GuangJX/js/bootstrap.min.js"></script>
     <script src="/GuangJX/js/jquery.metisMenu.js"></script>
     <script src="/GuangJX/js/custom-scripts.js"></script>
+    <link href="/GuangJX/css/toastr.css" rel="stylesheet" />
+    <script src="/GuangJX/js/toastr.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     
     <rapid:block name="title"> 
        <title>Home</title>
@@ -120,6 +123,9 @@
                             </li>
                             <li>
                                 <a href="/GuangJX/device/statuslist">光交箱状态管理</a>
+                            </li>
+                            <li>
+                                <a href="/GuangJX/device/lockdevicelist">NB-IoT锁管理</a>
                             </li>
                         </ul>
                     </li>

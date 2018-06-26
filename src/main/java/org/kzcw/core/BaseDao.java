@@ -2,6 +2,8 @@ package org.kzcw.core;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Map;
+
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -9,7 +11,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
-
 
 public abstract class BaseDao<T extends Serializable> {
     //数据库操作基类
@@ -77,6 +78,22 @@ public abstract class BaseDao<T extends Serializable> {
 			session.close();
 		}
 	}
+	
+	public void save(List<T> t) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			for(int i=0;i<t.size();i++) {
+				session.save(t);
+			}
+			session.getTransaction().commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
 
 	public void update(T t) {
 		//修改实例
@@ -111,13 +128,11 @@ public abstract class BaseDao<T extends Serializable> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<T> findEntryByExecSQL(StringBuffer querySql) {
+	public List<T> findEntryByExecSQL(String sql) {
 		//根据sql语句访问实体类列表
 		List<T> list = null;
 		Session session = null;
 		try {
-			String sql = "";
-			sql = querySql.toString();
 			session = sessionFactory.openSession();
 			list = session
 					.createSQLQuery(sql)
@@ -131,12 +146,29 @@ public abstract class BaseDao<T extends Serializable> {
 		return list;
 	}
 	
-	public boolean ExecSQL(StringBuffer querySql) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map> findMapByExecSQL(String sql) {
+		//根据sql语句获取MAP结果
+		List<Map> list = null;
+		Session session = null;
+
+		try {
+			session = sessionFactory.openSession();
+			list = session
+					.createSQLQuery(sql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return list;
+	}
+	
+	public boolean ExecSQL(String sql) {
 		//执行SQL语句
 		Session session = null;
 		try {
-			String sql = "";
-			sql = querySql.toString();
 			session = sessionFactory.openSession();
 			session.createSQLQuery(sql).executeUpdate();
 			return true;
