@@ -127,6 +127,9 @@
                             <li>
                                 <a href="/GuangJX/device/lockdevicelist">NB-IoT锁管理</a>
                             </li>
+                            <li>
+                                <a href="#">故障历史表</a>
+                            </li>
                         </ul>
                     </li>
 	 

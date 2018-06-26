@@ -1,7 +1,13 @@
 package org.kzcw.model;
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import org.kzcw.core.General;
-public class BreakHistory extends General{
+
+@Entity
+@Table(name="t_breakhistory")
+public class Breakhistory extends General{
 	
 	//故障信息表
 	private static final long serialVersionUID = -8342801746053290192L;
