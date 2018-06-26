@@ -4,6 +4,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.kzcw.model.Lightbox;
 import org.kzcw.model.Lockdevice;
+import org.kzcw.service.BreakhistoryService;
 import org.kzcw.service.LightboxService;
 import org.kzcw.service.LockdeviceService;
 import org.kzcw.service.StatusService;
@@ -22,12 +23,15 @@ public class DeviceManager {
 	//箱体信息管理
 	@Autowired
 	LightboxService lservice;
-	//光交箱状态管理
+	//设备状态历史记录
 	@Autowired
 	StatusService staservice;
 	//设备锁数据库服务
 	@Autowired 
 	LockdeviceService lockservice;
+	//故障历史表
+	@Autowired 
+	BreakhistoryService breakservice;
 	
 	//************************************箱体信息管理**************************
 	//************************************箱体信息管理**************************
@@ -144,11 +148,11 @@ public class DeviceManager {
     
     
     
-  //************************************光交箱状态管理**************************
-  	//************************************光交箱状态管理**************************
+  //************************************设备状态历史记录**************************
+  	//************************************设备状态历史记录**************************
     @RequestMapping(value="/statuslist",method = RequestMethod.GET)
-    public String getlockdevicelist(ModelMap model,HttpServletRequest request){
-		//获取箱体状态列表
+    public String statuslist(ModelMap model,HttpServletRequest request){
+		//获取设备状态历史记录列表
     	model.addAttribute("list",staservice.list());
 		return "/device/statuslist";
     }
@@ -255,4 +259,15 @@ public class DeviceManager {
 	public void check(){
 		System.out.println("this is form scheduled");
 	}
+
+
+
+//************************************故障历史表**************************
+	//************************************故障历史表**************************
+@RequestMapping(value="/breakhistorylist",method = RequestMethod.GET)
+public String breakhistorylist(ModelMap model,HttpServletRequest request){
+	//获取设备状态历史记录列表
+	model.addAttribute("list",breakservice.list());
+	return "/device/breakhistorylist";
+}
 }

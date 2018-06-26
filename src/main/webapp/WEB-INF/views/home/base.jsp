@@ -122,13 +122,13 @@
                                 <a href="/GuangJX/device/lightboxlist">光交箱信息管理</a>
                             </li>
                             <li>
-                                <a href="/GuangJX/device/statuslist">光交箱状态管理</a>
+                                <a href="/GuangJX/device/statuslist">设备状态历史记录</a>
                             </li>
                             <li>
                                 <a href="/GuangJX/device/lockdevicelist">NB-IoT锁管理</a>
                             </li>
                             <li>
-                                <a href="#">故障历史表</a>
+                                <a href="/GuangJX/device/breakhistorylist">故障历史表</a>
                             </li>
                         </ul>
                     </li>

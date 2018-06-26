@@ -12,7 +12,7 @@ public class Breakhistory extends General{
 	//故障信息表
 	private static final long serialVersionUID = -8342801746053290192L;
 	
-	private String IEME;//设备ID
+	private String IEME;//设备IEME
 	private String TYPE;//故障原因
 	
 	@Column(nullable = false,length=50)
