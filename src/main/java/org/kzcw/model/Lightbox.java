@@ -18,7 +18,6 @@ public class Lightbox extends General{
 	private String NAME;//箱体名称（客户自定义箱体名）
 	private String PEOPLE;//安装人员
 	
-	
 	@Column(nullable = true,length=50)
 	public String getMADETYPE() {
 		return MADETYPE;

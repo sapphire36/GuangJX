@@ -21,56 +21,138 @@ public class DeviceManager {
 	//箱体信息管理
 	@Autowired
 	LightboxService lservice;
-	//设备锁数据库服务
-	@Autowired 
-	LockdeviceService lockservice;
 	//光交箱状态管理
 	@Autowired
 	StatusService staservice;
+	//设备锁数据库服务
+	@Autowired 
+	LockdeviceService lockservice;
 	
 	//************************************箱体信息管理**************************
 	//************************************箱体信息管理**************************
-    @RequestMapping(value="/getlightbox",method = RequestMethod.GET)
-    @ResponseBody
-    public Lightbox getlightbox(ModelMap model,@RequestParam int ID,HttpServletRequest request){
-		//获取设备
-     	Lightbox lightbox=lservice.findById(ID);
-        return lightbox;
-    }
-    
-    @RequestMapping(value="/doupdate",method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String,String> doupdate(ModelMap model,@RequestParam int ID,HttpServletRequest request){
-		//更新设备
-    	Map<String,String> result=new HashMap<String,String>();
-     	Lightbox lightbox=lservice.findById(ID);
-        return result;
-    }
-    
-    @RequestMapping(value="/doadd",method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String,String> doadd(ModelMap model,HttpServletRequest request){
-		//新增设备
-    	Map<String,String> result=new HashMap<String,String>();
-        return result;
-    }
-    
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    @ResponseBody
-	public String deleteview(ModelMap map,@RequestParam int ID,HttpServletRequest request){
-    	//删除设备
-		Lightbox box=lservice.findById(ID);
-		if(box!=null)
-		  lservice.delete(box);
+    @RequestMapping(value="/lightboxlist",method = RequestMethod.GET)
+    public String lightboxlist(ModelMap model,HttpServletRequest request){
+		//获取箱体信息列表
+    	model.addAttribute("list",lservice.list());
 		return "/device/lightboxlist";
-	}
+    }		
+		
+		
+    @RequestMapping(value="/addlightbox",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,String> addlightbox(ModelMap map,HttpServletRequest request){
+		//添加箱体信息
+        Map<String,String> result=new HashMap<String,String>();
+        String name=request.getParameter("NAME"); //获取参数NAME
+        String lid=request.getParameter("LOCKID"); //获取参数LOCKID
+        String spe=request.getParameter("SPEC"); //获取参数SPEC
+        String type=request.getParameter("MADETYPE"); //获取参数MADETYPE
+        String loca=request.getParameter("LOCATION"); //获取参数LOCATION
+        String people=request.getParameter("PEOPLE"); //获取参数PEOPLE
+        try {
+            Lightbox ld=new Lightbox();
+            ld.setNAME(name);
+            ld.setLOCKID(Long.parseLong(lid));
+            ld.setSPEC(spe);
+            ld.setMADETYPE(type);
+            ld.setLOCATION(loca);
+            ld.setPEOPLE(people);
+            lservice.save(ld);
+            result.put("data","true"); //执行成功
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data","false");
+		}
+        return result;
+    }
     
-    @RequestMapping(value = "/statuslist", method = RequestMethod.GET)
-	public String onstructlist(ModelMap map,HttpServletRequest request){
-		//获取光交箱状态方列表
-		map.addAttribute("llist",staservice.list());
+    @RequestMapping(value="/getlightbox",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,String> getlightbox(ModelMap map,HttpServletRequest request){
+		//获取箱体信息
+        Map<String,String> result=new HashMap<String,String>();
+        String ID=request.getParameter("ID"); //获取参数ID
+        try {
+            Lightbox ld=lservice.findUniqueByProperty("ID",Long.parseLong(ID));
+            if(ld!=null) {
+            	result.put("NAME",ld.getNAME());
+            	result.put("LOCKID",String.valueOf(ld.getLOCKID()));
+            	result.put("SPEC",ld.getSPEC());
+            	result.put("MADETYPE",ld.getMADETYPE());
+            	result.put("LOCATION",ld.getLOCATION());
+            	result.put("PEOPLE",ld.getNAME());          	
+            	result.put("data","true");
+            	System.out.println("yes");
+            } else {
+            	System.out.println("not found");
+            }
+            
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data","false");
+		}
+        return result;
+    }
+    
+    @RequestMapping(value="/editlightbox",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,String> editlightbox(ModelMap map,HttpServletRequest request){
+		//编辑箱体信息
+        Map<String,String> result=new HashMap<String,String>();
+        String name=request.getParameter("NAME"); //获取参数NAME
+        String lid=request.getParameter("LOCKID"); //获取参数EMEI
+        String spe=request.getParameter("SPEC"); //获取参数SPEC
+        String type=request.getParameter("MADETYPE"); //获取参数MADETYPE
+        String loca=request.getParameter("LOCATION"); //获取参数NAME
+        String peo=request.getParameter("PEOPLE"); //获取参数EMEI
+        String ID=request.getParameter("ID"); //获取参数ID
+        try {
+            Lightbox ld=lservice.findUniqueByProperty("ID",Long.parseLong(ID));
+            ld.setNAME(name);
+            ld.setLOCKID(Long.parseLong(lid));
+            ld.setSPEC(spe);
+            ld.setMADETYPE(type);
+            ld.setLOCATION(loca);
+            ld.setPEOPLE(peo);
+            lservice.update(ld);
+            result.put("data","true"); //执行成功
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data","false");
+		}
+        return result;
+    }
+    
+    @RequestMapping(value="/deletelightbox",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,String> deletelightbox(ModelMap map,HttpServletRequest request){
+		//删除箱体信息
+        Map<String,String> result=new HashMap<String,String>();
+        String ID=request.getParameter("ID"); //获取参数ID
+        try {
+            Lightbox ld=lservice.findUniqueByProperty("ID",Long.parseLong(ID));
+            lservice.delete(ld);
+            result.put("data","true"); //执行成功
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data","false");
+		}
+        return result;
+    }
+
+    
+    
+    
+  //************************************光交箱状态管理**************************
+  	//************************************光交箱状态管理**************************
+    @RequestMapping(value="/statuslist",method = RequestMethod.GET)
+    public String getlockdevicelist(ModelMap model,HttpServletRequest request){
+		//获取箱体状态列表
+    	model.addAttribute("list",staservice.list());
 		return "/device/statuslist";
-	}
+    }
+    
+    
     
     
     //**********************************设备锁管理*******************************

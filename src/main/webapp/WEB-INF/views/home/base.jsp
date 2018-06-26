@@ -134,43 +134,49 @@
                         <a href="#"><i class="fa fa-sitemap"></i>施工方管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="/GuangJX/constructor/constructorlist">施工方管理</a>
+                                <a href="/GuangJX/constructor/constructorlist">施工方信息管理</a>
                             </li>
                             <li>
-                                <a href="/GuangJX/constructor/constructorlist">施工方角色</a>
+                                <a href="/GuangJX/constructor/constructorlist">施工方角色管理</a>
                             </li>
                             <li>
-                                <a href="/GuangJX/constructor/constructorlist">押金管理</a>
+                                <a href="#">施工方押金管理</a>
                             </li>
                             <li>
-                                <a href="/GuangJX/constructor/constructorlist">施工方账号</a>
+                                <a href="#">施工方账号管理</a>
                             </li>
                             <li>
                                 <a href="/GuangJX/constructor/operahistorylist">施工操作历史</a>
-                            </li>
-                            <li>
-                                <a href="/GuangJX/constructor/operahistorylist">安装信息审核</a>
-                            </li>
+                            </li>                          
                         </ul>
                     </li>
 
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i>用户中心<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i>光交箱改造方管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#">角色管理</a>
+                                <a href="#">光交箱改造方信息管理</a>
                             </li>
                             <li>
-                                <a href="/GuangJX//user/userlist">用户管理</a>
+                                <a href="#">光交箱改造方角色管理</a>
+                            </li>
+                            <li>
+                                <a href="#">光交箱改造方押金管理</a>
+                            </li>
+                            <li>
+                                <a href="#">光交箱改造方账号管理</a>
+                            </li>
+                            <li>
+                                <a href="#">光交箱改造方操作历史</a>
+                            </li> 
+                            <li>
+                                <a href="#">安装信息审核</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-desktop"></i>系统设置<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">施工方资格审核设置</a>
-                            </li>
+                        <ul class="nav nav-second-level">                            
                             <li>
                                 <a href="#">系统参数设置</a>
                             </li>
