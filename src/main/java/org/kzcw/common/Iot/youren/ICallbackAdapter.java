@@ -126,14 +126,21 @@ public class ICallbackAdapter extends UsrCloudMqttCallbackAdapter {
 		String result=":";
 		if(data.volt<3.1) {
 			result=result+"电压过低  ";
-		}else {
-			if((data.elecunlock==false)&&(data.eleclock==true)&&(data.handlock=false)) {
-				result=result+"非法或应急开锁 ";
-			}
-			if(!(data.eleclock^data.elecunlock)) {
-				result=result+"机械故障 ";
-			}
 		}
+		if((data.elecunlock==false)&&(data.eleclock==true)&&(data.handlock=false)) {
+			result=result+"非法或应急开锁 ";
+		}
+		if(!(data.eleclock^data.elecunlock)) {
+			result=result+"机械故障 ";
+		}
+		if(data.temperature<-30) {
+			 result=result+"温度过低 ";
+		}
+			 	
+		if(data.temperature>85) {
+			 result=result+"温度过高 ";
+		}
+		 
         if(result.equals(":")) {
         	result="正常";
         }
