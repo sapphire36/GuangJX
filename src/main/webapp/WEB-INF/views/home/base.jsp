@@ -178,7 +178,7 @@
                         <a href="#"><i class="fa fa-desktop"></i>系统设置<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">                            
                             <li>
-                                <a href="#">系统参数设置</a>
+                                <a href="/GuangJX/system/setting">系统参数设置</a>
                             </li>
                         </ul>
                     </li>

@@ -1,10 +1,8 @@
 package org.kzcw.common.Iot.youren;
-import java.util.ArrayList;
-import java.util.List;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.springframework.stereotype.Service;
+import org.kzcw.common.utils.SystemData;
 
-@Service("yourenmanager")
+//Component作用详见https://blog.csdn.net/m0_37626813/article/details/78558010
 public class YouRenManger {
 	//有人物联网控制端
 	private ClientAdapter clientAdapter = new ClientAdapter();
@@ -14,19 +12,17 @@ public class YouRenManger {
 	byte[] opendata = { (byte) 0xA5, 0x06, 0x00, 0x20, 0x00, 0x01, 0x50, (byte) 0xE4 };
 	byte[] closedata = { (byte) 0xA5, 0x06, 0x00, 0x21, 0x00, 0x01, 0x01, 0x24 };
 	public static YouRenManger instance=new YouRenManger();
-	List<String> devicelist=new ArrayList<String>();
 
 	public YouRenManger() {
 		// TODO Auto-generated constructor stub
-		Init();
+		//doStart();
 	}
 	
 	public static YouRenManger getInstance() {
 		return instance;
 	}
 	
-	private void Init() {
-		InitDevice();
+	public void doStart() {
 		try {
 			doConnect();
 		} catch (MqttException e) {
@@ -35,7 +31,7 @@ public class YouRenManger {
 		}
 	}
 	
-	public void doConnect() throws MqttException {
+	private void doConnect() throws MqttException {
  
 		  clientAdapter.setUsrCloudMqttCallback(clinetCallbackAdapter);
 		  /* 4.进行连接 */
@@ -53,15 +49,16 @@ public class YouRenManger {
 				}
 			}
 		  /* 5.订阅消息(单个设备)*/
-	      for(int i=0;i<devicelist.size();i++) {
-	    	  clientAdapter.SubscribeForDevId(devicelist.get(i));
+	      SystemData data=SystemData.getInstance(); //获取系统数据
+	      if(data.locklist!=null) {
+		      for(String emei:data.locklist) {
+		    	   try {
+		    		  clientAdapter.SubscribeForDevId(emei);
+				    } catch (MqttException e) {
+					// TODO: handle exception
+				    }
+		      }
 	      }
-	}
-	
-	public void InitDevice() {
-		devicelist.add("356566078008224");
-		devicelist.add("356566077995884");
-		devicelist.add("356566077983401");
 	}
 	
 	public boolean doOpenLock(String emei) {

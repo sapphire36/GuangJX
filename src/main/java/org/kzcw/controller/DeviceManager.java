@@ -8,6 +8,7 @@ import org.kzcw.service.LightboxService;
 import org.kzcw.service.LockdeviceService;
 import org.kzcw.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -248,4 +249,10 @@ public class DeviceManager {
 		}
         return result;
     }
+    
+    //每个5秒执行一次
+	@Scheduled(cron = "0/5 * * * * ? ")
+	public void check(){
+		System.out.println("this is form scheduled");
+	}
 }
