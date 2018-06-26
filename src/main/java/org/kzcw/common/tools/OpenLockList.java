@@ -20,11 +20,35 @@ public class OpenLockList {
 
 	public OpenMessage DelItem(int index) {
 		// 出队,管理人员打开锁时,将出队队头元素
+		if(list.size()<=0) {
+			return null;
+		}
 		if(index>list.size()||index<0) {
 			return null;
 		}else {
 			IsFlush=true; //执行刷新
 			return list.remove(index);
+		}
+	}
+	
+	public OpenMessage DelItemByEMEI(String emei) {
+	    for(int i=0;i<list.size();i++) {
+	    	if(list.get(i).EMEI.equals(emei)) {
+	    		IsFlush=true; //执行刷新
+	    		return list.remove(i);
+	    	}
+	    }
+	    return null;
+	}
+	
+	public OpenMessage getByIndex(int index) {
+		if(list.size()<=0) {
+			return null;
+		}
+		if(index>list.size()||index<0) {
+			return null;
+		}else {
+			return list.get(index);
 		}
 	}
 

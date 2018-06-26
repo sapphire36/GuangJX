@@ -21,11 +21,36 @@ public class CloseLockList {
 
 	public CloseMessage DelItem(int index) {
 		// 出队,管理人员打开锁时
+		if(list.size()<=0) {
+			return null;
+		}
 		if(index>list.size()||index<0) {
 			return null;
 		}else {
 			IsFlush=true; //执行刷新
 			return list.remove(index);
+		}
+	}
+	
+	public CloseMessage DelItemByEMEI(String emei) {
+		// 出队,管理人员打开锁时
+	    for(int i=0;i<list.size();i++) {
+	    	if(list.get(i).EMEI.equals(emei)) {
+	    		IsFlush=true; //执行刷新
+	    		return list.remove(i);
+	    	}
+	    }
+	    return null;
+	}
+	
+	public CloseMessage getByIndex(int index) {
+		if(list.size()<=0) {
+			return null;
+		}
+		if(index>list.size()||index<0) {
+			return null;
+		}else {
+			return list.get(index);
 		}
 	}
 

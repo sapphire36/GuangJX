@@ -21,11 +21,25 @@ public class GradeList {
 
 	public GradeMessge DelItem(int index) {
 		// 出队,管理人员评价结束后,将出队头元素
+		if(list.size()<=0) {
+			return null;
+		}
 		if(index>list.size()||index<0) {
 			return null;
 		}else {
 			IsFlush=true; //执行刷新
 			return list.remove(index);
+		}
+	}
+	
+	public GradeMessge getByIndex(int index) {
+		if(list.size()<=0) {
+			return null;
+		}
+		if(index>list.size()||index<0) {
+			return null;
+		}else {
+			return list.get(index);
 		}
 	}
 

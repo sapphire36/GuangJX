@@ -10,10 +10,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>
 <rapid:override name="title">
 	<title>业务控制</title>
-<link href="/GuangJX/css/toastr.css" rel="stylesheet" />
-<script src="/GuangJX/js/toastr.js"></script>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script type="text/javascript">
+	<link href="/GuangJX/css/toastr.css" rel="stylesheet" />
+	<script src="/GuangJX/js/toastr.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script type="text/javascript">
 // 测试引用是否成功
 window.onbeforeunload=function(){
 	return "是否要离开";
@@ -37,8 +37,26 @@ $(document).ready(function(e) {
 	getopenlist();
 	getcloselist();
 	getgradelist();
+	gettodolist();
   //toastr.success("ok");
 });
+var waittime=1000; //等待时间
+function gettodolist(){
+	//获取开箱队列
+	$.ajax({
+		type : "POST",
+		url : "<%=basePath%>/control/gettodolist",
+		data :"test",
+		success : function(data) {
+			if(data.IsFlush=="true"){
+				$("#todolist").html(data.data); 
+			}else{
+			}
+		}
+	});
+	setTimeout(gettodolist,waittime);
+}
+
 
 function getopenlist(){
 	//获取开箱队列
@@ -53,7 +71,7 @@ function getopenlist(){
 			}
 		}
 	});
-	setTimeout(getopenlist,100);
+	setTimeout(getopenlist,waittime);
 }
 
 function getcloselist(){
@@ -69,7 +87,7 @@ function getcloselist(){
 			}
 		}
 	});
-	setTimeout(getcloselist,1000);
+	setTimeout(getcloselist,waittime);
 }
 function getgradelist(){
 	//获取关箱队列
@@ -84,14 +102,15 @@ function getgradelist(){
 			}
 		}
 	});
-	setTimeout(getgradelist,10000);
+	setTimeout(getgradelist,200);
 }
 
-function doopen(){
+function doopen(btn){
+	$("ul").children("li")
 	$.ajax({
 		type : "POST",
 		url : "<%=basePath%>/control/doopenlock",
-		data :"ID",
+		data:{"ID":0}, 
 		success : function(data) {
 			if(data.data=="true"){
 				toastr.success("开锁成功!");
@@ -99,20 +118,55 @@ function doopen(){
 				toastr.error("开锁失败!");
 			}
 		}
+     });
+}
+	
+function doclose(btn){
+  $.ajax({
+	type : "POST",
+		url : "<%=basePath%>/control/docloselock",
+		data:{"ID":0},
+			success : function(data) {
+			if(data.data=="true"){
+					toastr.success("关锁成功!");
+				}else{
+					toastr.error("关锁失败!");
+				}
+			}
+		});
+	}
+		
+function dograde(btn){
+	$.ajax({
+		type : "POST",
+		url : "<%=basePath%>/control/dograde",
+		data:{"ID":0},
+		success : function(data) {
+			if(data.data=="true"){
+				toastr.success("评价成功!");
+			}else{
+				toastr.error("评价失败!");
+			}
+		}
 	});
 }
 </script>
 </rapid:override>
 <rapid:override name="content">
-
+  <div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading">待执行队列</div>
+				<div class="panel-body">
+					<div class="list-group" id="todolist"></div>
+				</div>
+			</div>
+	</div>
 	<div class="row">
 		<div class="col-md-4 col-sm-4">
 			<div class="panel panel-default">
 				<div class="panel-heading">请求开箱队列</div>
 				<div class="panel-body">
-					<div class="list-group" id="openlist">
-		 
-					</div>
+					<div class="list-group" id="openlist"></div>
 					<div class="text-right">
 						<a href="#">更多<i class="fa fa-arrow-circle-right"></i></a>
 					</div>
@@ -123,9 +177,7 @@ function doopen(){
 			<div class="panel panel-default">
 				<div class="panel-heading">请求关箱队列</div>
 				<div class="panel-body">
-					<div class="list-group" id="closelist">
-	 
-					</div>
+					<div class="list-group" id="closelist"></div>
 					<div class="text-right">
 						<a href="#">更多<i class="fa fa-arrow-circle-right"></i></a>
 					</div>
@@ -136,8 +188,7 @@ function doopen(){
 			<div class="panel panel-default">
 				<div class="panel-heading">待评价队列</div>
 				<div class="panel-body">
-					<div class="list-group" id="gradelist">
-					</div>
+					<div class="list-group" id="gradelist"></div>
 					<div class="text-right">
 						<a href="#">更多<i class="fa fa-arrow-circle-right"></i></a>
 					</div>
@@ -158,12 +209,13 @@ function doopen(){
 				<div class="modal-body">
 					<table class="table table-striped">
 						<tr>
-							<td align="right">
-								<button id="doopen" class="btn btn-default" data-dismiss="modal" onclick="doopen()">确认开锁</button>
+							<td align="right">-
+								<button id="doopen" class="btn btn-default" data-dismiss="modal"
+									onclick="doopen(this)">确认开锁</button>
 							</td>
 							<td align="center">
-								<button type="button" class="btn btn-default"
-									data-dismiss="modal"></button>
+								<button id="jujueopen" type="button" class="btn btn-default"
+									data-dismiss="modal">拒绝</button>
 							</td>
 							<td align="left">
 								<button type="button" class="btn btn-default"
@@ -178,5 +230,69 @@ function doopen(){
 		<!-- /.modal -->
 	</div>
 	<!-- /.请求关箱队列处理模态框 结束 -->
+
+	<!-- /.请求关箱队列处理模态框 开始-->
+	<div class="modal fade" id="close" tabindex="-1" role="dialog"
+		aria-labelledby="close" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">关闭光交箱</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-striped">
+						<tr>
+							<td align="right">
+								<button id="doclose" class="btn btn-default"
+									data-dismiss="modal" onclick="doclose(this)">确认关闭</button>
+							</td>
+							<td align="left">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">取消</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- /.请求关箱队列处理模态框 结束 -->
+
+
+
+	<!-- /.评价队列处理模态框 开始-->
+	<div class="modal fade" id="grade" tabindex="-1" role="dialog"
+		aria-labelledby="grade" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">业务评价</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-striped">
+						<tr>
+							<td align="right">
+								<button id="dograde" class="btn btn-default"
+									data-dismiss="modal" onclick="dograde(this)">提交</button>
+							</td>
+							<td align="left">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">取消</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- /.评价队列处理模态框 结束 -->
 </rapid:override>
 <%@ include file="../home/base.jsp"%>

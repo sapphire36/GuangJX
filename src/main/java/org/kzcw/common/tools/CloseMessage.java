@@ -7,4 +7,8 @@ public class CloseMessage extends BaseMessage{
 		// TODO Auto-generated constructor stub
 		super(uid, emei);
 	}
+	
+	public void setReady() {
+		IsReady=true;
+	}
 }

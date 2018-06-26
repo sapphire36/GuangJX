@@ -10,19 +10,19 @@ import org.kzcw.core.General;
 public class Status  extends General{
 	
 	private static final long serialVersionUID = -4654940818328212372L;
-	private String NAME;//光交箱名称
+	private String IEME;//IEME
 	private String VOLTAGE;//电池电压
 	private String TEMPERATURE;//机箱温度
-	private String STATUS;//锁状态
+	private int STATUS;//锁状态
 	
-	@Column(nullable = true,length=50)
-	public String getNAME() {
-		return NAME;
+ 
+	@Column(nullable = false,length=50)
+	public String getIEME() {
+		return IEME;
 	}
-	public void setNAME(String nAME) {
-		NAME = nAME;
+	public void setIEME(String iEME) {
+		IEME = iEME;
 	}
-	
 	@Column(nullable = true,length=50)
 	public String getVOLTAGE() {
 		return VOLTAGE;
@@ -39,14 +39,11 @@ public class Status  extends General{
 		TEMPERATURE = tEMPERATURE;
 	}
 	
-	@Column(nullable = true,length=50)
-	public String getSTATUS() {
+	@Column(nullable = true,length=20)
+	public int getSTATUS() {
 		return STATUS;
 	}
-	public void setSTATUS(String sTATUS) {
+	public void setSTATUS(int sTATUS) {
 		STATUS = sTATUS;
 	}
-	
-	
-
 }

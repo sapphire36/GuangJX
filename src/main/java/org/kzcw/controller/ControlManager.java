@@ -3,13 +3,17 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
+import org.kzcw.common.Iot.youren.OperaType;
+import org.kzcw.common.Iot.youren.WaitQueue;
 import org.kzcw.common.tools.CloseLockList;
 import org.kzcw.common.tools.CloseMessage;
 import org.kzcw.common.tools.GradeList;
 import org.kzcw.common.tools.GradeMessge;
 import org.kzcw.common.tools.OpenLockList;
 import org.kzcw.common.tools.OpenMessage;
+import org.kzcw.model.Operatehistory;
 import org.kzcw.service.LightboxService;
+import org.kzcw.service.OperatehistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,11 +30,49 @@ public class ControlManager {
 	@Autowired
 	LightboxService lservice;
 	
+	@Autowired
+	OperatehistoryService operahistory;
+	
 	@RequestMapping(value = "/getcontrolview", method = RequestMethod.GET)
     public String getcontrolview(ModelMap model,HttpServletRequest request){
     	//控制界面
 		return "/control/control";
     }
+	
+	@RequestMapping(value = "/gettodolist", method = RequestMethod.POST)
+	@ResponseBody
+    public Map<String,Object> gettodolist(ModelMap model,HttpServletRequest request){
+    	//获取有待执行队列
+    	Map<String,Object> result=new HashMap<String,Object>();
+    	WaitQueue list=WaitQueue.getInstance();//获取开锁队列
+    	if(list.IsFlush) {
+    		//执行刷新操作
+    		StringBuffer stringBuffer = new StringBuffer();
+    		Map<String,OperaType> sets=list.getMapEntrySet();
+	        for(Map.Entry<String, OperaType> entry: sets.entrySet())
+	        {
+	    		stringBuffer.append("<a href=\"#\" class=\"list-group-item\" data-toggle=\"modal\" data-backdrop=\"static\" data-target=\"#open\"> ");
+    			stringBuffer.append("<span class=\"badge\">");	
+    			stringBuffer.append(entry.getKey());
+    			stringBuffer.append("</span><i class=\"fa fa-fw fa-comment\"></i>");
+    			if(entry.getValue().type==1)
+    				stringBuffer.append("正在执行开锁操作");
+    			else
+    				stringBuffer.append("正在执行关锁操作");
+    			stringBuffer.append("</a>");
+	        }
+    	
+    		result.put("data", stringBuffer.toString());
+    		result.put("IsFlush","true");
+     		list.IsFlush=false;//设置不刷新
+    	}else {
+    		//不执行
+    		result.put("data","");
+    		result.put("IsFlush","false");
+    	}
+		return result;
+    }
+	
 	
 	@RequestMapping(value = "/getopenlist", method = RequestMethod.POST)
 	@ResponseBody
@@ -45,12 +87,15 @@ public class ControlManager {
             for (OpenMessage x : list.list) { 
     			stringBuffer.append("<a href=\"#\" class=\"list-group-item\" data-toggle=\"modal\" data-backdrop=\"static\" data-target=\"#open\"> ");
     			stringBuffer.append("<span class=\"badge\">");	
-    			stringBuffer.append(x.time);
+    			stringBuffer.append(x.USERNAME+x.time);
     			stringBuffer.append("</span><i class=\"fa fa-fw fa-comment\"></i>");
-    			stringBuffer.append(x.EMEI);
-    			stringBuffer.append("<input type=\"hidden\" value=\"");
-    			stringBuffer.append(index);
-    			stringBuffer.append("\">");
+    			if(x.IsReady)
+    				stringBuffer.append("正在打开:"+x.EMEI);
+    			else
+    				stringBuffer.append("等待开锁:"+x.EMEI);
+    			//stringBuffer.append("<input type=\"hidden\" value=\"");
+    			//stringBuffer.append(index);
+    			//stringBuffer.append("\">");
     			stringBuffer.append("</a>");
     			index++;
             } 
@@ -76,14 +121,14 @@ public class ControlManager {
     		StringBuffer stringBuffer = new StringBuffer();
     		int index=0;
             for (CloseMessage x : list.list) { 
-    			stringBuffer.append("<a href=\"#\" class=\"list-group-item\" data-toggle=\"modal\" data-backdrop=\"static\" data-target=\"#open\"> ");
+    			stringBuffer.append("<a href=\"#\" class=\"list-group-item\" data-toggle=\"modal\" data-backdrop=\"static\" data-target=\"#close\"> ");
     			stringBuffer.append("<span class=\"badge\">");	
-    			stringBuffer.append(x.time);
+    			stringBuffer.append(x.USERNAME+x.time);
     			stringBuffer.append("</span><i class=\"fa fa-fw fa-comment\"></i>");
-    			stringBuffer.append(x.EMEI);
-    			stringBuffer.append("<input type=\"hidden\" value=\"");
-    			stringBuffer.append(index);
-    			stringBuffer.append("\">");
+    			if(x.IsReady)
+    				stringBuffer.append("正在关闭:"+x.EMEI);
+    			else
+    				stringBuffer.append("等待关锁:"+x.EMEI);
     			stringBuffer.append("</a>");
     			index++;
             } 
@@ -109,14 +154,12 @@ public class ControlManager {
     		StringBuffer stringBuffer = new StringBuffer();
     		int index=0;
             for (GradeMessge x : list.list) { 
-    			stringBuffer.append("<a href=\"#\" class=\"list-group-item\" data-toggle=\"modal\" data-backdrop=\"static\" data-target=\"#open\"> ");
+    			stringBuffer.append("<a href=\"#\" class=\"list-group-item\" data-toggle=\"modal\" data-backdrop=\"static\" data-target=\"#grade\"> ");
     			stringBuffer.append("<span class=\"badge\">");	
-    			stringBuffer.append(x.time);
+    			stringBuffer.append(x.USERNAME+x.time);
     			stringBuffer.append("</span><i class=\"fa fa-fw fa-comment\"></i>");
     			stringBuffer.append(x.EMEI);
-    			stringBuffer.append("<input type=\"hidden\" value=\"");
-    			stringBuffer.append(index);
-    			stringBuffer.append("\">");
+ 
     			stringBuffer.append("</a>");
     			index++;
             } 
@@ -137,10 +180,11 @@ public class ControlManager {
     	//执行开锁操作
     	Map<String,Object> result=new HashMap<String,Object>();
     	OpenLockList olist=OpenLockList.getInstance();
-    	CloseLockList clist=CloseLockList.getInstance();
-    	OpenMessage message=olist.DelItem(ID);
+    	OpenMessage message=olist.getByIndex(ID);
     	if(message!=null) {
-    		clist.AddItem(new CloseMessage(message.USERID,message.EMEI,0));
+    		WaitQueue queque=WaitQueue.getInstance();
+    		queque.AddItem(new OperaType(message.EMEI,1));//加入开锁队列
+    		olist.DelItem(ID);
     		result.put("data","true");
     	}
     	else {
@@ -155,10 +199,11 @@ public class ControlManager {
 		//执行关锁操作
     	Map<String,Object> result=new HashMap<String,Object>();
     	CloseLockList clist=CloseLockList.getInstance();
-    	GradeList glist=GradeList.getInstance();
     	CloseMessage message=clist.DelItem(ID);
     	if(message!=null) {
-    		glist.AddItem(new GradeMessge(message.USERID,message.EMEI,0));
+    		WaitQueue queque=WaitQueue.getInstance();
+    		queque.AddItem(new OperaType(message.EMEI,0));//加入关锁队列
+    		clist.DelItem(ID);
     		result.put("data","true");
     	}
     	else {
@@ -174,11 +219,22 @@ public class ControlManager {
     	Map<String,Object> result=new HashMap<String,Object>();
     	GradeList list=GradeList.getInstance();
     	GradeMessge message=list.DelItem(ID);
-    	if(message!=null)
-    		result.put("data","true");
-    	else
+    	if(message!=null) {
     		result.put("data","false");
-		return result;
+    		return result;
+    	}
+    	try {
+          	Operatehistory history=new Operatehistory();
+        	history.setBOXID(1);
+        	history.setORGANIZATIONID(105);
+         	history.setSCORE(7);
+        	operahistory.save(history);
+        	result.put("data","true");
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data","false");
+		}
+    	return result;
     }
 	
 	@RequestMapping(value = "/dorefresh", method = RequestMethod.POST)
