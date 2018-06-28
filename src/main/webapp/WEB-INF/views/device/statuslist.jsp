@@ -32,18 +32,27 @@ $(document).ready(function(){
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
+						    <th align="center">设备ID</th>
 							<th align="center">设备IEMI编号</th>
 							<th align="center">电池电压</th>
 							<th align="center">机箱温度</th>
+							<th align="center">设备状态</th>
 							<th align="center">时间</th>							
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="sta" items="${list}">
 							<tr>
+							    <td align="center">${sta.ID}</td>
 								<td align="center">${sta.IEME}</td>
 								<td align="center">${sta.VOLTAGE}</td>
 								<td align="center">${sta.TEMPERATURE}</td>
+							    <c:if test="${sta.STATUS==1}">
+                                <td align="center">开</td>
+                                </c:if>
+                                <c:if test="${sta.STATUS==0}">
+                                <td align="center">关</td>
+                                </c:if>
 								<td align="center">${sta.ADDTIME}</td>								                                                                
 							</tr>
 						</c:forEach>

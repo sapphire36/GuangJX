@@ -5,13 +5,14 @@ import org.kzcw.common.utils.SystemData;
 //Component作用详见https://blog.csdn.net/m0_37626813/article/details/78558010
 public class YouRenManger {
 	//有人物联网控制端
-	private ClientAdapter clientAdapter = new ClientAdapter();
+	private ClientAdapter clientAdapter;
 	private ICallbackAdapter clinetCallbackAdapter = new ICallbackAdapter();
 	String name = "李环宇";
 	String passwd = "xz86512121";
 	byte[] opendata = { (byte) 0xA5, 0x06, 0x00, 0x20, 0x00, 0x01, 0x50, (byte) 0xE4 };
 	byte[] closedata = { (byte) 0xA5, 0x06, 0x00, 0x21, 0x00, 0x01, 0x01, 0x24 };
 	public static YouRenManger instance=new YouRenManger();
+	boolean IsAll=false;
 
 	public YouRenManger() {
 		// TODO Auto-generated constructor stub
@@ -22,17 +23,19 @@ public class YouRenManger {
 		return instance;
 	}
 	
-	public void doStart() {
+	public void doStart(boolean isall) {
 		try {
-			doConnect();
+			IsAll=isall;
+			doConnect(isall);
 		} catch (MqttException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	private void doConnect() throws MqttException {
- 
+	private void doConnect(boolean isall) throws MqttException {
+		  clientAdapter=new ClientAdapter();
+		  clinetCallbackAdapter = new ICallbackAdapter();
 		  clientAdapter.setUsrCloudMqttCallback(clinetCallbackAdapter);
 		  /* 4.进行连接 */
 		  clientAdapter.Connect(name,passwd);
@@ -49,19 +52,45 @@ public class YouRenManger {
 				}
 			}
 		  /* 5.订阅消息(单个设备)*/
-	      SystemData data=SystemData.getInstance(); //获取系统数据
-	      if(data.locklist!=null) {
-		      for(String emei:data.locklist) {
-		    	   try {
-		    		  clientAdapter.SubscribeForDevId(emei);
-				    } catch (MqttException e) {
-					// TODO: handle exception
-				    }
+	      if(isall) {
+	    	  //订阅所有用户
+	    	  clientAdapter.SubscribeForUsername();//订阅用户下所有设备
+	      }else {
+		      SystemData data=SystemData.getInstance(); //获取系统数据
+		      if(data.locklist!=null) {
+			      for(String emei:data.locklist) {
+			    	   try {
+			    		  clientAdapter.SubscribeForDevId(emei);
+					    } catch (MqttException e) {
+						// TODO: handle exception
+					    }
+			      }
 		      }
 	      }
 	}
 	
+	public void doDisConnect() throws MqttException {
+		//断开连接
+		if(IsAll) {
+			  clientAdapter.DisSubscribeforuName();
+		}else {
+			//按照ID取消订阅设备
+		      SystemData data=SystemData.getInstance(); //获取系统数据
+		      if(data.locklist!=null) {
+			      for(String emei:data.locklist) {
+			    	   try {
+			    		  clientAdapter.DisSubscribeParsedforDevId(emei);
+					    } catch (MqttException e) {
+						// TODO: handle exception
+					    }
+			      }
+		      }
+		}
+		clientAdapter.DisConnectUnCheck();
+	}
+
 	public boolean doOpenLock(String emei) {
+		//打开锁
 		try {
 			clientAdapter.publishForDevId(emei, opendata);
 			return true;

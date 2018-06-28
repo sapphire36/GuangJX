@@ -21,6 +21,11 @@ public abstract class BaseServiceImpl<T extends Serializable> implements BaseSer
 		am.setADDTIME(new Date());
 		dao.save(t);
 	}
+	
+	public void save(List<T> t) {
+		General am = (General) t;
+		dao.save(t);
+	}
 
 	public void update(T t) {
 		dao.update(t);

@@ -1,9 +1,10 @@
 package org.kzcw.controller;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.kzcw.common.Iot.youren.YouRenManger;
 import org.kzcw.common.utils.SystemData;
 import org.kzcw.model.Lockdevice;
@@ -35,6 +36,7 @@ public class SystemManager {
     	
     	Map<String,String> result=new HashMap<String,String>();
         YouRenManger manager=YouRenManger.getInstance();
+        String isALL=request.getParameter("ISALL");
         SystemData data=SystemData.getInstance();
         List<Lockdevice> list;
         list=lockservice.list();
@@ -49,12 +51,36 @@ public class SystemManager {
             new Thread("线程1"){
                 @Override
                 public void run(){
-                  	manager.doStart();
+                	if(isALL.equals("true")) {
+                		//订阅该用户下所有设备
+                		manager.doStart(true);
+                	}else {
+                		//只订阅已注册的设备
+                		manager.doStart(false);
+                	}
                 }
             }.start();
         	result.put("data","true");
 		} catch (Exception e) {
 			// TODO: handle exception
+			result.put("data","false");
+		}
+        return result;
+    }
+    
+    @RequestMapping(value="/stop",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,String> stop(ModelMap map,HttpServletRequest request){
+		//关闭监听
+    	
+    	Map<String,String> result=new HashMap<String,String>();
+        YouRenManger manager=YouRenManger.getInstance();
+    	try {
+			manager.doDisConnect();
+		   	result.put("data","true");
+		} catch (MqttException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			result.put("data","false");
 		}
         return result;

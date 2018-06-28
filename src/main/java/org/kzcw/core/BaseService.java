@@ -4,6 +4,7 @@ import java.util.Map;
  
 public interface BaseService<T> {
  
+	public void save(List<T> t);
 	public void save(T t);
 	public void update(T t);//更新
 	public void delete(T t);//删除

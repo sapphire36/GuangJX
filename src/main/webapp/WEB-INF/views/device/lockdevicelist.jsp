@@ -143,10 +143,12 @@ function doeditlockdevice(){
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
+						    <th align="center">设备ID</th>
 							<th align="center">设备名称</th>
 							<th align="center">IMEI编号</th>
 							<th align="center">是否在线</th>
 							<th align="center">设备状态</th>
+							<th align="center">添加时间</th>
 							<th align="center">注册状态</th>
 							<th align="center"></th>
 						</tr>
@@ -154,6 +156,7 @@ function doeditlockdevice(){
 					<tbody>
 						<c:forEach var="p" items="${list}">
 							<tr>
+							    <td align="center">${p.ID}</td>
 								<td align="center">${p.NAME}</td>
 								<td align="center">${p.IMEI}</td>
 								
@@ -170,7 +173,7 @@ function doeditlockdevice(){
                                  <c:if test="${p.STATUS==0}">
                                  <td align="center">关</td>
                                  </c:if>
-                                
+                                 <td align="center">${p.ADDTIME}</td>
                                  <c:if test="${p.ISREGIST==1}">
                                  <td align="center">已注册</td>
                                  </c:if>

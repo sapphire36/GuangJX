@@ -37,7 +37,7 @@ $(document).ready(function(e) {
 	gettodolist();
   //toastr.success("ok");
 });
-var waittime=1000; //等待时间
+//var waittime=1000; //等待时间
 function gettodolist(){
 	//获取开箱队列
 	$.ajax({
@@ -47,11 +47,14 @@ function gettodolist(){
 		success : function(data) {
 			if(data.IsFlush=="true"){
 				$("#todolist").html(data.data); 
+				//getopenlist();
+				//getcloselist();
+				//getgradelist();
 			}else{
 			}
 		}
 	});
-	setTimeout(gettodolist,waittime);
+	setTimeout(gettodolist,200);
 }
 
 
@@ -68,7 +71,7 @@ function getopenlist(){
 			}
 		}
 	});
-	setTimeout(getopenlist,waittime);
+	setTimeout(getopenlist,1000);
 }
 
 function getcloselist(){
@@ -84,7 +87,7 @@ function getcloselist(){
 			}
 		}
 	});
-	setTimeout(getcloselist,waittime);
+	setTimeout(getcloselist,1000);
 }
 function getgradelist(){
 	//获取关箱队列
@@ -99,7 +102,7 @@ function getgradelist(){
 			}
 		}
 	});
-	setTimeout(getgradelist,200);
+	setTimeout(getgradelist,1000);
 }
 
 function doopen(btn){
@@ -111,6 +114,8 @@ function doopen(btn){
 		success : function(data) {
 			if(data.data=="true"){
 				toastr.success("开锁成功!");
+				//getopenlist();
+				//getcloselist();
 			}else{
 				toastr.error("开锁失败!");
 			}
@@ -126,6 +131,8 @@ function doclose(btn){
 			success : function(data) {
 			if(data.data=="true"){
 					toastr.success("关锁成功!");
+					//getcloselist();
+					//getgradelist();
 				}else{
 					toastr.error("关锁失败!");
 				}
@@ -141,6 +148,7 @@ function dograde(btn){
 		success : function(data) {
 			if(data.data=="true"){
 				toastr.success("评价成功!");
+				//getgradelist();
 			}else{
 				toastr.error("评价失败!");
 			}

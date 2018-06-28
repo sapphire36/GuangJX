@@ -23,7 +23,6 @@ public class HomeManager {
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String indexview(ModelMap map,HttpServletRequest request){
-		YouRenManger manager=YouRenManger.getInstance();
 		return "/home/index";
 	}
 	

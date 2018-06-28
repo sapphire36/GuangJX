@@ -1,7 +1,13 @@
 package org.kzcw.common.Iot.youren;
 
 import java.math.BigInteger;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.kzcw.common.utils.SystemData;
+import org.kzcw.model.Breakhistory;
+import org.kzcw.model.Status;
 
 import cn.usr.UsrCloudMqttCallbackAdapter;
 
@@ -10,7 +16,7 @@ public class ICallbackAdapter extends UsrCloudMqttCallbackAdapter {
 	public boolean status = false;
 	//@Autowired
 	//StatusService service;
-
+    SystemData systemdata=SystemData.getInstance();
 	@Override
 	public void onConnectAck(int returnCode, String description) {
 		super.onConnectAck(returnCode, description);
@@ -95,35 +101,49 @@ public class ICallbackAdapter extends UsrCloudMqttCallbackAdapter {
 				ResultData newdevice = analysisdata(newstring);
 				newdevice.DeviceID = topic.substring(topic.length() - 15, topic.length());
 				WaitQueue que = WaitQueue.getInstance();
-				/*
-				try {
-					Status status=new Status();
-					status.setIEME(newdevice.DeviceID);
-					if(newdevice.eleclock) {
-						status.setSTATUS("开");
-					}
-					
-					if(newdevice.elecunlock) {
-						status.setSTATUS("关");
-					}
-					status.setTEMPERATURE(String.valueOf(newdevice.temperature));
-					status.setVOLTAGE(String.valueOf(newdevice.volt));
-					service.save(status);
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				*/
+				Map<String,Object> map=checkstatus(newdevice);
 				que.doOperate(newdevice.DeviceID); //执行操作
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						if(!((String)map.get("STATUS")).equals("正常")) {
+							Breakhistory breakhistory=new Breakhistory();
+							breakhistory.setIEME(newdevice.DeviceID);
+							breakhistory.setTYPE((String)map.get("STATUS"));
+							breakhistory.setADDTIME(new Date());
+							systemdata.breaklist.add(breakhistory); //将breakhistory添加到缓冲队列
+						}
+					}
+				}).start();
+				/*
+				Map<String,Object> map=checkstatus(newdevice);
+				Status status=new Status();
+				status.setIEME(newdevice.DeviceID);
+				status.setSTATUS((int)map.get("LOCK"));
+				status.setTEMPERATURE(String.valueOf(newdevice.temperature));
+				status.setVOLTAGE(String.valueOf(newdevice.volt));
+				status.setADDTIME(new Date());
+				
+				systemdata.statuslist.add(status); //将status添加到缓冲队列
+				*/
+				
 				System.out.println("接收到数据" + newdevice.DeviceID);
 				System.out.println(checkstatus(newdevice));
+				
 			}
 		} else
 			System.out.println("失败");
 		// System.out.println(newstring);
 	}
 	
-	private String checkstatus(ResultData data) {
+	private Map<String,Object> checkstatus(ResultData data) {
+		//检查结果
+		Map<String,Object> ret=new HashMap<String,Object>();
+		//检查故障情况
 		String result=":";
+		int lock=0;
 		if(data.volt<3.1) {
 			result=result+"电压过低  ";
 		}
@@ -144,7 +164,17 @@ public class ICallbackAdapter extends UsrCloudMqttCallbackAdapter {
         if(result.equals(":")) {
         	result="正常";
         }
-        return result;
+        ret.put("STATUS", result);
+        //检查开锁状态
+		if(data.eleclock) {
+			lock=1;
+		}
+		
+		if(data.elecunlock) {
+			lock=0;
+		}
+		ret.put("LOCK", lock);
+        return ret;
 	}
 
 	public static String bytes2hex01(byte[] bytes) {
