@@ -7,8 +7,7 @@ public class YouRenManger {
 	//有人物联网控制端
 	private ClientAdapter clientAdapter;
 	private ICallbackAdapter clinetCallbackAdapter = new ICallbackAdapter();
-	String name = "李环宇";
-	String passwd = "xz86512121";
+
 	byte[] opendata = { (byte) 0xA5, 0x06, 0x00, 0x20, 0x00, 0x01, 0x50, (byte) 0xE4 };
 	byte[] closedata = { (byte) 0xA5, 0x06, 0x00, 0x21, 0x00, 0x01, 0x01, 0x24 };
 	public static YouRenManger instance=new YouRenManger();
@@ -38,7 +37,8 @@ public class YouRenManger {
 		  clinetCallbackAdapter = new ICallbackAdapter();
 		  clientAdapter.setUsrCloudMqttCallback(clinetCallbackAdapter);
 		  /* 4.进行连接 */
-		  clientAdapter.Connect(name,passwd);
+		  SystemData systemData=SystemData.getInstance();
+		  clientAdapter.Connect(systemData.name,systemData.passwd);
 		  int dotry=2;
 	      while (dotry>0) {
 				if (clinetCallbackAdapter.status) {

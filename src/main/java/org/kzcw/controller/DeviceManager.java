@@ -18,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -61,7 +60,7 @@ public class DeviceManager {
         try {
             Lightbox ld=new Lightbox();
             ld.setNAME(name);
-            ld.setLOCKID(Long.parseLong(lid));
+            ld.setIMEI(lid);
             ld.setSPEC(spe);
             ld.setMADETYPE(type);
             ld.setLOCATION(loca);
@@ -85,7 +84,7 @@ public class DeviceManager {
             Lightbox ld=lservice.findUniqueByProperty("ID",Long.parseLong(ID));
             if(ld!=null) {
             	result.put("NAME",ld.getNAME());
-            	result.put("LOCKID",String.valueOf(ld.getLOCKID()));
+            	result.put("LOCKID",ld.getIMEI());
             	result.put("SPEC",ld.getSPEC());
             	result.put("MADETYPE",ld.getMADETYPE());
             	result.put("LOCATION",ld.getLOCATION());
@@ -118,7 +117,7 @@ public class DeviceManager {
         try {
             Lightbox ld=lservice.findUniqueByProperty("ID",Long.parseLong(ID));
             ld.setNAME(name);
-            ld.setLOCKID(Long.parseLong(lid));
+            ld.setIMEI(lid);
             ld.setSPEC(spe);
             ld.setMADETYPE(type);
             ld.setLOCATION(loca);
