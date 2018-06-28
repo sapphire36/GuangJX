@@ -34,7 +34,7 @@
     <task:scheduler id="qbScheduler" pool-size="10"/>
     
 	<!-- 访问静态资源 -->
-	<mvc:resources location="/WEB-INF/image/" mapping="/image/**" />
+	<mvc:resources location="/WEB-INF/img/" mapping="/img/**" />
 	<mvc:resources location="/WEB-INF/js/" mapping="/js/**" />
 	<mvc:resources location="/WEB-INF/css/" mapping="/css/**" />
 	<mvc:resources location="/WEB-INF/font-awesome/" mapping="/font-awesome/**" />

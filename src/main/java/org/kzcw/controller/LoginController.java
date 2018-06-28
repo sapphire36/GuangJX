@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.kzcw.model.Lightbox;
-import org.kzcw.model.User;
 import org.kzcw.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,18 +19,26 @@ public class LoginController {
 	@Autowired
 	UserService userservice;
 
-	@RequestMapping(value = "/getlogin", method = RequestMethod.GET)
-	public String getlogin(String username, String password, Map<String, Object> map) {
-		if (username.equals("?") && password.equals("?")) {
-			map.put("NAME", username);// 存放在request请求域中
-			/**
-			 * 类上加上@SessionAttributes({"username"}) 同时也会存放在 session域中
-			 * 
-			 * @SessionAttributes 除了可以通过属性名指定需要存放到会话中的属性外(使用的是value属性值)
-			 *                    还可以通过模型属性的对象类型指定哪些模型属性需要放到会话中(实际上使用的是types属性值),
-			 */
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	public String index(ModelMap map,HttpServletRequest request) {
+ 
 			return "/login/login";
-		}
-		return "error";
+	}
+	
+	@RequestMapping(value = "/dologin", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,String> dologin(ModelMap map,HttpServletRequest request) {
+		 //判断执行登录
+		
+		 Map<String,String> ret=new HashMap<String,String>();
+		 String name=request.getParameter("NAME"); //获取用户名
+	     String passwd=request.getParameter("PASSWD");
+	     if(name.equals("test")&&passwd.equals("123")) {
+	    	 ret.put("data","true");
+	     }else {
+	    	 ret.put("data","false");
+	     }
+	     return ret;
+	     
 	}
 }
