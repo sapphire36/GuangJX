@@ -25,7 +25,7 @@
 			<div class="loginForm_content">
 				<fieldset>
 					<div class="inputWrap">
-						<input type="text" name="userName" placeholder="邮箱/会员帐号/手机号"
+						<input type="text" name="username" placeholder="邮箱/会员帐号/手机号"
 							autofocus required>
 					</div>
 					<div class="inputWrap">

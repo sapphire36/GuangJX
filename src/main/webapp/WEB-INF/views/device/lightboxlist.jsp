@@ -167,7 +167,7 @@ function doeditlightbox(){
 					<thead>
 						<tr>
 							<th align="center">箱体名称</th>
-							<th align="center">锁编号</th>							
+							<th align="center">IMEI编号</th>							
 							<th align="center">规格</th>
 							<th align="center">厂家型号</th>
 							<th align="center">安装位置</th>
@@ -179,7 +179,7 @@ function doeditlightbox(){
 						<c:forEach var="light" items="${list}">
 							<tr>
 								<td align="center">${light.NAME}</td>
-								<td align="center">${light.LOCKID}</td>
+								<td align="center">${light.IMEI}</td>
 								<td align="center">${light.SPEC}</td>
 								<td align="center">${light.MADETYPE}</td>
 								<td align="center">${light.LOCATION}</td>
@@ -225,7 +225,7 @@ function doeditlightbox(){
                         </tr>
                         <tr>
                             <td align="right">
-                                锁编号：
+                                IMEI编号：
                             </td>
                             <td align="left">
                                 <input id="lockid" type="text" name="LOCKID" placeholder=""/>
@@ -300,7 +300,7 @@ function doeditlightbox(){
                         </tr>
                         <tr>
                             <td align="right">
-                                锁编号：
+           IMEI编号：
                             </td>
                             <td align="left">
                                 <input id="editlockid" type="text" name="LOCKID" placeholder=""/>

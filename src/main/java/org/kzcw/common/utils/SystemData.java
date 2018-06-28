@@ -13,6 +13,8 @@ public class SystemData {
 	public List<String> locklist;//锁子列表
 	public List<Status> statuslist;//数据上报状态表
 	public List<Breakhistory> breaklist;//数据上报状态表
+	public String name = "李环宇";  //控制用户名
+	public String passwd = "xz86512121"; //控制密码
 	
 	public SystemData() {
 		// TODO Auto-generated constructor stub
