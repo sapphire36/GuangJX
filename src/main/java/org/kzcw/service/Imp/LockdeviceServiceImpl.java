@@ -1,6 +1,5 @@
 package org.kzcw.service.Imp;
 
-import java.util.List;
 import org.kzcw.core.BaseServiceImpl;
 import org.kzcw.dao.LockdeviceDao;
 import org.kzcw.model.Lockdevice;

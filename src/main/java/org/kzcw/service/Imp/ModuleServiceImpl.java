@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 public class ModuleServiceImpl extends BaseServiceImpl<Module> implements ModuleService{
 	
 	private ModuleDao dao;
-	
-	
+
 	@Autowired
 	@Qualifier("moduleDao")
-	public void setlockdeviceDao(ModuleDao d) {
-		this.dao = d;
+	public void setDao(ModuleDao dao) {
+		this.dao = dao;
 	}
+    
 }
