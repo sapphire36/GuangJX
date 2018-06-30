@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  
     pageEncoding="UTF-8"%>  
 <%@taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid" %>  
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">  
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -100,7 +101,13 @@
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
-
+	 			 <c:forEach var="item" items="${list}">
+		            <c:if test="${item.ISLEAF == 0 }">
+                       <span>准时签到</span>
+                    </c:if>
+				 </c:forEach>
+				  
+				  
                     <li>
                         <a href="/GuangJX/home/index"><i class="fa fa-qrcode"></i> 首页</a>
                     </li>
@@ -125,7 +132,7 @@
                                 <a href="/GuangJX/device/statuslist">设备状态历史记录</a>
                             </li>
                             <li>
-                                <a href="/GuangJX/device/lockdevicelist">NB-IoT锁管理</a>
+                                <a href="/GuangJX/manage/device/lockdevicelist">NB-IoT锁管理</a>
                             </li>
                             <li>
                                 <a href="/GuangJX/device/breakhistorylist">故障历史表</a>
@@ -174,6 +181,9 @@
                             </li> 
                             <li>
                                 <a href="#">安装信息审核</a>
+                            </li>
+                            <li>
+                                <a href="#">${USER}</a>
                             </li>
                         </ul>
                     </li>

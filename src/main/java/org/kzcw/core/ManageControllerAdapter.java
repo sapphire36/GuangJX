@@ -1,15 +1,27 @@
 package org.kzcw.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.kzcw.model.Module;
+import org.kzcw.model.Role;
+import org.kzcw.service.ModuleService;
+import org.kzcw.service.RoleService;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class ManageControllerAdapter extends HandlerInterceptorAdapter implements InitializingBean {
      //  HandlerInterceptor 接口中定义了三个方法，我们就是通过这三个方法来对用户的请求进行拦截处理的。
-	//@Autowired
-	//private RightsService rightsService;
+	@Autowired
+	private ModuleService moduleService;
+	
+	@Autowired
+	private RoleService roleService;
 	
 	
 	
@@ -63,18 +75,47 @@ public class ManageControllerAdapter extends HandlerInterceptorAdapter implement
 	 */
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object obj, ModelAndView modelAndView) throws Exception {
+		String usertype = (String)request.getSession().getAttribute(Globals.USERTYPE);
+		String rights="";
+		List<Module> result=new ArrayList<Module>();
+		if(usertype!=null) {
+			//找出角色
+			Role role=roleService.findById(Long.parseLong(usertype));
+		    if(role!=null) {
+		    	rights=role.getRIGHTS();
+		    }
+			List<Module> mlist= moduleService.list();
+			if(!rights.equals("")) {
+				String[] tt=rights.split(",");//分割获取模块列表
+				for(Module m:mlist) {
+					if(IsInRight(m.getCODE(),tt)){
+						//如果存在,则添加到返回列表中
+						result.add(m);
+					}
+				}
+			}
+		}
+		
 		if (modelAndView != null) {
-			/*
-			UserManage user = (UserManage)request.getSession().getAttribute(Globals.OnlineUserManageFlag);
-			modelAndView.addObject("User", user);
-			*/
+			modelAndView.addObject("list",result);
 			
 		} else {
 			// log.debug("view is null");
 		}
 	}
 	
-	/**
+	private boolean IsInRight(long id,String[] ll) {
+		//判断是否在列表中
+		String code=String.valueOf(id);
+		for(int i=0;i<ll.length;i++) {
+			if(code.equals(ll[i])) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/** 
 	* 该方法也是需要当前对应的Interceptor的preHandle方法的返回值为true时才会执行。
 	* 该方法将在整个请求完成之后，也就是DispatcherServlet渲染了视图执行，
 	* 这个方法的主要作用是用于清理资源的，当然这个方法也只能在当前这个Interceptor的

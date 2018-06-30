@@ -1,5 +1,4 @@
 <%@page import="org.springframework.beans.factory.annotation.Autowired"%>
-<%@page import="org.kzcw.service.LightboxService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid"%>

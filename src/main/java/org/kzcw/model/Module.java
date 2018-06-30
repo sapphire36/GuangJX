@@ -5,7 +5,7 @@ import javax.persistence.Table;
 import org.kzcw.core.General;
 
 @Entity
-@Table(name="tc_modules")
+@Table(name="t_module")
 public class Module extends General{
     //模块表
 	
@@ -16,7 +16,22 @@ public class Module extends General{
 	private int ISLEAF;   //是否是根目录 0根节点   1子节点
 	private String URL;   //子目录对应的链接
 	private String IMAGE; //图标
-	private int  PARRENTCODE; //上级菜单code
+	private int PARRENTCODE; //上级菜单code
+	private int ISMENU; //是否菜单
+	
+	public Module(String NAME,int CODE,int ISLEAF,String URL,String IMAGE,int PARRENTCODE) {
+		// TODO Auto-generated constructor stub
+		this.NAME=NAME;
+		this.CODE=CODE;
+		this.ISLEAF=ISLEAF;
+		this.URL=URL;
+		this.IMAGE=IMAGE;
+		this.PARRENTCODE=PARRENTCODE;
+	}
+	
+	public Module() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	@Column(nullable = false)
 	public String getNAME() {
@@ -57,12 +72,20 @@ public class Module extends General{
 	public void setIMAGE(String iMAGE) {
 		IMAGE = iMAGE;
 	}
-	
+
 	@Column(columnDefinition="INT default 0",nullable = true)
-	public int getPARRENTID() {
+	public int getPARRENTCODE() {
 		return PARRENTCODE;
 	}
-	public void setPARRENTID(int pARRENTCODE) {
+	public void setPARRENTCODE(int pARRENTCODE) {
 		PARRENTCODE = pARRENTCODE;
+	}
+
+	@Column(columnDefinition="INT default 0",nullable = true)
+	public int getISMENU() {
+		return ISMENU;
+	}
+	public void setISMENU(int iSMENU) {
+		ISMENU = iSMENU;
 	}
 }

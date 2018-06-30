@@ -34,6 +34,7 @@ function dologin(){
 	//编辑函数
 	var username=$("#username").val();//获取id为lightboxname的值
 	var passwd=$("#passwd").val();//获取id为lockid的值
+	var type=$('input[name="usertype"]:checked').val();
 	 
 	//根据选择器获取数据
 	//参考文档:http://www.w3school.com.cn/jquery/attributes_attr.asp
@@ -41,7 +42,8 @@ function dologin(){
 		type : "POST",
 		url : "<%=basePath%>/login/dologin",
 		data:{"NAME":username,
-			  "PASSWD":passwd 
+			  "PASSWD":passwd,
+			  "USERTYPE":type
 			  },
 		success : function(data) {
 			if(data.data=="true"){
@@ -68,6 +70,11 @@ function dologin(){
 							<div class="input_outer">
 								<span class="us_uer"></span>
 								<input id="passwd" name="logpass" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100;"value="" type="password" placeholder="请输入密码">
+							</div>
+							<div>
+							<input type="radio" name="usertype" value="1" checked>操作人员
+							<input type="radio" name="usertype" value="2">业主维护
+							<input type="radio" name="usertype" value="3">系统管理员
 							</div>
 							<div class="mb2"><a  id="dologin" class="act-but submit" href="#" style="color: #FFFFFF">登录</a></div>
 					</div>

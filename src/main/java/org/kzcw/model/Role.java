@@ -13,7 +13,7 @@ public class Role extends General{
 	
 	private static final long serialVersionUID = 8724155022862447147L;
 	private String NAME; //角色名称
-	private String RIGHTS;//权限
+	private String RIGHTS;//模块权限  1,2,3,4,5,6 代表可以使用1,2,3,4,5,6模块
 	
 	@Column(nullable = false,length=100)
 	public String getNAME() {
