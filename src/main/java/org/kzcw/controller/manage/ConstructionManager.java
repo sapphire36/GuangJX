@@ -1,4 +1,4 @@
-package org.kzcw.controller;
+package org.kzcw.controller.manage;
 
 import javax.servlet.http.HttpServletRequest;
 import org.kzcw.service.OrganizationService;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/constructor")
+@RequestMapping("/manage/constructor")
 public class ConstructionManager {
  //施工方管理
 	

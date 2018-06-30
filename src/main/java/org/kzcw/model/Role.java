@@ -12,7 +12,16 @@ public class Role extends General{
 	//角色管理表
 	
 	private static final long serialVersionUID = 8724155022862447147L;
+	private String NAME; //角色名称
 	private String RIGHTS;//权限
+	
+	@Column(nullable = false,length=100)
+	public String getNAME() {
+		return NAME;
+	}
+	public void setNAME(String nAME) {
+		NAME = nAME;
+	}
 	
 	@Column(nullable = false,length=100)
 	public String getRIGHTS() {

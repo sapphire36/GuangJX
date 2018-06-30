@@ -1,9 +1,11 @@
-package org.kzcw.controller;
+package org.kzcw.controller.login;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.kzcw.core.Globals;
 import org.kzcw.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +36,8 @@ public class LoginController {
 		 String name=request.getParameter("NAME"); //获取用户名
 	     String passwd=request.getParameter("PASSWD");
 	     if(name.equals("test")&&passwd.equals("123")) {
+	    	 //设置登录session标示
+	    	 request.getSession().setAttribute(Globals.OnlineUserManageFlag, "true");
 	    	 ret.put("data","true");
 	     }else {
 	    	 ret.put("data","false");

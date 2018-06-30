@@ -1,4 +1,4 @@
-package org.kzcw.controller;
+package org.kzcw.controller.manage;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/control")
+@RequestMapping("/manage/control")
 public class ControlManager {
 	//开锁,关锁队列管理
 	

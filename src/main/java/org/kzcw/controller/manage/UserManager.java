@@ -1,4 +1,4 @@
-package org.kzcw.controller;
+package org.kzcw.controller.manage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/manage/user")
 public class UserManager {
 	//用户管理
 	

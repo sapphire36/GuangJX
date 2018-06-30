@@ -45,7 +45,7 @@ function dologin(){
 			  },
 		success : function(data) {
 			if(data.data=="true"){
-				window.location.href='<%=basePath%>/home/index';
+				window.location.href='<%=basePath%>/manage/home/index';
 			}else{
 				toastr.error("用户名或密码错误!");
 			}

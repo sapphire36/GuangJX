@@ -1,4 +1,4 @@
-package org.kzcw.controller;
+package org.kzcw.controller.manage;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/monitor")
+@RequestMapping("/manage/monitor")
 public class MonitorManager {
        //监控中心
 	

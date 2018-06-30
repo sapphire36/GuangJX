@@ -1,4 +1,4 @@
-package org.kzcw.controller;
+package org.kzcw.controller.manage;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/device")
+@RequestMapping("/manage/device")
 public class DeviceManager {
 	//箱体信息管理
 	@Autowired

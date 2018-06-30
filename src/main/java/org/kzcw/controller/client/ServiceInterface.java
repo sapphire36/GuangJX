@@ -1,4 +1,4 @@
-package org.kzcw.common.netface;
+package org.kzcw.controller.client;
 
 import java.util.Date;
 import java.util.HashMap;

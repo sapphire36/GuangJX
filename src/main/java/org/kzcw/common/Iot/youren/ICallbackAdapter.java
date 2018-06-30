@@ -117,17 +117,25 @@ public class ICallbackAdapter extends UsrCloudMqttCallbackAdapter {
 						}
 					}
 				}).start();
-				/*
-				Map<String,Object> map=checkstatus(newdevice);
+				
 				Status status=new Status();
 				status.setIEME(newdevice.DeviceID);
-				status.setSTATUS((int)map.get("LOCK"));
+				if(newdevice.eleclock) //设置电子锁开
+					status.setLOCKSTATUS(1);
+				else
+					status.setLOCKSTATUS(0);
+				
+				if(newdevice.eleclock) //设置电子锁开
+					status.setDOORSTATUS(1);
+				else
+					status.setDOORSTATUS(0);
+				
 				status.setTEMPERATURE(String.valueOf(newdevice.temperature));
 				status.setVOLTAGE(String.valueOf(newdevice.volt));
 				status.setADDTIME(new Date());
 				
 				systemdata.statuslist.add(status); //将status添加到缓冲队列
-				*/
+				
 				
 				System.out.println("接收到数据" + newdevice.DeviceID);
 				System.out.println(checkstatus(newdevice));
