@@ -8,7 +8,6 @@
 	src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
 <link rel="stylesheet"
 	href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
-
 <rapid:override name="title">
 	<title>地图</title>
 </rapid:override>
