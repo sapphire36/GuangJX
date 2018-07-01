@@ -162,7 +162,7 @@ public class DeviceManager {
 	@RequestMapping(value = "/getview/lockdevicelist", method = RequestMethod.GET)
 	public String lockdevicelist(ModelMap map, HttpServletRequest request) {
 		// 获取锁设备列表
-		map.addAttribute("list", lockservice.list());
+		map.addAttribute("locklist", lockservice.list());
 		return "/device/lockdevicelist";
 	}
 

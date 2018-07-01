@@ -64,17 +64,17 @@ public class HomeManager {
 	public String additem(ModelMap map,HttpServletRequest request){
 		//NAME,int CODE,int ISLEAF,String URL,String IMAGE,int PARRENTCODE
 		List<Module> list=new ArrayList<Module>();
-		list.add(new Module("首页",1,0,"/GuangJX/manage/home/getiew/index","fa-qrcode",0)); 
+		list.add(new Module("首页",1,0,"/GuangJX/manage/home/getview/index","fa-qrcode",0)); 
 		
 		list.add(new Module("监控中心",2,0,"","fa-qrcode",2)); 
 		list.add(new Module("地图",3,1,"/GuangJX/manage/monitor/getview/getmap","",2)); 
 		list.add(new Module("数据",4,1,"/GuangJX/manage/control/getview/getcontrolview","",2)); 
 		
 		list.add(new Module("设备管理",5,0,"","fa-qrcode",5)); 
-		list.add(new Module("光交箱信息管理",6,1,"/GuangJX/manage/monitor/getview/getmap","",5)); 
-		list.add(new Module("设备状态历史记录",7,1,"/GuangJX/manage/monitor/getview/getmap","",5)); 
-		list.add(new Module("NB-IoT锁管理",8,1,"/GuangJX/manage/monitor/getview/lockdevicelist","",5)); 
-		list.add(new Module("故障历史表",9,1,"/GuangJX/manage/monitor/getview/breakhistorylist","",5)); 
+		list.add(new Module("光交箱信息管理",6,1,"/GuangJX/manage/device/getview/getmap","",5)); 
+		list.add(new Module("设备状态历史记录",7,1,"/GuangJX/manage/device/getview/getmap","",5)); 
+		list.add(new Module("NB-IoT锁管理",8,1,"/GuangJX/manage/device/getview/lockdevicelist","",5)); 
+		list.add(new Module("故障历史表",9,1,"/GuangJX/manage/device/getview/breakhistorylist","",5)); 
 		
 		list.add(new Module("施工方管理",10,0,"","fa-qrcode",10)); 
 		list.add(new Module("施工方信息管理",11,1,"/home/manage/getview/index","",10)); 

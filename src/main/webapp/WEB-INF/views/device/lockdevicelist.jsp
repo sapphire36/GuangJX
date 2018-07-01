@@ -152,7 +152,7 @@ function doeditlockdevice(){
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="p" items="${list}">
+						<c:forEach var="p" items="${locklist}">
 							<tr>
 							    <td align="center">${p.ID}</td>
 								<td align="center">${p.NAME}</td>
