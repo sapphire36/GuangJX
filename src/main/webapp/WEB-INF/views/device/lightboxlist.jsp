@@ -174,7 +174,7 @@ function doeditlightbox(){
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="light" items="${list}">
+						<c:forEach var="light" items="${lightlist}">
 							<tr>
 								<td align="center">${light.NAME}</td>
 								<td align="center">${light.IMEI}</td>

@@ -71,24 +71,24 @@ public class HomeManager {
 		list.add(new Module("数据",4,1,"/GuangJX/manage/control/getview/getcontrolview","",2)); 
 		
 		list.add(new Module("设备管理",5,0,"","fa-qrcode",5)); 
-		list.add(new Module("光交箱信息管理",6,1,"/GuangJX/manage/device/getview/getmap","",5)); 
-		list.add(new Module("设备状态历史记录",7,1,"/GuangJX/manage/device/getview/getmap","",5)); 
+		list.add(new Module("光交箱信息管理",6,1,"/GuangJX/manage/device/getview/lightboxlist","",5)); 
+		list.add(new Module("设备状态历史记录",7,1,"/GuangJX/manage/device/getview/statuslist","",5)); 
 		list.add(new Module("NB-IoT锁管理",8,1,"/GuangJX/manage/device/getview/lockdevicelist","",5)); 
 		list.add(new Module("故障历史表",9,1,"/GuangJX/manage/device/getview/breakhistorylist","",5)); 
 		
 		list.add(new Module("施工方管理",10,0,"","fa-qrcode",10)); 
-		list.add(new Module("施工方信息管理",11,1,"/home/manage/getview/index","",10)); 
-		list.add(new Module("施工方角色管理",12,1,"/home/manage/getview/constructorlist","",10)); 
-		list.add(new Module("施工操作历史",13,1,"/home/manage/getview/operahistorylist","",10)); 
+		list.add(new Module("施工方信息管理",11,1,"/GuangJX/manage/constructor/getview/constructorlist","",10)); 
+		list.add(new Module("施工方角色管理",12,1,"#","",10)); 
+		list.add(new Module("施工操作历史",13,1,"/GuangJX/manage/constructor/getview/operahistorylist","",10)); 
 		
-		list.add(new Module("光交箱改造方管理",14,0,"","fa-qrcode",14)); 
-		list.add(new Module("交箱改造方信息管理",15,1,"/home/manage/index","",14)); 
-		list.add(new Module("光交箱改造方角色管理",16,1,"/home/manage/index","",14));
+		list.add(new Module("光交箱改造方管理",14,0,"#","fa-qrcode",14)); 
+		list.add(new Module("交箱改造方信息管理",15,1,"#","",14)); 
+		list.add(new Module("光交箱改造方角色管理",16,1,"#","",14));
 		
 		list.add(new Module("系统设置",17,0,"","fa-qrcode",17)); 
-		list.add(new Module("系统参数设置",18,1,"/home/manage/getview/setting","",17)); 
+		list.add(new Module("系统参数设置",18,1,"#","",17)); 
 		
-		list.add(new Module("修改密码",19,0,"/home/manage/getview/index","fa-qrcode",0)); 
+		list.add(new Module("修改密码",19,0,"#","fa-qrcode",0)); 
 		//mservice.save(t);
 		mservice.deleteAllItem();//清空表
 		for(Module m:list) {

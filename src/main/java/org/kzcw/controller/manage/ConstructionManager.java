@@ -19,7 +19,7 @@ public class ConstructionManager {
 	@RequestMapping(value = "/getview/constructorlist", method = RequestMethod.GET)
 	public String onstructlist(ModelMap map,HttpServletRequest request){
 		//获取施工方列表
-		map.addAttribute("llist",orgservice.list());
+		map.addAttribute("constructorllist",orgservice.list());
 		return "constructor/constructorlist";
 	}
 	

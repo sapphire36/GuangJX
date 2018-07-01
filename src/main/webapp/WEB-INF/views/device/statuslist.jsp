@@ -40,16 +40,16 @@ $(document).ready(function(){
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="sta" items="${list}">
+						<c:forEach var="sta" items="${statuslist}">
 							<tr>
 							    <td align="center">${sta.ID}</td>
 								<td align="center">${sta.IEME}</td>
 								<td align="center">${sta.VOLTAGE}</td>
 								<td align="center">${sta.TEMPERATURE}</td>
-							    <c:if test="${sta.STATUS==1}">
+							    <c:if test="${sta.LOCKSTATUS==1}">
                                 <td align="center">开</td>
                                 </c:if>
-                                <c:if test="${sta.STATUS==0}">
+                                <c:if test="${sta.UNLOCKSTATUS==0}">
                                 <td align="center">关</td>
                                 </c:if>
 								<td align="center">${sta.ADDTIME}</td>								                                                                

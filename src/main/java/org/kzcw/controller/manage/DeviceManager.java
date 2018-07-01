@@ -42,7 +42,7 @@ public class DeviceManager {
 	@RequestMapping(value = "/getview/lightboxlist", method = RequestMethod.GET)
 	public String lightboxlist(ModelMap model, HttpServletRequest request) {
 		// 获取箱体信息列表
-		model.addAttribute("list", lservice.list());
+		model.addAttribute("lightlist", lservice.list());
 		return "/device/lightboxlist";
 	}
 
@@ -153,7 +153,7 @@ public class DeviceManager {
 	@RequestMapping(value = "/getview/statuslist", method = RequestMethod.GET)
 	public String statuslist(ModelMap model, HttpServletRequest request) {
 		// 获取设备状态历史记录列表
-		model.addAttribute("list", staservice.list());
+		model.addAttribute("statuslist", staservice.list());
 		return "/device/statuslist";
 	}
 
@@ -272,7 +272,7 @@ public class DeviceManager {
 	@RequestMapping(value = "/getview/breakhistorylist", method = RequestMethod.GET)
 	public String breakhistorylist(ModelMap model, HttpServletRequest request) {
 		// 获取设备状态历史记录列表
-		model.addAttribute("list", breakservice.list());
+		model.addAttribute("breaklist", breakservice.list());
 		return "/device/breakhistorylist";
 	}
 }

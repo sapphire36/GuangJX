@@ -26,7 +26,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="org" items="${llist}">
+						<c:forEach var="org" items="${constructorllist}">
 							<tr>
 								<td align="center">${org.ONAME}</td>
 								<td align="center">${org.ADDRESS}</td>

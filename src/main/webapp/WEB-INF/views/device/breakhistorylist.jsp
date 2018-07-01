@@ -40,7 +40,7 @@ $(document).ready(function(){
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="bre" items="${list}">
+						<c:forEach var="bre" items="${breaklist}">
 							<tr>
 								<td align="center">${bre.ID}</td>
 								<td align="center">${bre.IEME}</td>
