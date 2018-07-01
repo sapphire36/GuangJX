@@ -5,8 +5,8 @@
 <%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+String path1 = request.getContextPath();
+String basePath1 = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path1;
 %>
 <rapid:override name="title">
 <title>业务控制</title>
@@ -18,7 +18,7 @@ window.onbeforeunload=function(){
 function doRefresh(){
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath%>/control/dorefresh",
+		url : "<%=basePath1%>/control/dorefresh",
 		data :"test",
 		success : function(data) {
 			if(data.data=="true"){
@@ -42,7 +42,7 @@ function gettodolist(){
 	//获取开箱队列
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath%>/control/gettodolist",
+		url : "<%=basePath1%>/control/gettodolist",
 		data :"test",
 		success : function(data) {
 			if(data.IsFlush=="true"){
@@ -62,7 +62,7 @@ function getopenlist(){
 	//获取开箱队列
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath%>/control/getopenlist",
+		url : "<%=basePath1%>/control/getopenlist",
 		data :"test",
 		success : function(data) {
 			if(data.IsFlush=="true"){
@@ -78,7 +78,7 @@ function getcloselist(){
 	//获取关箱队列
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath%>/control/getcloselist",
+		url : "<%=basePath1%>/control/getcloselist",
 		data :"test",
 		success : function(data) {
 			if(data.IsFlush=="true"){
@@ -93,7 +93,7 @@ function getgradelist(){
 	//获取关箱队列
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath%>/control/getgradelist",
+		url : "<%=basePath1%>/control/getgradelist",
 		data :"test",
 		success : function(data) {
 			if(data.IsFlush=="true"){
@@ -109,7 +109,7 @@ function doopen(btn){
 	$("ul").children("li")
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath%>/control/doopenlock",
+		url : "<%=basePath1%>/manage/control/doopenlock",
 		data:{"ID":0}, 
 		success : function(data) {
 			if(data.data=="true"){
@@ -126,7 +126,7 @@ function doopen(btn){
 function doclose(btn){
   $.ajax({
 	type : "POST",
-		url : "<%=basePath%>/control/docloselock",
+		url : "<%=basePath1%>/manage/control/docloselock",
 		data:{"ID":0},
 			success : function(data) {
 			if(data.data=="true"){
@@ -143,7 +143,7 @@ function doclose(btn){
 function dograde(btn){
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath%>/control/dograde",
+		url : "<%=basePath1%>/manage/control/dograde",
 		data:{"ID":0},
 		success : function(data) {
 			if(data.data=="true"){

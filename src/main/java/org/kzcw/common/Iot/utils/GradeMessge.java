@@ -1,4 +1,4 @@
-package org.kzcw.common.tools;
+package org.kzcw.common.Iot.utils;
 
 public class GradeMessge  extends BaseMessage{
 	//评分列表消息

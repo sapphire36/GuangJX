@@ -1,4 +1,4 @@
-package org.kzcw.common.tools;
+package org.kzcw.common.Iot.utils;
 
 public class OpenMessage  extends BaseMessage{
     //开锁列表消息

@@ -1,7 +1,5 @@
 package org.kzcw.service.Imp;
 
-import java.util.List;
-
 import org.kzcw.core.BaseServiceImpl;
 import org.kzcw.dao.OperatehistoryDao;
 import org.kzcw.model.Operatehistory;

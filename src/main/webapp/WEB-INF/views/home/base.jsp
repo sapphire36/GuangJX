@@ -2,10 +2,16 @@
     pageEncoding="UTF-8"%>  
 <%@taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid" %>  
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">  
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+     <!--设置图标 -->
+    <link rel="shortcut icon" href="/GuangJX/img/logo.png" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/GuangJX/css/bootstrap.css" rel="stylesheet" />
     <link href="/GuangJX/css/font-awesome.css" rel="stylesheet" />
@@ -21,10 +27,10 @@
     <rapid:block name="title"> 
        <title>Home</title>
     </rapid:block>  
-    
 </head>
 
 <body>
+    <%  boolean isbegin = true ;%>
     <div id="wrapper">
         <nav class="navbar navbar-default top-navbar" role="navigation">
             <div class="navbar-header">
@@ -102,104 +108,45 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
 	 			 <c:forEach var="item" items="${list}">
-		            <c:if test="${item.ISLEAF == 0 }">
-                       <span>准时签到</span>
+		            <c:if test="${item.ISLEAF == 0}">
+		             <!--如果是不是叶子节点 -->
+						<c:if test="${item.PARRENTCODE == 0}">
+					        <c:set var="flag" value="<%= isbegin %>" scope="page"/>
+					        <c:if test="${flag == false}">
+						         </ul>
+						         </li>
+       				             <% isbegin = true ;%>
+					        </c:if>
+					        <li>
+                              <a href="${item.URL}"><i class="fa ${item.IMAGE}"></i>${item.NAME}</a>
+                            </li>
+						</c:if>
+						<c:if test="${item.PARRENTCODE != 0}">
+					        <c:set var="flag" value="<%= isbegin %>" scope="page"/>
+					        <c:if test="${flag == true}">
+							     <li>
+								 <a href="#"><i class="fa ${item.IMAGE}"></i>${item.NAME}<span class="fa arrow"></span></a>
+								 <ul class="nav nav-second-level">
+					        </c:if>
+					        <c:if test="${flag == false}">
+							      </ul>
+							      </li>
+							      <li>
+								  <a href="#"><i class="fa ${item.IMAGE}"></i>${item.NAME}<span class="fa arrow"></span></a>
+								  <ul class="nav nav-second-level">
+								  <% isbegin = true ;%>
+					        </c:if>
+						</c:if>
+                    </c:if>
+                    <c:if test="${item.ISLEAF == 1}">
+                    <!--如果是叶子节点 -->
+                        <li>
+                            <a href="${item.URL}">${item.NAME}</a>
+                         </li>
+                        <% isbegin = false ;%>
                     </c:if>
 				 </c:forEach>
-				  
-				  
-                    <li>
-                        <a href="/GuangJX/home/index"><i class="fa fa-qrcode"></i> 首页</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-edit"></i>监控中心<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="/GuangJX/monitor/getmap">地图</a>
-                            </li>
-                            <li>
-                                <a href="/GuangJX/control/getcontrolview">数据</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-table"></i>设备管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="/GuangJX/device/lightboxlist">光交箱信息管理</a>
-                            </li>
-                            <li>
-                                <a href="/GuangJX/device/statuslist">设备状态历史记录</a>
-                            </li>
-                            <li>
-                                <a href="/GuangJX/manage/device/lockdevicelist">NB-IoT锁管理</a>
-                            </li>
-                            <li>
-                                <a href="/GuangJX/device/breakhistorylist">故障历史表</a>
-                            </li>
-                        </ul>
-                    </li>
-	 
-                   <li>
-                        <a href="#"><i class="fa fa-sitemap"></i>施工方管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="/GuangJX/constructor/constructorlist">施工方信息管理</a>
-                            </li>
-                            <li>
-                                <a href="/GuangJX/constructor/constructorlist">施工方角色管理</a>
-                            </li>
-                            <li>
-                                <a href="#">施工方押金管理</a>
-                            </li>
-                            <li>
-                                <a href="#">施工方账号管理</a>
-                            </li>
-                            <li>
-                                <a href="/GuangJX/constructor/operahistorylist">施工操作历史</a>
-                            </li>                          
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i>光交箱改造方管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">光交箱改造方信息管理</a>
-                            </li>
-                            <li>
-                                <a href="#">光交箱改造方角色管理</a>
-                            </li>
-                            <li>
-                                <a href="#">光交箱改造方押金管理</a>
-                            </li>
-                            <li>
-                                <a href="#">光交箱改造方账号管理</a>
-                            </li>
-                            <li>
-                                <a href="#">光交箱改造方操作历史</a>
-                            </li> 
-                            <li>
-                                <a href="#">安装信息审核</a>
-                            </li>
-                            <li>
-                                <a href="#">${USER}</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-desktop"></i>系统设置<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">                            
-                            <li>
-                                <a href="/GuangJX/system/setting">系统参数设置</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                     <li>
-                        <a href="#"><i class="fa fa-fw fa-file"></i>修改密码</a>
-                    </li>
-                </ul>
+               </ul>
             </div>
         </nav>
         <div id="page-wrapper">
@@ -212,5 +159,25 @@
              </div>
         </div>
     </div>
+<script type="text/javascript">
+$(document).ready(function(){		
+	getwainning();
+});
+function getwainning(){
+	//获取报警信息
+	$.ajax({
+		type : "POST",
+		url : "<%=basePath%>/manage/home/getwainning",
+		data :"test",
+		success : function(data) {
+			if(data.data=="true"){
+				toastr.error("异常!");
+			}else{
+			}
+		}
+	});
+	setTimeout(getwainning,2000);
+}
+</script>
 </body>
 </html>

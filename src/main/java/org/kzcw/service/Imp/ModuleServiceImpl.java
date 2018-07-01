@@ -20,5 +20,19 @@ public class ModuleServiceImpl extends BaseServiceImpl<Module> implements Module
 	public void setDao(ModuleDao dao) {
 		this.dao = dao;
 	}
-    
+	
+	
+	@Override
+	public boolean deleteAllItem() {
+		//清空数据表
+		String sql="delete from t_module";
+		boolean result=false;
+		try {
+			result=dao.ExecSQL(sql);
+		} catch (Exception e) {
+			// TODO: handle exception
+			result=false;
+		}
+		return result;
+	}
 }

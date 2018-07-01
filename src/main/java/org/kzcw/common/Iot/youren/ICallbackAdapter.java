@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kzcw.common.utils.SystemData;
+import org.kzcw.common.Iot.SystemData;
+import org.kzcw.common.Iot.WaitQueue;
 import org.kzcw.model.Breakhistory;
 import org.kzcw.model.Status;
 

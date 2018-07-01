@@ -1,12 +1,10 @@
-<%@page import="org.springframework.beans.factory.annotation.Autowired"%>
-<%@page import="org.kzcw.service.LightboxService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+String path1 = request.getContextPath();
+String basePath1 = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path1;
 %>
 <rapid:override name="title">
 <title>NB-IoT锁管理</title>
@@ -40,7 +38,7 @@ $(document).ready(function(){
 		var id=$(this).prev().val();
 		$.ajax({
 			type : "POST",
-			url : "<%=basePath%>/device/getlockdevice",
+			url : "<%=basePath1%>/manage/device/getlockdevice",
 			data:{"ID":id
 			},
 			success:function(data) {
@@ -65,7 +63,7 @@ $(document).ready(function(){
 	    if(confirm("确定删除吗")){  
 			$.ajax({
 				type : "POST",
-				url : "<%=basePath%>/device/deletelockdevice",
+				url : "<%=basePath1%>/manage/device/deletelockdevice",
 				data:{"ID":id
 				},
 				success : function(data) {
@@ -90,7 +88,7 @@ function doaddlockdevice(){
 	//参考文档:http://www.w3school.com.cn/jquery/attributes_attr.asp
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath%>/device/addlockdevice",
+		url : "<%=basePath1%>/manage/device/addlockdevice",
 		data:{"NAME":name,
 			  "EMEI":emei},
 		success : function(data) {
@@ -113,7 +111,7 @@ function doeditlockdevice(){
 	//参考文档:http://www.w3school.com.cn/jquery/attributes_attr.asp
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath%>/device/editlockdevice",
+		url : "<%=basePath1%>/manage/device/editlockdevice",
 		data:{"ID":id,
 			  "NAME":name,
 			  "EMEI":emei},

@@ -9,4 +9,5 @@ import org.springframework.stereotype.Service;
 
 public interface ModuleService extends BaseService<Module>{
 
+	public boolean deleteAllItem();//清空数据表
 }

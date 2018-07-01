@@ -1,12 +1,10 @@
-<%@page import="org.springframework.beans.factory.annotation.Autowired"%>
-<%@page import="org.kzcw.service.LightboxService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+String path1 = request.getContextPath();
+String basePath1 = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path1;
 %>
 <rapid:override name="title">
 	<title>系统设置</title>
@@ -22,7 +20,7 @@ $(document).ready(function(){
 	    if(confirm("确定关闭监听吗?")){  
 			$.ajax({
 				type : "POST",
-				url : "<%=basePath%>/system/stop",
+				url : "<%=basePath1%>/manage/system/stop",
 				data:{"ISALL":"tt" //测试,没有意义
 				},
 				success : function(data) {
@@ -44,7 +42,7 @@ $(document).ready(function(){
 	    if(confirm("确定重启吗")){  
 			$.ajax({
 				type : "POST",
-				url : "<%=basePath%>/system/restart",
+				url : "<%=basePath1%>/manage/system/restart",
 				data:{"ISALL":type //测试,没有意义
 				},
 				success : function(data) {

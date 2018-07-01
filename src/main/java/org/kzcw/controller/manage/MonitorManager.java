@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class MonitorManager {
        //监控中心
 	
-	@RequestMapping(value = "/getmap", method = RequestMethod.GET)
+	@RequestMapping(value = "/getview/getmap", method = RequestMethod.GET)
 	public String getmap(ModelMap map,HttpServletRequest request){
 		//返回地图
 		return "/monitor/map";

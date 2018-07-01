@@ -2,8 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid"%>
 <link href="style/demo.css" rel="stylesheet" type="text/css" />
-<script src="scripts/jquery-1.9.1.js" type="text/javascript"></script>
-<script src="scripts/demo.js" type="text/javascript"></script>
 <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=2.0&ak=IDvNBsejl9oqMbPF316iKsXR"></script>
 <script type="text/javascript"

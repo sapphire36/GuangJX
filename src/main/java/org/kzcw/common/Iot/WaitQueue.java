@@ -1,6 +1,9 @@
-package org.kzcw.common.Iot.youren;
+package org.kzcw.common.Iot;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.kzcw.common.Iot.youren.OperaType;
+import org.kzcw.common.Iot.youren.YouRenManger;
 public class WaitQueue {
     //单例模式 确保整个程序内都可以访问
 	public static WaitQueue instance=new WaitQueue();

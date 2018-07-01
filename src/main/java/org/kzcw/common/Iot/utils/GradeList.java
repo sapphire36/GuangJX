@@ -1,4 +1,4 @@
-package org.kzcw.common.tools;
+package org.kzcw.common.Iot.utils;
 
 import java.util.LinkedList;
 import java.util.List;

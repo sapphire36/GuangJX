@@ -16,14 +16,14 @@ public class ConstructionManager {
 	@Autowired
 	OrganizationService orgservice;
 	
-	@RequestMapping(value = "/constructorlist", method = RequestMethod.GET)
+	@RequestMapping(value = "/getview/constructorlist", method = RequestMethod.GET)
 	public String onstructlist(ModelMap map,HttpServletRequest request){
 		//获取施工方列表
 		map.addAttribute("llist",orgservice.list());
 		return "constructor/constructorlist";
 	}
 	
-	@RequestMapping(value = "/operahistorylist", method = RequestMethod.GET)
+	@RequestMapping(value = "/getview/operahistorylist", method = RequestMethod.GET)
 	public String operahistorylist(ModelMap map,HttpServletRequest request){
 		//获取施工方历史列表
 		return "constructor/operahistorylist";

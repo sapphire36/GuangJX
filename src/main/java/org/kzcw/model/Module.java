@@ -16,8 +16,7 @@ public class Module extends General{
 	private int ISLEAF;   //是否是根目录 0根节点   1子节点
 	private String URL;   //子目录对应的链接
 	private String IMAGE; //图标
-	private int PARRENTCODE; //上级菜单code
-	private int ISMENU; //是否菜单
+	private int PARRENTCODE; //上级菜单code 如果是自身CODE,则是菜单,如果是0则不是菜单.
 	
 	public Module(String NAME,int CODE,int ISLEAF,String URL,String IMAGE,int PARRENTCODE) {
 		// TODO Auto-generated constructor stub
@@ -79,13 +78,5 @@ public class Module extends General{
 	}
 	public void setPARRENTCODE(int pARRENTCODE) {
 		PARRENTCODE = pARRENTCODE;
-	}
-
-	@Column(columnDefinition="INT default 0",nullable = true)
-	public int getISMENU() {
-		return ISMENU;
-	}
-	public void setISMENU(int iSMENU) {
-		ISMENU = iSMENU;
 	}
 }

@@ -3,10 +3,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.kzcw.common.Iot.SystemData;
 import org.kzcw.common.Iot.youren.YouRenManger;
-import org.kzcw.common.utils.SystemData;
 import org.kzcw.model.Lockdevice;
 import org.kzcw.service.LockdeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class SystemManager {
 	LockdeviceService lockservice;
 	
 	
-	@RequestMapping(value = "/setting", method = RequestMethod.GET)
+	@RequestMapping(value = "/getview/setting", method = RequestMethod.GET)
 	public String indexview(ModelMap map,HttpServletRequest request){
 		return "/system/setting";
 	}

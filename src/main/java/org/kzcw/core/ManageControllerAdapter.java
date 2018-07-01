@@ -111,7 +111,7 @@ public class ManageControllerAdapter extends HandlerInterceptorAdapter implement
 			if(code.equals(ll[i])) {
 				return true;
 			}
-		}
+		}   
 		return false;
 	}
 	

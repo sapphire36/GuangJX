@@ -5,8 +5,8 @@
 <%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+String path1 = request.getContextPath();
+String basePath1 = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path1;
 %>
 <rapid:override name="title">
 <title>故障历史表</title>
@@ -17,7 +17,8 @@ $(document).ready(function(){
 		//绑定事件  #xx代表以xx为id的控件
 		//参考文档:http://www.w3school.com.cn/jquery/jquery_ref_selectors.asp
 	     location.reload();//刷新界面
-	  })
+	 });
+});
 </script>
 </rapid:override>
 <rapid:override name="content">

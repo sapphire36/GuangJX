@@ -46,6 +46,5 @@ public class LoginController {
 	    	 ret.put("data","false");
 	     }
 	     return ret;
-	     
 	}
 }

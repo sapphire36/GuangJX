@@ -1,4 +1,4 @@
-package org.kzcw.common.tools;
+package org.kzcw.common.Iot.utils;
 
 public class CloseMessage extends BaseMessage{
 	//关闭列表消息

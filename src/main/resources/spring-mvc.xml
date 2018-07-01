@@ -54,7 +54,7 @@
 			<bean class="org.kzcw.core.GlobeControllerAdapter"></bean>
 		</mvc:interceptor>
 		<mvc:interceptor>
-			<mvc:mapping path="/manage/**" />
+			<mvc:mapping path="/manage/**/getview/**" />
 			<bean class="org.kzcw.core.ManageControllerAdapter"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>

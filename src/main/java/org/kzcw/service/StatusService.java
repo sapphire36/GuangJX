@@ -10,4 +10,5 @@ import org.springframework.stereotype.Service;
 @Component("StatusService")
 public interface StatusService extends BaseService<Status>{
 
+	public boolean deleteAllItem();//清空数据表
 }

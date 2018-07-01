@@ -21,7 +21,7 @@ public class UserManager {
 	@Autowired
 	UserService userservice;
 	
-	@RequestMapping(value = "/userlist", method = RequestMethod.GET)
+	@RequestMapping(value = "/getview/userlist", method = RequestMethod.GET)
 	public String indexview(ModelMap map,HttpServletRequest request){
 		//获取用户列表
 		map.addAttribute("llist",userservice.list());

@@ -3,14 +3,15 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
+import org.kzcw.common.Iot.WaitQueue;
+import org.kzcw.common.Iot.utils.CloseLockList;
+import org.kzcw.common.Iot.utils.CloseMessage;
+import org.kzcw.common.Iot.utils.GradeList;
+import org.kzcw.common.Iot.utils.GradeMessge;
+import org.kzcw.common.Iot.utils.OpenLockList;
+import org.kzcw.common.Iot.utils.OpenMessage;
 import org.kzcw.common.Iot.youren.OperaType;
-import org.kzcw.common.Iot.youren.WaitQueue;
-import org.kzcw.common.tools.CloseLockList;
-import org.kzcw.common.tools.CloseMessage;
-import org.kzcw.common.tools.GradeList;
-import org.kzcw.common.tools.GradeMessge;
-import org.kzcw.common.tools.OpenLockList;
-import org.kzcw.common.tools.OpenMessage;
+ 
 import org.kzcw.model.Operatehistory;
 import org.kzcw.service.LightboxService;
 import org.kzcw.service.OperatehistoryService;
@@ -33,7 +34,7 @@ public class ControlManager {
 	@Autowired
 	OperatehistoryService operahistory;
 	
-	@RequestMapping(value = "/getcontrolview", method = RequestMethod.GET)
+	@RequestMapping(value = "/getview/getcontrolview", method = RequestMethod.GET)
     public String getcontrolview(ModelMap model,HttpServletRequest request){
     	//控制界面
 		return "/control/control";
