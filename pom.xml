@@ -115,7 +115,7 @@
 		<dependency>
 			<groupId>com.googlecode.rapid-framework</groupId>
 			<artifactId>rapid-core</artifactId>
-			<version>4.0.5</version>
+			<version>4.0.4</version>
 		</dependency>
 
 	</dependencies>
