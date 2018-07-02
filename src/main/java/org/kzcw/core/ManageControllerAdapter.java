@@ -43,21 +43,7 @@ public class ManageControllerAdapter extends HandlerInterceptorAdapter implement
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		 
-		//获取登录session标示 
-		Object o = request.getSession().getAttribute(Globals.OnlineUserManageFlag);
-		String path = request.getContextPath();
-		if (path==null) {
-			path = "/";
-		} else {
-			path = path + "/login/index";
-		}
-		if (o == null) {
-			// response.sendRedirect(path+"/anyone/login");
-			response.sendRedirect(path);
-			return false;
-		} else {
 			return true;
-		}
 	}
 
 	
