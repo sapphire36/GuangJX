@@ -1,8 +1,11 @@
 package org.kzcw.service.Imp;
 
+import java.util.List;
+
 import org.kzcw.core.BaseServiceImpl;
 import org.kzcw.dao.LockdeviceDao;
 import org.kzcw.model.Lockdevice;
+import org.kzcw.model.Status;
 import org.kzcw.service.LightboxService;
 import org.kzcw.service.LockdeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +27,12 @@ public class LockdeviceServiceImpl extends BaseServiceImpl<Lockdevice> implement
 	@Qualifier("lockdeviceDao")
 	public void setlockdeviceDao(LockdeviceDao dao) {
 		this.dao = dao;
+	}
+
+
+	@Override
+	public List<Status> getStatusByIEME(String ieme) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -53,6 +53,32 @@ $(document).ready(function(){
 			}
 		});
 	  });
+	
+	$("#body button.btn-primary").click(function(){
+		//根据class来选择 获取上报历史
+		//var emeielem= $(this).parent().prev().prev().prev().prev();
+		//获取emei内容 this代表当前点击的控件
+		//详见:https://www.runoob.com/jquery/jquery-traversing-siblings.html
+		//var emeitext=emeielem.text();
+		var id=$(this).prev().val();
+		$.ajax({
+			type : "POST",
+			url : "<%=basePath1%>/manage/device/getlockdevice",
+			data:{"ID":id
+			},
+			success:function(data) {
+                 if(data.data=="true"){
+                	 $("#editdevicename").attr("value",data.NAME);
+                	 $("#editemeiid").attr("value",data.IMEI);
+                	 $("#editid").attr("value",id);
+                 }else{
+                     toastr.error("数据库连接错误!");
+                 }
+           
+			}
+		});
+	  });
+	
 	$("#body button.btn-default").click(function(){
 		//根据class来选择 删除
 		//var emeielem= $(this).parent().prev().prev().prev().prev();
@@ -149,6 +175,7 @@ function doeditlockdevice(){
 							<th align="center">添加时间</th>
 							<th align="center">注册状态</th>
 							<th align="center"></th>
+							<th align="center"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -178,6 +205,10 @@ function doeditlockdevice(){
                                  <c:if test="${p.ISREGIST==0}">
                                  <td align="center"><a>未注册</a></td>
                                  </c:if>
+                                 
+                                 <td align="center">
+                                    <button class="btn btn-primary" data-toggle="modal" data-backdrop="static" data-target="#add">上报历史</button>								
+								 </td>
                                  
                                  <td align="center">
                                     <input type="hidden" name="field＿name" value="${p.ID}"> 
@@ -278,6 +309,66 @@ function doeditlockdevice(){
                                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             </td>
                         </tr>
+                    </table>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="report" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">
+                    上报历史
+                </h4>
+            </div>
+            <div class="modal-body">
+                    <table class="table table-striped">
+                        <tr>
+                            <td align="right">
+                                设备IEME编号：
+                            </td>
+                            <td align="left">
+                                <input id="reportdeviceiemeid" type="text" name=IEME placeholder=""/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                锁状态：
+                            </td>
+                            <td align="left">
+                                <input id="reportlock" type="text" name="LOCKSTATUS" placeholder=""/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                门状态：
+                            </td>
+                            <td align="left">
+                                <input id="reportdoor" type="text" name="DOORSTATUS" placeholder=""/>
+                            </td>
+                        </tr>                                                                                       
+                       <tr>
+                            <td align="right">
+                                机箱温度：
+                            </td>
+                            <td align="left">
+                                <input id="reporttem" type="text" name="TEMPERATURE" placeholder=""/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                电池电压：
+                            </td>
+                            <td align="left">
+                                <input id="reportvol" type="text" name="VOLTAGE" placeholder=""/>
+                            </td>
+                        </tr>  
                     </table>
             </div>
         </div><!-- /.modal-content -->

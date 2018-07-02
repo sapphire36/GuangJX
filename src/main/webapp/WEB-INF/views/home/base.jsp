@@ -176,7 +176,7 @@ function getwainning(){
 			}
 		}
 	});
-	setTimeout(getwainning,2000);
+	//setTimeout(getwainning,2000);
 }
 </script>
 </body>

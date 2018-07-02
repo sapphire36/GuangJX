@@ -276,3 +276,4 @@ public class DeviceManager {
 		return "/device/breakhistorylist";
 	}
 }
+
