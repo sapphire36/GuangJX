@@ -181,7 +181,7 @@ public abstract class BaseDao<T extends Serializable> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<T> findListByProperty(String name,String value) {
+	public List<T> findListByProperty(String name,Object value) {
 		//根据属性查找记录集合
 		List<T> total = null;
 		Session session = null;
@@ -214,5 +214,10 @@ public abstract class BaseDao<T extends Serializable> {
 			session.close();
 		}
 		return result;
+	}
+	
+	public Session OpenSession() {
+		//获取session对象
+		return sessionFactory.openSession();
 	}
 }

@@ -1,4 +1,6 @@
 package org.kzcw.model;
+import java.sql.Blob;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -17,6 +19,7 @@ public class Lightbox extends General{
 	private String IMEI;//锁编号
 	private String NAME;//箱体名称（客户自定义箱体名）
 	private String PEOPLE;//安装人员
+	private Blob PHOTO; //安装时照片
 	
 	@Column(nullable = true,length=50)
 	public String getMADETYPE() {
@@ -65,6 +68,14 @@ public class Lightbox extends General{
 	}
 	public void setIMEI(String iMEI) {
 		IMEI = iMEI;
+	}
+	
+	@Column(nullable = true)
+	public Blob getPHOTO() {
+		return PHOTO;
+	}
+	public void setPHOTO(Blob pHOTO) {
+		PHOTO = pHOTO;
 	}
 }
 

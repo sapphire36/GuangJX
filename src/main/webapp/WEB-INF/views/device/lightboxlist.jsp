@@ -170,6 +170,7 @@ function doeditlightbox(){
 							<th align="center">厂家型号</th>
 							<th align="center">安装位置</th>
 							<th align="center">安装人员</th>
+							<th align="center">安装人员</th>
 							<th align="center"></th>
 						</tr>
 					</thead>

@@ -13,5 +13,7 @@ public interface UserService extends BaseService<User>{
 	public List<User> keeList();
 	
 	public User search(int id);
-
+	
+    public int doLogin(String uname,String passwd,long type);
+	
 }

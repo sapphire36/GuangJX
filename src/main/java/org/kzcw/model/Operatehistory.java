@@ -38,7 +38,7 @@ public class Operatehistory extends General{
 		ORGANIZATIONID = oRGANIZATIONID;
 	}
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	public Blob getBEFOR_MAINTAIN() {
 		return BEFOR_MAINTAIN;
 	}
@@ -46,7 +46,7 @@ public class Operatehistory extends General{
 		BEFOR_MAINTAIN = bEFOR_MAINTAIN;
 	}
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	public Blob getAFTER_MAINTAIN() {
 		return AFTER_MAINTAIN;
 	}
@@ -54,7 +54,7 @@ public class Operatehistory extends General{
 		AFTER_MAINTAIN = aFTER_MAINTAIN;
 	}
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	public Blob getFIN_MAINTAIN() {
 		return FIN_MAINTAIN;
 	}

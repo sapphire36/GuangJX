@@ -36,15 +36,25 @@ public class LoginController {
 		 String name=request.getParameter("NAME"); //获取用户名
 	     String passwd=request.getParameter("PASSWD");
 	     String usertype=request.getParameter("USERTYPE");
-	     if(name.equals("test")&&passwd.equals("123")) {
-	    	 //设置登录session标示
-	    	 request.getSession().setAttribute(Globals.OnlineUserManageFlag,"true");
-	    	 request.getSession().setAttribute(Globals.USERNAME, name);//设置用户名
-	    	 request.getSession().setAttribute(Globals.USERTYPE,usertype);//设置用户类型
-	    	 ret.put("data","true");
-	     }else {
-	    	 ret.put("data","false");
-	     }
-	     return ret;
+	     int flag=userservice.doLogin(name, passwd,Long.parseLong(usertype));
+	     switch (flag) {
+			case 1:{
+		    	 //设置登录session标示
+		    	 request.getSession().setAttribute(Globals.OnlineUserManageFlag,"true");
+		    	 request.getSession().setAttribute(Globals.USERNAME, name);//设置用户名
+		    	 request.getSession().setAttribute(Globals.USERTYPE,usertype);//设置用户类型
+		    	 ret.put("data","1");
+			    }
+				break;
+			case 2:{
+		    	 //设置登录session标示
+		    	 ret.put("data","2");
+			    }
+				break;
+			default:
+				ret.put("data","0");
+				break;
+		}
+	    return ret;
 	}
 }

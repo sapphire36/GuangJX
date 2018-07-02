@@ -46,9 +46,13 @@ function dologin(){
 			  "USERTYPE":type
 			  },
 		success : function(data) {
-			if(data.data=="true"){
+			if(data.data=="1"){
 				window.location.href='<%=basePath%>/manage/home/getview/index';
-			}else{
+			}
+			if(data.data=="2"){
+				toastr.error("该用户被禁用,请联系管理员开通!");
+			}
+			if(data.data=="0"){
 				toastr.error("用户名或密码错误!");
 			}
 		}
