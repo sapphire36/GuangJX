@@ -54,23 +54,21 @@ $(document).ready(function(){
 		});
 	  });
 	
-	$("#body button.btn-primary").click(function(){
+	$("#body button.btn-info").click(function(){
 		//根据class来选择 获取上报历史
 		//var emeielem= $(this).parent().prev().prev().prev().prev();
 		//获取emei内容 this代表当前点击的控件
 		//详见:https://www.runoob.com/jquery/jquery-traversing-siblings.html
 		//var emeitext=emeielem.text();
-		var id=$(this).prev().val();
+		var ieme=$(this).parent().prev().prev().prev().prev().prev().text();
 		$.ajax({
 			type : "POST",
-			url : "<%=basePath1%>/manage/device/getlockdevice",
-			data:{"ID":id
+			url : "<%=basePath1%>/manage/device/getstatuslist",
+			data:{"IEME":ieme
 			},
 			success:function(data) {
                  if(data.data=="true"){
-                	 $("#editdevicename").attr("value",data.NAME);
-                	 $("#editemeiid").attr("value",data.IMEI);
-                	 $("#editid").attr("value",id);
+                	 $("#reportcontent").html(data.content); 
                  }else{
                      toastr.error("数据库连接错误!");
                  }
@@ -207,10 +205,6 @@ function doeditlockdevice(){
                                  </c:if>
                                  
                                  <td align="center">
-                                    <button class="btn btn-primary" data-toggle="modal" data-backdrop="static" data-target="#add">上报历史</button>								
-								 </td>
-                                 
-                                 <td align="center">
                                     <input type="hidden" name="field＿name" value="${p.ID}"> 
 									<button class="btn btn-primary" data-toggle="modal" data-backdrop="static" data-target="#edit">
 										<i class="fa fa-edit "></i> 编辑
@@ -218,6 +212,7 @@ function doeditlockdevice(){
 									<button class="btn btn-default">
 										<i class="fa fa-pencil"></i> 删除
 									</button>
+									<button class="btn btn-info" data-toggle="modal" data-backdrop="static" data-target="#report">上报历史</button>
 								 </td>
 							</tr>
 						</c:forEach>
@@ -316,60 +311,32 @@ function doeditlockdevice(){
 </div>
 
 
-<div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="report" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade text-center" id="report" tabindex="-1" role="dialog" aria-labelledby="report" aria-hidden="true">
+    <div class="modal-dialog" style="display: inline-block; width: auto;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel2">
-                    上报历史
+                                                          上报历史
                 </h4>
             </div>
             <div class="modal-body">
-                    <table class="table table-striped">
-                        <tr>
-                            <td align="right">
-                                设备IEME编号：
-                            </td>
-                            <td align="left">
-                                <input id="reportdeviceiemeid" type="text" name=IEME placeholder=""/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">
-                                锁状态：
-                            </td>
-                            <td align="left">
-                                <input id="reportlock" type="text" name="LOCKSTATUS" placeholder=""/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">
-                                门状态：
-                            </td>
-                            <td align="left">
-                                <input id="reportdoor" type="text" name="DOORSTATUS" placeholder=""/>
-                            </td>
-                        </tr>                                                                                       
-                       <tr>
-                            <td align="right">
-                                机箱温度：
-                            </td>
-                            <td align="left">
-                                <input id="reporttem" type="text" name="TEMPERATURE" placeholder=""/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">
-                                电池电压：
-                            </td>
-                            <td align="left">
-                                <input id="reportvol" type="text" name="VOLTAGE" placeholder=""/>
-                            </td>
-                        </tr>  
-                    </table>
+   				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+						    <th align="center">设备ID</th>
+							<th align="center">设备IEMI编号</th>
+							<th align="center">电池电压</th>
+							<th align="center">机箱温度</th>
+							<th align="center">设备状态</th>
+							<th align="center">时间</th>							
+						</tr>
+					</thead>
+					<tbody id="reportcontent">
+ 
+				</table>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->

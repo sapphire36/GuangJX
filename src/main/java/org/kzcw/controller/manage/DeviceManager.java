@@ -1,9 +1,9 @@
 package org.kzcw.controller.manage;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-
 import org.kzcw.common.Iot.SystemData;
 import org.kzcw.model.Breakhistory;
 import org.kzcw.model.Lightbox;
@@ -241,6 +241,40 @@ public class DeviceManager {
 			Lockdevice ld = lockservice.findUniqueByProperty("ID", Long.parseLong(ID));
 			lockservice.delete(ld);
 			result.put("data", "true"); // 执行成功
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data", "false");
+		}
+		return result;
+	}
+	
+	@RequestMapping(value = "/getstatuslist", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> getstatuslist(ModelMap map, HttpServletRequest request) {
+		// 获取设备数据上报数据
+		
+		Map<String, String> result = new HashMap<String, String>();
+		String IEME=request.getParameter("IEME");
+		try {
+			 List<Status> list=lockservice.getStatusByIEME(IEME);
+		     StringBuffer stringBuffer = new StringBuffer();
+		     for(Status sta:list)
+		     {
+		 		    stringBuffer.append("<tr>");
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getID()+"</td>");
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getIEME()+"</td>");
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getVOLTAGE()+"</td>");
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getTEMPERATURE()+"</td>");
+		 		    if(sta.getUNLOCKSTATUS()==1) {
+		 			    stringBuffer.append("<td align=\"center\">关</td>");
+		 		    }else {
+		 		    	 stringBuffer.append("<td align=\"center\">开</td>");
+		 		    }
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getADDTIME()+"</td>");
+		 		    stringBuffer.append("</tr>");
+		     }
+			 result.put("data", "true"); // 执行成功
+			 result.put("content",stringBuffer.toString()); // 执行成功
 		} catch (Exception e) {
 			// TODO: handle exception
 			result.put("data", "false");
