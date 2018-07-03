@@ -73,7 +73,7 @@ public class HomeManager {
 		
 		list.add(new Module("设备管理",5,0,"","fa-qrcode",5)); 
 		list.add(new Module("光交箱信息管理",6,1,"/GuangJX/manage/device/getview/lightboxlist","",5)); 
-		list.add(new Module("设备状态历史记录",7,1,"/GuangJX/manage/device/getview/statuslist","",5)); 
+		list.add(new Module("光交箱状态管理",7,1,"/GuangJX/manage/device/getview/statuslist","",5)); 
 		list.add(new Module("NB-IoT锁管理",8,1,"/GuangJX/manage/device/getview/lockdevicelist","",5)); 
 		list.add(new Module("故障历史表",9,1,"/GuangJX/manage/device/getview/breakhistorylist","",5)); 
 		

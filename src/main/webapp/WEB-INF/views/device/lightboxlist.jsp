@@ -57,7 +57,7 @@ $(document).ready(function(){
 			}
 		});
 	  });
-	$("#body button.btn-default").click(function(){
+	$("#body button.btn-danger").click(function(){
 		//根据class来选择 删除
 		//var emeielem= $(this).parent().prev().prev().prev().prev();
 		//获取emei内容 this代表当前点击的控件
@@ -148,6 +148,30 @@ function doeditlightbox(){
 		}
 	});
 }
+
+
+$("#body button.btn-info").click(function(){
+	//根据class来选择 获取上报历史
+	//var emeielem= $(this).parent().prev().prev().prev().prev();
+	//获取emei内容 this代表当前点击的控件
+	//详见:https://www.runoob.com/jquery/jquery-traversing-siblings.html
+	//var emeitext=emeielem.text();
+	var ieme=$(this).parent().prev().prev().prev().prev().text();
+	$.ajax({
+		type : "POST",
+		url : "<%=basePath1%>/manage/device/getrephislist",
+		data:{"IEME":ieme
+		},
+		success:function(data) {
+             if(data.data=="true"){
+            	 $("#reporthiscontent").html(data.hiscontent); 
+             }else{
+                 toastr.error("数据库连接错误!");
+             }
+       
+		}
+	});
+  });
  
 </script>
 </rapid:override>
@@ -164,33 +188,34 @@ function doeditlightbox(){
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
+							<th align="center">箱体编号</th>
 							<th align="center">箱体名称</th>
 							<th align="center">IMEI编号</th>							
-							<th align="center">规格</th>
-							<th align="center">厂家型号</th>
-							<th align="center">安装位置</th>
-							<th align="center">安装人员</th>
-							<th align="center">安装人员</th>
-							<th align="center"></th>
+							<th align="center">门状态</th>
+							<th align="center">锁状态</th>
+							<th align="center">在线状态</th>							
+							<th align="center"></th>					
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="light" items="${lightlist}">
 							<tr>
+								<td align="center">${light.ID}</td>
 								<td align="center">${light.NAME}</td>
-								<td align="center">${light.IMEI}</td>
-								<td align="center">${light.SPEC}</td>
-								<td align="center">${light.MADETYPE}</td>
-								<td align="center">${light.LOCATION}</td>
-								<td align="center">${light.PEOPLE}</td>																                                 
+								<td align="center">${light.IEME}</td>
+								<td align="center">${light.DOORSTATUS}</td>
+								<td align="center">${light.LOCKSTATUS}</td>
+								<td align="center">${light.ISONLINE}</td>																                                 
                                  <td align="center">
                                     <input type="hidden" name="field＿name" value="${light.ID}"> 
 									<button class="btn btn-primary" data-toggle="modal" data-backdrop="static" data-target="#edit">
 										<i class="fa fa-edit "></i> 编辑
 									</button>
-									<button class="btn btn-default">
+									<button class="btn btn-danger">
 										<i class="fa fa-pencil"></i> 删除
 									</button>
+									<button class="btn btn-info" data-toggle="modal" data-backdrop="static" data-target="#reporthis">上报历史</button>
+									<button class="btn btn-default" data-toggle="modal" data-backdrop="static" data-target="#report">详情</button>
 								 </td>
 							</tr>
 						</c:forEach>
@@ -347,6 +372,38 @@ function doeditlightbox(){
                             </td>
                         </tr>
                     </table>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade text-center" id="reporthis" tabindex="-1" role="dialog" aria-labelledby="reporthis" aria-hidden="true">
+    <div class="modal-dialog" style="display: inline-block; width: auto;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">
+                                                          上报历史
+                </h4>
+            </div>
+            <div class="modal-body">
+   				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+						    <th align="center">设备ID编号</th>
+							<th align="center">设备IEMI编号</th>
+							<th align="center">电池电压</th>
+							<th align="center">机箱温度</th>
+							<th align="center">门状态</th>
+							<th align="center">锁状态</th>
+							<th align="center">上报时间</th>							
+						</tr>
+					</thead>
+					<tbody id="reporthiscontent">
+ 
+				</table>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->

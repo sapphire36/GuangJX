@@ -12,7 +12,7 @@ public class Lockdevice extends General{
 	private static final long serialVersionUID = -1666940818328212382L;
 	
 	private String NAME;//设备名称
-	private String IMEI;//设备IMEI编号
+	private String IEME;//设备IMEI编号
 	private String PSK;//PSK码
 	private String SPEC;//规格
 	private int ISONLINE;//1 表示在线   0表示下线
@@ -40,13 +40,14 @@ public class Lockdevice extends General{
 	}
 
 	@Column(nullable = false,length=50)
-	public String getIMEI() {
-		return IMEI;
+	public String getIEME() {
+		return IEME;
 	}
-	public void setIMEI(String iMEI) {
-		IMEI = iMEI;
+
+	public void setIEME(String iEME) {
+		IEME = iEME;
 	}
-	
+
 	@Column(nullable = true,length=50)
 	public String getPSK() {
 		return PSK;

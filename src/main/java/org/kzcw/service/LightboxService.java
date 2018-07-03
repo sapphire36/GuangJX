@@ -1,6 +1,9 @@
 package org.kzcw.service;
+import java.util.List;
+
 import org.kzcw.core.BaseService;
 import org.kzcw.model.Lightbox;
+import org.kzcw.model.Status;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 public interface LightboxService extends BaseService<Lightbox>{
 	 
-	
 	
 	 
 }

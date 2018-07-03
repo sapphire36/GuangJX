@@ -7,7 +7,7 @@ String path1 = request.getContextPath();
 String basePath1 = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path1;
 %>
 <rapid:override name="title">
-<title>设备状态历史纪录</title>
+<title>光交箱状态管理</title>
 <script type="text/javascript">
 //script内容需要放在rapid override标签之间
 $(document).ready(function(){		
@@ -17,6 +17,29 @@ $(document).ready(function(){
 	     location.reload();//刷新界面
 	  })
 });
+
+$("#body button.btn-info").click(function(){
+	//根据class来选择 获取上报历史
+	//var emeielem= $(this).parent().prev().prev().prev().prev();
+	//获取emei内容 this代表当前点击的控件
+	//详见:https://www.runoob.com/jquery/jquery-traversing-siblings.html
+	//var emeitext=emeielem.text();
+	var ieme=$(this).parent().prev().prev().prev().prev().prev().prev().prev().text();
+	$.ajax({
+		type : "POST",
+		url : "<%=basePath1%>/manage/device/getstatuslist",
+		data:{"IEME":ieme
+		},
+		success:function(data) {
+             if(data.data=="true"){
+            	 $("#reportcontent").html(data.content); 
+             }else{
+                 toastr.error("数据库连接错误!");
+             }
+       
+		}
+	});
+  });
 </script>
 </rapid:override>
 <rapid:override name="content">
@@ -35,8 +58,10 @@ $(document).ready(function(){
 							<th align="center">设备IEMI编号</th>
 							<th align="center">电池电压</th>
 							<th align="center">机箱温度</th>
-							<th align="center">设备状态</th>
-							<th align="center">时间</th>							
+							<th align="center">门状态</th>
+							<th align="center">锁状态</th>
+							<th align="center">上报时间</th>	
+							<th align="center"></th>												 						
 						</tr>
 					</thead>
 					<tbody>
@@ -46,13 +71,23 @@ $(document).ready(function(){
 								<td align="center">${sta.IEME}</td>
 								<td align="center">${sta.VOLTAGE}</td>
 								<td align="center">${sta.TEMPERATURE}</td>
-							    <c:if test="${sta.LOCKSTATUS==1}">
+								<c:if test="${sta.DOORSTATUS==1}">
+                                <td align="center">开</td>
+                                </c:if>
+                                <c:if test="${sta.DOORSTATUS==0}">
+                                <td align="center">关</td>
+                                </c:if>
+							    <c:if test="${sta.UNLOCKSTATUS==1}">
                                 <td align="center">开</td>
                                 </c:if>
                                 <c:if test="${sta.UNLOCKSTATUS==0}">
                                 <td align="center">关</td>
                                 </c:if>
-								<td align="center">${sta.ADDTIME}</td>								                                                                
+								<td align="center">${sta.ADDTIME}</td>	
+								
+								<td align="center">                               
+								<button class="btn btn-info" data-toggle="modal" data-backdrop="static" data-target="#reportsta">上报历史</button>
+								</td>							                                                                
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -60,6 +95,38 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade text-center" id="reportsta" tabindex="-1" role="dialog" aria-labelledby="report" aria-hidden="true">
+    <div class="modal-dialog" style="display: inline-block; width: auto;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">
+                                                          上报历史
+                </h4>
+            </div>
+            <div class="modal-body">
+   				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+						    <th align="center">设备ID编号</th>
+							<th align="center">设备IEMI编号</th>
+							<th align="center">电池电压</th>
+							<th align="center">机箱温度</th>
+							<th align="center">门状态</th>
+							<th align="center">锁状态</th>
+							<th align="center">上报时间</th>							
+						</tr>
+					</thead>
+					<tbody id="reportcontent">
+ 
+				</table>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 </rapid:override>
 
 <%@ include file="../home/base.jsp"%>

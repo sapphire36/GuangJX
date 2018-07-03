@@ -42,7 +42,7 @@ public class SystemManager {
         if(list!=null) {
         	data.locklist.clear();
         	for(Lockdevice d:list) {
-        		data.locklist.add(d.getIMEI());	
+        		data.locklist.add(d.getIEME());	
         	}
         }
         

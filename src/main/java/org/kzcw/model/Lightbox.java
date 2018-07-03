@@ -16,7 +16,7 @@ public class Lightbox extends General{
 	private String SPEC;//规格
 	private String MADETYPE;//厂家型号
 	private String LOCATION; //安装位置 格式如:75.15,562.2
-	private String IMEI;//锁编号
+	private String IEME;//锁编号
 	private String NAME;//箱体名称（客户自定义箱体名）
 	private String PEOPLE;//安装人员
 	private Blob PHOTO; //安装时照片
@@ -63,13 +63,12 @@ public class Lightbox extends General{
 	}
 	
 	@Column(nullable = false,length=50)
-	public String getIMEI() {
-		return IMEI;
+	public String getIEME() {
+		return IEME;
 	}
-	public void setIMEI(String iMEI) {
-		IMEI = iMEI;
+	public void setIEME(String iEME) {
+		IEME = iEME;
 	}
-	
 	@Column(nullable = true)
 	public Blob getPHOTO() {
 		return PHOTO;

@@ -114,7 +114,7 @@ function doaddlockdevice(){
 		type : "POST",
 		url : "<%=basePath1%>/manage/device/addlockdevice",
 		data:{"NAME":name,
-			  "EMEI":emei},
+			  "IEME":emei},
 		success : function(data) {
 			if(data.data=="true"){
 				toastr.success("设备添加成功!");
@@ -138,7 +138,7 @@ function doeditlockdevice(){
 		url : "<%=basePath1%>/manage/device/editlockdevice",
 		data:{"ID":id,
 			  "NAME":name,
-			  "EMEI":emei},
+			  "IEME":emei},
 		success : function(data) {
 			if(data.data=="true"){
 				toastr.success("设备修改成功!");
@@ -167,12 +167,11 @@ function doeditlockdevice(){
 						<tr>
 						    <th align="center">设备ID</th>
 							<th align="center">设备名称</th>
-							<th align="center">IMEI编号</th>
+							<th align="center">IEME编号</th>
 							<th align="center">是否在线</th>
 							<th align="center">设备状态</th>
 							<th align="center">添加时间</th>
 							<th align="center">注册状态</th>
-							<th align="center"></th>
 							<th align="center"></th>
 						</tr>
 					</thead>
@@ -181,7 +180,7 @@ function doeditlockdevice(){
 							<tr>
 							    <td align="center">${p.ID}</td>
 								<td align="center">${p.NAME}</td>
-								<td align="center">${p.IMEI}</td>
+								<td align="center">${p.IEME}</td>
 								
 								 <c:if test="${p.ISONLINE==1}">
                                  <td align="center">在线</td>
@@ -246,7 +245,7 @@ function doeditlockdevice(){
                         </tr>
                         <tr>
                             <td align="right">
-                                IMEI编号：
+                                IEME编号：
                             </td>
                             <td align="left">
                                 <input id="emeiid" type="text" name="EMEI" placeholder=""/>
@@ -289,7 +288,7 @@ function doeditlockdevice(){
                         </tr>
                         <tr>
                             <td align="right">
-                                IMEI编号：
+                                IEME编号：
                             </td>
                             <td align="left">
                                 <input id="editemeiid" type="text" name="EMEI" placeholder=""/>
@@ -326,12 +325,13 @@ function doeditlockdevice(){
    				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
-						    <th align="center">设备ID</th>
-							<th align="center">设备IEMI编号</th>
+						    <th align="center">设备ID编号</th>
+							<th align="center">设备IEME编号</th>
 							<th align="center">电池电压</th>
 							<th align="center">机箱温度</th>
-							<th align="center">设备状态</th>
-							<th align="center">时间</th>							
+							<th align="center">门状态</th>
+							<th align="center">锁状态</th>
+							<th align="center">上报时间</th>							
 						</tr>
 					</thead>
 					<tbody id="reportcontent">

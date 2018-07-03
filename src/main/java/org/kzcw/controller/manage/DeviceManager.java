@@ -1,5 +1,7 @@
 package org.kzcw.controller.manage;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +45,37 @@ public class DeviceManager {
 	@RequestMapping(value = "/getview/lightboxlist", method = RequestMethod.GET)
 	public String lightboxlist(ModelMap model, HttpServletRequest request) {
 		// 获取箱体信息列表
-		model.addAttribute("lightlist", lservice.list());
+		List<Map> result=new ArrayList<Map>(); 
+		List<Lightbox> lightboxslist=lservice.list();
+		for(Lightbox box:lightboxslist) {
+			Map<String,Object> map=new HashMap<String,Object>();
+			map.put("ID",box.getID());
+			map.put("NAME",box.getNAME());
+			map.put("IEME",box.getIEME());
+			//找到最近的一条上报记录
+			Status status=staservice.getRecentRecord(box.getIEME());
+			if(status!=null) {
+				
+				if(status.getDOORSTATUS()==1) {
+					map.put("DOORSTATUS","开");
+				}else {
+					map.put("DOORSTATUS","关");
+				}
+				
+				if(status.getLOCKSTATUS()==1) {
+					map.put("LOCKSTATUS","开");
+				}else {
+					map.put("LOCKSTATUS","关");
+				}
+			}else {
+				map.put("DOORSTATUS","未找到上报数据");
+				map.put("LOCKSTATUS","未找到上报数据");
+			}
+			map.put("ISONLINE","在线");
+			result.add(map);//添加到结果集中
+		}
+		
+		model.addAttribute("lightlist",result);
 		return "/device/lightboxlist";
 	}
 
@@ -61,7 +93,7 @@ public class DeviceManager {
 		try {
 			Lightbox ld = new Lightbox();
 			ld.setNAME(name);
-			ld.setIMEI(lid);
+			ld.setIEME(lid);
 			ld.setSPEC(spe);
 			ld.setMADETYPE(type);
 			ld.setLOCATION(loca);
@@ -85,7 +117,7 @@ public class DeviceManager {
 			Lightbox ld = lservice.findUniqueByProperty("ID", Long.parseLong(ID));
 			if (ld != null) {
 				result.put("NAME", ld.getNAME());
-				result.put("LOCKID", ld.getIMEI());
+				result.put("LOCKID", ld.getIEME());
 				result.put("SPEC", ld.getSPEC());
 				result.put("MADETYPE", ld.getMADETYPE());
 				result.put("LOCATION", ld.getLOCATION());
@@ -118,7 +150,7 @@ public class DeviceManager {
 		try {
 			Lightbox ld = lservice.findUniqueByProperty("ID", Long.parseLong(ID));
 			ld.setNAME(name);
-			ld.setIMEI(lid);
+			ld.setIEME(lid);
 			ld.setSPEC(spe);
 			ld.setMADETYPE(type);
 			ld.setLOCATION(loca);
@@ -148,14 +180,92 @@ public class DeviceManager {
 		}
 		return result;
 	}
+	
+	@RequestMapping(value = "/getrephislist", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> getrephislist(ModelMap map, HttpServletRequest request) {
+		// 获取设备数据上报数据
+		
+		Map<String, String> result = new HashMap<String, String>();
+		String IEME=request.getParameter("IEME");
+		try {
+			 List<Status> list=lockservice.getStatusByIEME(IEME);
+		     StringBuffer stringBuffer = new StringBuffer();
+		     for(Status sta:list)
+		     {
+		 		    stringBuffer.append("<tr>");
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getID()+"</td>");
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getIEME()+"</td>");
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getVOLTAGE()+"</td>");
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getTEMPERATURE()+"</td>");
+		 		   if(sta.getDOORSTATUS()==1) {
+		 			    stringBuffer.append("<td align=\"center\">开</td>");
+		 		    }else {
+		 		    	 stringBuffer.append("<td align=\"center\">关</td>");
+		 		    }
+		 		    if(sta.getUNLOCKSTATUS()==1) {
+		 			    stringBuffer.append("<td align=\"center\">关</td>");
+		 		    }else {
+		 		    	 stringBuffer.append("<td align=\"center\">开</td>");
+		 		    }
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getADDTIME()+"</td>");
+		 		    stringBuffer.append("</tr>");
+		     }
+			 result.put("data", "true"); // 执行成功
+			 result.put("hiscontent",stringBuffer.toString()); // 执行成功
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data", "false");
+		}
+		return result;
+	}
 
-	// ************************************设备状态历史记录**************************
-	// ************************************设备状态历史记录**************************
+	// ************************************光交箱状态管理**************************
+	// ************************************光交箱状态管理**************************
 	@RequestMapping(value = "/getview/statuslist", method = RequestMethod.GET)
 	public String statuslist(ModelMap model, HttpServletRequest request) {
 		// 获取设备状态历史记录列表
 		model.addAttribute("statuslist", staservice.list());
 		return "/device/statuslist";
+	}
+	
+	@RequestMapping(value = "/getrepstatuslist", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> getrepstatuslist(ModelMap map, HttpServletRequest request) {
+		// 获取设备数据上报数据
+		
+		Map<String, String> result = new HashMap<String, String>();
+		String IEME=request.getParameter("IEME");
+		try {
+			 List<Status> list=lockservice.getStatusByIEME(IEME);
+		     StringBuffer stringBuffer = new StringBuffer();
+		     for(Status sta:list)
+		     {
+		 		    stringBuffer.append("<tr>");
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getID()+"</td>");
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getIEME()+"</td>");
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getVOLTAGE()+"</td>");
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getTEMPERATURE()+"</td>");
+		 		   if(sta.getDOORSTATUS()==1) {
+		 			    stringBuffer.append("<td align=\"center\">开</td>");
+		 		    }else {
+		 		    	 stringBuffer.append("<td align=\"center\">关</td>");
+		 		    }
+		 		    if(sta.getUNLOCKSTATUS()==1) {
+		 			    stringBuffer.append("<td align=\"center\">关</td>");
+		 		    }else {
+		 		    	 stringBuffer.append("<td align=\"center\">开</td>");
+		 		    }
+		 		    stringBuffer.append("<td align=\"center\">"+sta.getADDTIME()+"</td>");
+		 		    stringBuffer.append("</tr>");
+		     }
+			 result.put("data", "true"); // 执行成功
+			 result.put("content",stringBuffer.toString()); // 执行成功
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data", "false");
+		}
+		return result;
 	}
 
 	// **********************************设备锁管理*******************************
@@ -173,10 +283,10 @@ public class DeviceManager {
 		// 添加NB-IoT设备
 		Map<String, String> result = new HashMap<String, String>();
 		String name = request.getParameter("NAME"); // 获取参数NAME
-		String emei = request.getParameter("EMEI"); // 获取参数EMEI
+		String emei = request.getParameter("IEME"); // 获取参数IEME
 		try {
 			Lockdevice ld = new Lockdevice();
-			ld.setIMEI(emei);
+			ld.setIEME(emei);
 			ld.setNAME(name);
 			lockservice.save(ld);
 			result.put("data", "true"); // 执行成功
@@ -197,7 +307,7 @@ public class DeviceManager {
 			Lockdevice ld = lockservice.findUniqueByProperty("ID", Long.parseLong(ID));
 			if (ld != null) {
 				result.put("NAME", ld.getNAME());
-				result.put("IMEI", ld.getIMEI());
+				result.put("IEME", ld.getIEME());
 				result.put("data", "true");
 				System.out.println("yes");
 			} else {
@@ -217,11 +327,11 @@ public class DeviceManager {
 		// 编辑NB-IoT设备
 		Map<String, String> result = new HashMap<String, String>();
 		String name = request.getParameter("NAME"); // 获取参数NAME
-		String emei = request.getParameter("EMEI"); // 获取参数EMEI
+		String emei = request.getParameter("IEME"); // 获取参数EMEI
 		String ID = request.getParameter("ID"); // 获取参数ID
 		try {
 			Lockdevice ld = lockservice.findUniqueByProperty("ID", Long.parseLong(ID));
-			ld.setIMEI(emei);
+			ld.setIEME(emei);
 			ld.setNAME(name);
 			lockservice.update(ld);
 			result.put("data", "true"); // 执行成功
@@ -266,6 +376,11 @@ public class DeviceManager {
 		 		    stringBuffer.append("<td align=\"center\">"+sta.getIEME()+"</td>");
 		 		    stringBuffer.append("<td align=\"center\">"+sta.getVOLTAGE()+"</td>");
 		 		    stringBuffer.append("<td align=\"center\">"+sta.getTEMPERATURE()+"</td>");
+		 		   if(sta.getDOORSTATUS()==1) {
+		 			    stringBuffer.append("<td align=\"center\">开</td>");
+		 		    }else {
+		 		    	 stringBuffer.append("<td align=\"center\">关</td>");
+		 		    }
 		 		    if(sta.getUNLOCKSTATUS()==1) {
 		 			    stringBuffer.append("<td align=\"center\">关</td>");
 		 		    }else {
