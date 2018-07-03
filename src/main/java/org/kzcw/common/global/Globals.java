@@ -1,4 +1,4 @@
-package org.kzcw.core;
+package org.kzcw.common.global;
 public class Globals{
 	
 	//在线管理员引用名

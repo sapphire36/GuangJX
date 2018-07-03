@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
-import org.kzcw.common.Iot.utils.CloseLockList;
 import org.kzcw.common.Iot.utils.CloseMessage;
-import org.kzcw.common.Iot.utils.OpenLockList;
 import org.kzcw.common.Iot.utils.OpenMessage;
+import org.kzcw.common.global.CloseLockList;
+import org.kzcw.common.global.OpenLockList;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;

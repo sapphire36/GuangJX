@@ -7,7 +7,7 @@ import org.kzcw.core.General;
 
 @Entity
 @Table(name="t_status")
-public class Status  extends General{
+public class Status extends General{
 	
 	private static final long serialVersionUID = -4654940818328212372L;
 	private String IEME;//IEME

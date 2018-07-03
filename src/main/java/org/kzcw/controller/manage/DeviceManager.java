@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
-import org.kzcw.common.Iot.SystemData;
+import org.kzcw.common.global.SystemData;
 import org.kzcw.model.Breakhistory;
 import org.kzcw.model.Lightbox;
 import org.kzcw.model.Lockdevice;

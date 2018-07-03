@@ -1,25 +1,28 @@
-package org.kzcw.common.Iot.utils;
+package org.kzcw.common.global;
 import java.util.LinkedList;
 import java.util.List;
 
-public class OpenLockList {
+import org.kzcw.common.Iot.utils.CloseMessage;
+
+public class CloseLockList {
 	// 关箱队列 单例模式,保证在全局可以访问
-	public List<OpenMessage> list = new LinkedList<OpenMessage>();
-	private static OpenLockList instance = new OpenLockList();
+
+	public List<CloseMessage> list = new LinkedList<CloseMessage>();
+	private static CloseLockList instance = new CloseLockList();
 	public boolean IsFlush=false;
 
-	public static OpenLockList getInstance() {
+	public static CloseLockList getInstance() {
 		return instance;
 	}
 
-	public void AddItem(OpenMessage message) {
-		// 入队,有人申请开锁时添加该队列
+	public void AddItem(CloseMessage message) {
+		// 入队,有人申请关闭锁时添加该队列
 		IsFlush=true; //执行更新
 		list.add(message);
 	}
 
-	public OpenMessage DelItem(int index) {
-		// 出队,管理人员打开锁时,将出队队头元素
+	public CloseMessage DelItem(int index) {
+		// 出队,管理人员打开锁时
 		if(list.size()<=0) {
 			return null;
 		}
@@ -31,7 +34,8 @@ public class OpenLockList {
 		}
 	}
 	
-	public OpenMessage DelItemByEMEI(String emei) {
+	public CloseMessage DelItemByEMEI(String emei) {
+		// 出队,管理人员打开锁时
 	    for(int i=0;i<list.size();i++) {
 	    	if(list.get(i).EMEI.equals(emei)) {
 	    		IsFlush=true; //执行刷新
@@ -41,7 +45,7 @@ public class OpenLockList {
 	    return null;
 	}
 	
-	public OpenMessage getByIndex(int index) {
+	public CloseMessage getByIndex(int index) {
 		if(list.size()<=0) {
 			return null;
 		}

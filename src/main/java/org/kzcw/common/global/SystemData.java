@@ -1,4 +1,4 @@
-package org.kzcw.common.Iot;
+package org.kzcw.common.global;
 
 import java.util.ArrayList;
 import java.util.List;

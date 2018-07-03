@@ -1,6 +1,7 @@
-package org.kzcw.common.Iot.youren;
+package org.kzcw.common.global;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.kzcw.common.Iot.SystemData;
+import org.kzcw.common.Iot.youren.ClientAdapter;
+import org.kzcw.common.Iot.youren.ICallbackAdapter;
 
 //Component作用详见https://blog.csdn.net/m0_37626813/article/details/78558010
 public class YouRenManger {

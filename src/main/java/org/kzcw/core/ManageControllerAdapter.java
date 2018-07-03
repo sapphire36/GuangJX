@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kzcw.common.global.Globals;
 import org.kzcw.model.Module;
 import org.kzcw.model.Role;
 import org.kzcw.service.ModuleService;

@@ -1,7 +1,9 @@
-package org.kzcw.common.Iot.utils;
+package org.kzcw.common.global;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import org.kzcw.common.Iot.utils.GradeMessge;
 
 public class GradeList {
 
