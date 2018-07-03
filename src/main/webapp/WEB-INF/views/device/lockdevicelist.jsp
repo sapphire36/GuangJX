@@ -53,6 +53,30 @@ $(document).ready(function(){
 			}
 		});
 	  });
+	
+	$("#body button.btn-info").click(function(){
+		//根据class来选择 获取上报历史
+		//var emeielem= $(this).parent().prev().prev().prev().prev();
+		//获取emei内容 this代表当前点击的控件
+		//详见:https://www.runoob.com/jquery/jquery-traversing-siblings.html
+		//var emeitext=emeielem.text();
+		var ieme=$(this).parent().prev().prev().prev().prev().prev().text();
+		$.ajax({
+			type : "POST",
+			url : "<%=basePath1%>/manage/device/getstatuslist",
+			data:{"IEME":ieme
+			},
+			success:function(data) {
+                 if(data.data=="true"){
+                	 $("#reportcontent").html(data.content); 
+                 }else{
+                     toastr.error("数据库连接错误!");
+                 }
+           
+			}
+		});
+	  });
+	
 	$("#body button.btn-default").click(function(){
 		//根据class来选择 删除
 		//var emeielem= $(this).parent().prev().prev().prev().prev();
@@ -149,6 +173,7 @@ function doeditlockdevice(){
 							<th align="center">添加时间</th>
 							<th align="center">注册状态</th>
 							<th align="center"></th>
+							<th align="center"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -187,6 +212,7 @@ function doeditlockdevice(){
 									<button class="btn btn-default">
 										<i class="fa fa-pencil"></i> 删除
 									</button>
+									<button class="btn btn-info" data-toggle="modal" data-backdrop="static" data-target="#report">上报历史</button>
 								 </td>
 							</tr>
 						</c:forEach>
@@ -279,6 +305,38 @@ function doeditlockdevice(){
                             </td>
                         </tr>
                     </table>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<div class="modal fade text-center" id="report" tabindex="-1" role="dialog" aria-labelledby="report" aria-hidden="true">
+    <div class="modal-dialog" style="display: inline-block; width: auto;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">
+                                                          上报历史
+                </h4>
+            </div>
+            <div class="modal-body">
+   				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+						    <th align="center">设备ID</th>
+							<th align="center">设备IEMI编号</th>
+							<th align="center">电池电压</th>
+							<th align="center">机箱温度</th>
+							<th align="center">设备状态</th>
+							<th align="center">时间</th>							
+						</tr>
+					</thead>
+					<tbody id="reportcontent">
+ 
+				</table>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
