@@ -52,13 +52,13 @@ public class DeviceManager {
 			Status status=staservice.getRecentRecord(box.getIEME());
 			if(status!=null) {
 				
-				if(status.getDOORSTATUS()==1) {
+				if(status.getDOORSTATUS()==0) {
 					map.put("DOORSTATUS","开");
 				}else {
 					map.put("DOORSTATUS","关");
 				}
 				
-				if(status.getLOCKSTATUS()==1) {
+				if(status.getLOCKSTATUS()==0) {
 					map.put("LOCKSTATUS","开");
 				}else {
 					map.put("LOCKSTATUS","关");
@@ -188,21 +188,21 @@ public class DeviceManager {
 			 List<Status> list=lockservice.getStatusByIEME(IEME);
 		     StringBuffer stringBuffer = new StringBuffer();
 		     for(Status status:list)
-		     {
+		     { 
 		 		    stringBuffer.append("<tr>");
 		 		    stringBuffer.append("<td align=\"center\">"+status.getID()+"</td>");
 		 		    stringBuffer.append("<td align=\"center\">"+status.getIEME()+"</td>");
 		 		    stringBuffer.append("<td align=\"center\">"+status.getVOLTAGE()+"</td>");
 		 		    stringBuffer.append("<td align=\"center\">"+status.getTEMPERATURE()+"</td>");
-		 		   if(status.getDOORSTATUS()==1) {
+		 		   if(status.getDOORSTATUS()==0) {
 		 			    stringBuffer.append("<td align=\"center\">开</td>");
 		 		    }else {
 		 		    	 stringBuffer.append("<td align=\"center\">关</td>");
 		 		    }
-		 		    if(status.getUNLOCKSTATUS()==1) {
-		 			    stringBuffer.append("<td align=\"center\">关</td>");
+		 		    if(status.getLOCKSTATUS()==0) {
+		 			    stringBuffer.append("<td align=\"center\">开</td>");
 		 		    }else {
-		 		    	 stringBuffer.append("<td align=\"center\">开</td>");
+		 		    	 stringBuffer.append("<td align=\"center\">关</td>");
 		 		    }
 		 		    stringBuffer.append("<td align=\"center\">"+status.getADDTIME()+"</td>");
 		 		    stringBuffer.append("</tr>");

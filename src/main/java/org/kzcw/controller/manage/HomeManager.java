@@ -40,6 +40,7 @@ public class HomeManager {
     public Map<String,String> getwainning(ModelMap map,HttpServletRequest request){
 		//获取报警数据
         Map<String,String> result=new HashMap<String,String>();
+        int len=10;
 
         try {
             BreakHistoryManager breakhistorymanager=BreakHistoryManager.getInstance();
@@ -47,7 +48,11 @@ public class HomeManager {
             	//获取当前报警
             	result.put("IsFlush","true"); //执行成功
               	result.put("content",breakhistorymanager.getCurrentBreakMessage()); //执行成功
-              	breakhistorymanager.IsFlush=false;
+              	//breakhistorymanager.IsFlush=false;
+              	len--;
+              	if(len<0) {
+              		breakhistorymanager.IsFlush=false;
+              	}
             }else {
             	result.put("IsFlush","false"); //执行成功
             }

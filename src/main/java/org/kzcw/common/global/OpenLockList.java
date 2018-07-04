@@ -5,7 +5,7 @@ import java.util.List;
 import org.kzcw.common.Iot.utils.OpenMessage;
 
 public class OpenLockList {
-	// 关箱队列 单例模式,保证在全局可以访问
+	// 开箱队列 单例模式,保证在全局可以访问
 	public List<OpenMessage> list = new LinkedList<OpenMessage>();
 	private static OpenLockList instance = new OpenLockList();
 	public boolean IsFlush=false;

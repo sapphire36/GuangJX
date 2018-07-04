@@ -6,7 +6,7 @@ import java.util.List;
 import org.kzcw.common.Iot.utils.GradeMessge;
 
 public class GradeList {
-
+    //评价列表
 	public List<GradeMessge> list = new LinkedList<GradeMessge>();
 	private static GradeList instance = new GradeList();
 	public boolean IsFlush=false;

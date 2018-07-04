@@ -29,15 +29,17 @@ public class ParsingReceiveQueue {
 	public void StartParsing() {
 		Iswork=true;
 		while(Iswork) {
-			if(!queue.isEmpty()) {
-				 //执行处理
-				 executorService.execute(new HandleResult(queue.poll())); 
-			}
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			synchronized (queue) {  //拿锁对象
+				if(!queue.isEmpty()) {
+					 //执行处理
+					 executorService.execute(new HandleResult(queue.poll())); 
+				}
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}

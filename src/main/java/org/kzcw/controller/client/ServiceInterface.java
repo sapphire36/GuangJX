@@ -20,8 +20,10 @@ import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.kzcw.common.Iot.utils.CloseMessage;
 import org.kzcw.common.Iot.utils.OpenMessage;
+import org.kzcw.common.global.CheckLightBoxList;
 import org.kzcw.common.global.CloseLockList;
 import org.kzcw.common.global.OpenLockList;
+import org.kzcw.model.Lightbox;
 import org.kzcw.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -171,6 +173,15 @@ public class ServiceInterface {
 		String coderesult = request.getParameter("coderesult");
 		String locationresult = request.getParameter("locationresult");
 		String name = request.getParameter("name");
+		
+		Lightbox box=new Lightbox();
+		box.setIEME(coderesult);
+		box.setIEME(coderesult);
+		box.setLOCATION(locationresult);
+		
+		CheckLightBoxList lightboxlist=CheckLightBoxList.getInstance();
+		lightboxlist.list.add(box);
+		
 		// 返回值 0:用户名或密码错误,1:登录成功 2:用户被禁用
 		boolean codestart=coderesult.startsWith("完成扫码");
 		boolean locationstart=locationresult.startsWith("纬度");
