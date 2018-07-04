@@ -23,7 +23,7 @@ public class SysLogManager {
 	
 	public void addLog(String content,int type) {
 		//type 1:代表消息  2:代表警告  3:代表故障
-		loglist.add(new Systemlogs(content,type));
+		loglist.add(new Systemlogs(content,String.valueOf(type)));
 	}
 	
 	public Systemlogs getFirstElement() {
