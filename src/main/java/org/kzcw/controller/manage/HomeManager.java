@@ -87,7 +87,8 @@ public class HomeManager {
 		list.add(new Module("光交箱改造方角色管理",16,1,"#","",14));
 		
 		list.add(new Module("系统设置",17,0,"","fa-qrcode",17)); 
-		list.add(new Module("系统参数设置",18,1,"#","",17)); 
+		list.add(new Module("系统参数设置",18,1,"/GuangJX/manage/system/getview/setting","",17)); 
+		list.add(new Module("系统日志",20,1,"/GuangJX/manage/system/getview/journallist","",17)); 
 		
 		list.add(new Module("修改密码",19,0,"#","fa-qrcode",0)); 
 		//mservice.save(t);

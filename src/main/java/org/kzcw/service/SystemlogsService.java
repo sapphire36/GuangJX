@@ -9,4 +9,5 @@ import org.springframework.stereotype.Service;
 @Component("systemlogsService")
 public interface SystemlogsService extends BaseService<Systemlogs>{
 
+	public boolean deleteAll();//清空数据表
 }

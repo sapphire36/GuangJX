@@ -22,7 +22,7 @@ $(document).ready(function(){
 		//绑定 id为doedit的控件事件处理
 		 doeditlightbox();//执行编辑
 	  });
-	
+	 
 	$("#refresh").click(function(){
 		//绑定事件  #xx代表以xx为id的控件
 		//参考文档:http://www.w3school.com.cn/jquery/jquery_ref_selectors.asp
@@ -82,6 +82,58 @@ $(document).ready(function(){
 	       return true;  
 	    }  
 	});
+	
+	$("#body button.btn-info").click(function(){
+		//根据class来选择 获取上报历史
+		//var emeielem= $(this).parent().prev().prev().prev().prev();
+		//获取emei内容 this代表当前点击的控件
+		//详见:https://www.runoob.com/jquery/jquery-traversing-siblings.html
+		//var emeitext=emeielem.text();
+		var ieme=$(this).parent().prev().prev().prev().prev().text();
+		$.ajax({
+			type : "POST",
+			url : "<%=basePath1%>/manage/device/getrephislist",
+			data:{"IEME":ieme
+			},
+			success:function(data) {
+	             if(data.data=="true"){
+	            	 $("#reporthiscontent").html(data.hiscontent); 
+	             }else{
+	                 toastr.error("数据库连接错误!");
+	             }
+	       
+			}
+		});
+	  });
+	
+		$("#body button.btn-link").click(function(){
+			//根据class来获取设备详情
+			//var emeielem= $(this).parent().prev().prev().prev().prev();
+			//获取emei内容 this代表当前点击的控件
+			//详见:https://www.runoob.com/jquery/jquery-traversing-siblings.html
+			//var emeitext=emeielem.text();
+			var id=$(this).prev().prev().prev().prev().val();
+			$.ajax({
+				type : "POST",
+				url : "<%=basePath1%>/manage/device/getlightbox",
+				data:{"ID":id
+				},
+				success:function(data) {
+	                 if(data.data=="true"){
+	                	 $("#detaillightboxname").attr("value",data.NAME);
+	                	 $("#detaillockid").attr("value",data.LOCKID);                	
+	                	 $("#detailspec").attr("value",data.SPEC);
+	                	 $("#detailmadetype").attr("value",data.MADETYPE);
+	                	 $("#detaillocation").attr("value",data.LOCATION);
+	                	 $("#detailpeople").attr("value",data.PEOPLE);                	 
+	                	 $("#detailid").attr("value",id);
+	                 }else{
+	                     toastr.error("数据库连接错误!");
+	                 }
+	           
+				}
+			});
+		  });
 });
 
 function doaddlightbox(){
@@ -150,28 +202,9 @@ function doeditlightbox(){
 }
 
 
-$("#body button.btn-info").click(function(){
-	//根据class来选择 获取上报历史
-	//var emeielem= $(this).parent().prev().prev().prev().prev();
-	//获取emei内容 this代表当前点击的控件
-	//详见:https://www.runoob.com/jquery/jquery-traversing-siblings.html
-	//var emeitext=emeielem.text();
-	var ieme=$(this).parent().prev().prev().prev().prev().text();
-	$.ajax({
-		type : "POST",
-		url : "<%=basePath1%>/manage/device/getrephislist",
-		data:{"IEME":ieme
-		},
-		success:function(data) {
-             if(data.data=="true"){
-            	 $("#reporthiscontent").html(data.hiscontent); 
-             }else{
-                 toastr.error("数据库连接错误!");
-             }
-       
-		}
-	});
-  });
+  
+
+ 
  
 </script>
 </rapid:override>
@@ -215,7 +248,7 @@ $("#body button.btn-info").click(function(){
 										<i class="fa fa-pencil"></i> 删除
 									</button>
 									<button class="btn btn-info" data-toggle="modal" data-backdrop="static" data-target="#reporthis">上报历史</button>
-									<button class="btn btn-default" data-toggle="modal" data-backdrop="static" data-target="#report">详情</button>
+									<button class="btn btn-link" data-toggle="modal" data-backdrop="static" data-target="#detail">详情</button>
 								 </td>
 							</tr>
 						</c:forEach>
@@ -392,22 +425,91 @@ $("#body button.btn-info").click(function(){
    				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
-						    <th align="center">设备ID编号</th>
+						    <th align="center">箱体编号</th>
 							<th align="center">设备IEMI编号</th>
 							<th align="center">电池电压</th>
 							<th align="center">机箱温度</th>
 							<th align="center">门状态</th>
 							<th align="center">锁状态</th>
-							<th align="center">上报时间</th>							
+							<th align="center">上报时间</th>													
 						</tr>
 					</thead>
 					<tbody id="reporthiscontent">
- 
 				</table>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+
+<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="detail" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">
+                  详情
+                </h4>
+            </div>
+            <div class="modal-body">
+                    <table class="table table-striped">
+                        <tr>
+                            <td align="right">
+                                箱体名称：
+                            </td>
+                            <td align="left">
+                                <input id="detaillightboxname" type="text" readonly  unselectable="on"  name="NAME" placeholder=""/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+           IMEI编号：
+                            </td>
+                            <td align="left">
+                                <input id="detaillockid" type="text" readonly  unselectable="on"  name="LOCKID" placeholder=""/>
+                            </td>
+                        </tr>                            
+                         <tr>
+                            <td align="right">
+                                规格：
+                            </td>
+                            <td align="left">
+                                <input id="detailspec" type="text" readonly  unselectable="on"  name="SPEC" placeholder=""/>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td align="right">
+                                厂家型号：
+                            </td>
+                            <td align="left">
+                                <input id="detailmadetype" type="text" readonly  unselectable="on"  name="MADETYPE" placeholder=""/>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td align="right">
+                                安装位置：
+                            </td>
+                            <td align="left">
+                                <input id="detaillocation" type="text" readonly  unselectable="on"  name="LOCATION" placeholder=""/>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td align="right">
+                                安装人员：
+                            </td>
+                            <td align="left">
+                                <input id="detailpeople" type="text" readonly  unselectable="on"  name="PEOPLE" placeholder=""/>
+                            </td>
+                        </tr>                                                                                                            
+                    </table>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
 </rapid:override>
 
 <%@ include file="../home/base.jsp"%>

@@ -44,7 +44,7 @@ $(document).ready(function(){
 			success:function(data) {
                  if(data.data=="true"){
                 	 $("#editdevicename").attr("value",data.NAME);
-                	 $("#editemeiid").attr("value",data.IMEI);
+                	 $("#editemeiid").attr("value",data.IEME);
                 	 $("#editid").attr("value",id);
                  }else{
                      toastr.error("数据库连接错误!");
@@ -167,7 +167,7 @@ function doeditlockdevice(){
 						<tr>
 						    <th align="center">设备ID</th>
 							<th align="center">设备名称</th>
-							<th align="center">IEME编号</th>
+							<th align="center">IMEI编号</th>
 							<th align="center">是否在线</th>
 							<th align="center">设备状态</th>
 							<th align="center">添加时间</th>
@@ -245,7 +245,7 @@ function doeditlockdevice(){
                         </tr>
                         <tr>
                             <td align="right">
-                                IEME编号：
+                                IMEI编号：
                             </td>
                             <td align="left">
                                 <input id="emeiid" type="text" name="EMEI" placeholder=""/>
@@ -288,7 +288,7 @@ function doeditlockdevice(){
                         </tr>
                         <tr>
                             <td align="right">
-                                IEME编号：
+                                IMEI编号：
                             </td>
                             <td align="left">
                                 <input id="editemeiid" type="text" name="EMEI" placeholder=""/>

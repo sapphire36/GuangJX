@@ -14,9 +14,9 @@ public class Systemlogs extends General{
 	private static final long serialVersionUID = -5847204683834354572L;
 
 	private String CONTENT;//日志类型
-	private int TYPE=1;//1:代表消息  2:代表警告  3:代表故障
+	private String TYPE;//1:代表消息  2:代表警告  3:代表故障
 	
-	public Systemlogs(String top,int t) {
+	public Systemlogs(String top,String t) {
 		// TODO Auto-generated constructor stub
 		this.CONTENT=top;
 		this.TYPE=t;
@@ -34,10 +34,10 @@ public class Systemlogs extends General{
 	}
 	
 	@Column(nullable = false)
-	public int getTYPE() {
+	public String getTYPE() {
 		return TYPE;
 	}
-	public void setTYPE(int tYPE) {
+	public void setTYPE(String tYPE) {
 		TYPE = tYPE;
 	}
 }

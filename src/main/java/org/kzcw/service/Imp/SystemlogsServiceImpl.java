@@ -23,5 +23,18 @@ public class SystemlogsServiceImpl extends BaseServiceImpl<Systemlogs> implement
 		this.dao = dao;
 	}
 	
+	@Override
+	public boolean deleteAll() {
+		//清空数据表
+		String sql="delete from t_systemlog";
+		boolean result=false;
+		try {
+			result=dao.ExecSQL(sql);
+		} catch (Exception e) {
+			// TODO: handle exception
+			result=false;
+		}
+		return result;
+	}
 
 }

@@ -184,7 +184,55 @@ public class DeviceManager {
 	@RequestMapping(value = "/getrephislist", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> getrephislist(ModelMap map, HttpServletRequest request) {
-		// 获取设备数据上报数据
+		// 获取设备数据上报
+		
+		Map<String, String> result = new HashMap<String, String>();
+		String IEME=request.getParameter("IEME");
+		try {
+			 List<Status> list=lockservice.getStatusByIEME(IEME);
+		     StringBuffer stringBuffer = new StringBuffer();
+		     for(Status status:list)
+		     {
+		 		    stringBuffer.append("<tr>");
+		 		    stringBuffer.append("<td align=\"center\">"+status.getID()+"</td>");
+		 		    stringBuffer.append("<td align=\"center\">"+status.getIEME()+"</td>");
+		 		    stringBuffer.append("<td align=\"center\">"+status.getVOLTAGE()+"</td>");
+		 		    stringBuffer.append("<td align=\"center\">"+status.getTEMPERATURE()+"</td>");
+		 		   if(status.getDOORSTATUS()==1) {
+		 			    stringBuffer.append("<td align=\"center\">开</td>");
+		 		    }else {
+		 		    	 stringBuffer.append("<td align=\"center\">关</td>");
+		 		    }
+		 		    if(status.getUNLOCKSTATUS()==1) {
+		 			    stringBuffer.append("<td align=\"center\">关</td>");
+		 		    }else {
+		 		    	 stringBuffer.append("<td align=\"center\">开</td>");
+		 		    }
+		 		    stringBuffer.append("<td align=\"center\">"+status.getADDTIME()+"</td>");
+		 		    stringBuffer.append("</tr>");
+		     }
+			 result.put("data", "true"); // 执行成功
+			 result.put("hiscontent",stringBuffer.toString()); // 执行成功
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data", "false");
+		}
+		return result;
+	}
+
+	// ************************************光交箱状态管理**************************
+	// ************************************光交箱状态管理**************************
+	@RequestMapping(value = "/getview/statuslist", method = RequestMethod.GET)
+	public String statuslist(ModelMap model, HttpServletRequest request) {
+		// 获取设备状态历史记录列表
+		model.addAttribute("statuslist", staservice.list());
+		return "/device/statuslist";
+	}
+	
+	@RequestMapping(value = "/getrepstatuslist", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> getrepstatuslist(ModelMap map, HttpServletRequest request) {
+		// 获取设备数据上报数据 
 		
 		Map<String, String> result = new HashMap<String, String>();
 		String IEME=request.getParameter("IEME");
@@ -213,54 +261,6 @@ public class DeviceManager {
 		     }
 			 result.put("data", "true"); // 执行成功
 			 result.put("hiscontent",stringBuffer.toString()); // 执行成功
-		} catch (Exception e) {
-			// TODO: handle exception
-			result.put("data", "false");
-		}
-		return result;
-	}
-
-	// ************************************光交箱状态管理**************************
-	// ************************************光交箱状态管理**************************
-	@RequestMapping(value = "/getview/statuslist", method = RequestMethod.GET)
-	public String statuslist(ModelMap model, HttpServletRequest request) {
-		// 获取设备状态历史记录列表
-		model.addAttribute("statuslist", staservice.list());
-		return "/device/statuslist";
-	}
-	
-	@RequestMapping(value = "/getrepstatuslist", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, String> getrepstatuslist(ModelMap map, HttpServletRequest request) {
-		// 获取设备数据上报数据
-		
-		Map<String, String> result = new HashMap<String, String>();
-		String IEME=request.getParameter("IEME");
-		try {
-			 List<Status> list=lockservice.getStatusByIEME(IEME);
-		     StringBuffer stringBuffer = new StringBuffer();
-		     for(Status sta:list)
-		     {
-		 		    stringBuffer.append("<tr>");
-		 		    stringBuffer.append("<td align=\"center\">"+sta.getID()+"</td>");
-		 		    stringBuffer.append("<td align=\"center\">"+sta.getIEME()+"</td>");
-		 		    stringBuffer.append("<td align=\"center\">"+sta.getVOLTAGE()+"</td>");
-		 		    stringBuffer.append("<td align=\"center\">"+sta.getTEMPERATURE()+"</td>");
-		 		   if(sta.getDOORSTATUS()==1) {
-		 			    stringBuffer.append("<td align=\"center\">开</td>");
-		 		    }else {
-		 		    	 stringBuffer.append("<td align=\"center\">关</td>");
-		 		    }
-		 		    if(sta.getUNLOCKSTATUS()==1) {
-		 			    stringBuffer.append("<td align=\"center\">关</td>");
-		 		    }else {
-		 		    	 stringBuffer.append("<td align=\"center\">开</td>");
-		 		    }
-		 		    stringBuffer.append("<td align=\"center\">"+sta.getADDTIME()+"</td>");
-		 		    stringBuffer.append("</tr>");
-		     }
-			 result.put("data", "true"); // 执行成功
-			 result.put("content",stringBuffer.toString()); // 执行成功
 		} catch (Exception e) {
 			// TODO: handle exception
 			result.put("data", "false");
