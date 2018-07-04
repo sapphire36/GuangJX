@@ -34,6 +34,7 @@ public class YouRenManger {
 	}
 	
 	private void doConnect(boolean isall) throws MqttException {
+
 		  clientAdapter=new ClientAdapter();
 		  clinetCallbackAdapter = new ICallbackAdapter();
 		  clientAdapter.setUsrCloudMqttCallback(clinetCallbackAdapter);
@@ -68,6 +69,8 @@ public class YouRenManger {
 			      }
 		      }
 	      }
+		  ParsingReceiveQueue parsing=ParsingReceiveQueue.getInstance();
+		  parsing.StartParsing(); //开始解析
 	}
 	
 	public void doDisConnect() throws MqttException {
@@ -88,6 +91,8 @@ public class YouRenManger {
 		      }
 		}
 		clientAdapter.DisConnectUnCheck();
+	    ParsingReceiveQueue parsing=ParsingReceiveQueue.getInstance();
+	    parsing.StopParsing(); //结束解析
 	}
 
 	public boolean doOpenLock(String emei) {

@@ -171,8 +171,11 @@ function getwainning(){
 		data :"test",
 		success : function(data) {
 			if(data.data=="true"){
-				toastr.error("异常!");
+				if(data.IsFlush=="true"){
+					toastr.error(data.content);
+				}
 			}else{
+				toastr.error("获取报警信息异常!");
 			}
 		}
 	});

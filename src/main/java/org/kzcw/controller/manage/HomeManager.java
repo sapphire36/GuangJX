@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kzcw.common.Iot.utils.OpenMessage;
+import org.kzcw.common.global.BreakHistoryManager;
 import org.kzcw.common.global.OpenLockList;
 import org.kzcw.model.Module;
 import org.kzcw.service.LightboxService;
@@ -39,8 +40,16 @@ public class HomeManager {
     public Map<String,String> getwainning(ModelMap map,HttpServletRequest request){
 		//获取报警数据
         Map<String,String> result=new HashMap<String,String>();
- 
+
         try {
+            BreakHistoryManager breakhistorymanager=BreakHistoryManager.getInstance();
+            if(breakhistorymanager.IsFlush) {
+            	//获取当前报警
+            	result.put("IsFlush","true"); //执行成功
+              	result.put("content",breakhistorymanager.getCurrentBreakMessage()); //执行成功
+            }else {
+            	result.put("IsFlush","false"); //执行成功
+            }
             result.put("data","true"); //执行成功
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -49,7 +58,7 @@ public class HomeManager {
         return result;
     }
 	
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/getview/add", method = RequestMethod.GET)
 	public String add(ModelMap map,HttpServletRequest request){
 		OpenLockList list=OpenLockList.getInstance();
 		OpenMessage message=new OpenMessage("test","356566077983401");

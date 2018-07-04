@@ -3,14 +3,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kzcw.common.Iot.youren.OperaType;
-public class WaitQueue {
+public class WaitPublishQueue {
+	//等待推送队列
     //单例模式 确保整个程序内都可以访问
-	public static WaitQueue instance=new WaitQueue();
+	public static WaitPublishQueue instance=new WaitPublishQueue();
 	//hashmap 提高查询速度
 	private Map<String,OperaType> list = new HashMap<String,OperaType>();
 	public boolean IsFlush;  //是否刷新
 	
-	public static WaitQueue getInstance() {
+	public static WaitPublishQueue getInstance() {
 		//获取实例
 		return instance;
 	}

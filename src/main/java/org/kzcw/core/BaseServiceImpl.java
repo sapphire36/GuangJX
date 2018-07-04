@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kzcw.common.global.SystemData;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class BaseServiceImpl<T extends Serializable> implements BaseService<T> {
@@ -19,6 +20,9 @@ public abstract class BaseServiceImpl<T extends Serializable> implements BaseSer
 	public void save(T t) {
 		General am = (General) t;
 		am.setADDTIME(new Date());
+		SystemData systemdata=SystemData.getInstance();
+		//获取当前系统登录用户名
+		am.setOPERATION(systemdata.loginname);
 		dao.save(t);
 	}
 	

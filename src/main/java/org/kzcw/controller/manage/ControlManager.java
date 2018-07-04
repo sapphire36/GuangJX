@@ -10,7 +10,7 @@ import org.kzcw.common.Iot.youren.OperaType;
 import org.kzcw.common.global.CloseLockList;
 import org.kzcw.common.global.GradeList;
 import org.kzcw.common.global.OpenLockList;
-import org.kzcw.common.global.WaitQueue;
+import org.kzcw.common.global.WaitPublishQueue;
 import org.kzcw.model.Operatehistory;
 import org.kzcw.service.LightboxService;
 import org.kzcw.service.OperatehistoryService;
@@ -44,7 +44,7 @@ public class ControlManager {
     public Map<String,Object> gettodolist(ModelMap model,HttpServletRequest request){
     	//获取有待执行队列
     	Map<String,Object> result=new HashMap<String,Object>();
-    	WaitQueue list=WaitQueue.getInstance();//获取开锁队列
+    	WaitPublishQueue list=WaitPublishQueue.getInstance();//获取开锁队列
     	if(list.IsFlush) {
     		//执行刷新操作
     		StringBuffer stringBuffer = new StringBuffer();
@@ -182,7 +182,7 @@ public class ControlManager {
     	OpenLockList olist=OpenLockList.getInstance();
     	OpenMessage message=olist.getByIndex(ID);
     	if(message!=null) {
-    		WaitQueue queque=WaitQueue.getInstance();
+    		WaitPublishQueue queque=WaitPublishQueue.getInstance();
     		queque.AddItem(new OperaType(message.EMEI,1));//加入开锁队列
     		olist.DelItem(ID);
     		result.put("data","true");
@@ -201,7 +201,7 @@ public class ControlManager {
     	CloseLockList clist=CloseLockList.getInstance();
     	CloseMessage message=clist.DelItem(ID);
     	if(message!=null) {
-    		WaitQueue queque=WaitQueue.getInstance();
+    		WaitPublishQueue queque=WaitPublishQueue.getInstance();
     		queque.AddItem(new OperaType(message.EMEI,0));//加入关锁队列
     		clist.DelItem(ID);
     		result.put("data","true");

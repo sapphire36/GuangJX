@@ -18,7 +18,7 @@ window.onbeforeunload=function(){
 function doRefresh(){
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath1%>/control/dorefresh",
+		url : "<%=basePath1%>/manage/control/dorefresh",
 		data :"test",
 		success : function(data) {
 			if(data.data=="true"){
@@ -42,14 +42,11 @@ function gettodolist(){
 	//获取开箱队列
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath1%>/control/gettodolist",
+		url : "<%=basePath1%>/manage/control/gettodolist",
 		data :"test",
 		success : function(data) {
 			if(data.IsFlush=="true"){
 				$("#todolist").html(data.data); 
-				//getopenlist();
-				//getcloselist();
-				//getgradelist();
 			}else{
 			}
 		}
@@ -62,7 +59,7 @@ function getopenlist(){
 	//获取开箱队列
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath1%>/control/getopenlist",
+		url : "<%=basePath1%>/manage/control/getopenlist",
 		data :"test",
 		success : function(data) {
 			if(data.IsFlush=="true"){
@@ -78,7 +75,7 @@ function getcloselist(){
 	//获取关箱队列
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath1%>/control/getcloselist",
+		url : "<%=basePath1%>/manage/control/getcloselist",
 		data :"test",
 		success : function(data) {
 			if(data.IsFlush=="true"){
@@ -93,7 +90,7 @@ function getgradelist(){
 	//获取关箱队列
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath1%>/control/getgradelist",
+		url : "<%=basePath1%>/manage/control/getgradelist",
 		data :"test",
 		success : function(data) {
 			if(data.IsFlush=="true"){

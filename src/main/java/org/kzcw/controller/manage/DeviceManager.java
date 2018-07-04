@@ -1,14 +1,10 @@
 package org.kzcw.controller.manage;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-
-import org.kzcw.common.global.SystemData;
-import org.kzcw.model.Breakhistory;
 import org.kzcw.model.Lightbox;
 import org.kzcw.model.Lockdevice;
 import org.kzcw.model.Status;
@@ -17,7 +13,6 @@ import org.kzcw.service.LightboxService;
 import org.kzcw.service.LockdeviceService;
 import org.kzcw.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +31,7 @@ public class DeviceManager {
 	// 设备锁数据库服务
 	@Autowired
 	LockdeviceService lockservice;
+	
 	// 故障历史表
 	@Autowired
 	BreakhistoryService breakservice;
@@ -396,25 +392,6 @@ public class DeviceManager {
 			result.put("data", "false");
 		}
 		return result;
-	}
-
-	// 每个5秒执行一次
-	@Scheduled(cron = "0/20 * * * * ? ")
-	public void check() {
-		// System.out.println("this is form scheduled");
-		SystemData systemdata = SystemData.getInstance();
-		if (systemdata.statuslist.size() > 0) {
-			for (Status s : systemdata.statuslist) {
-				staservice.save(s);
-			}
-			systemdata.statuslist.clear();
-		}
-		if (systemdata.breaklist.size() > 0) {
-			for (Breakhistory s : systemdata.breaklist) {
-				breakservice.save(s);
-			}
-			systemdata.breaklist.clear();
-		}
 	}
 
 	// ************************************故障历史表**************************
