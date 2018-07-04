@@ -21,7 +21,7 @@ public class MonitorManager {
 	@RequestMapping(value = "/getview/getmap", method = RequestMethod.GET)
 	public String getmap(ModelMap map,HttpServletRequest request){
 		
-		String sql = "SELECT li.ID,li.LOCATION,li.`NAME`,s.IEME,s.LOCKSTATUS,s.UNLOCKSTATUS,s.DOORSTATUS,s.TEMPERATURE,s.VOLTAGE FROM t_status s,t_lightbox li WHERE s.ID IN(select MAX(t_status.ID) from t_status GROUP BY t_status.IEME) AND li.IMEI=s.IEME";
+		String sql = "SELECT li.ID,li.LOCATION,li.`NAME`,s.IEME,s.LOCKSTATUS,s.UNLOCKSTATUS,s.DOORSTATUS,s.TEMPERATURE,s.VOLTAGE FROM t_status s,t_lightbox li WHERE s.ID IN(select MAX(t_status.ID) from t_status GROUP BY t_status.IEME) AND li.IEME=s.IEME";
 		List<Map> result= lservice.findMapByExecSQL(sql);
 		//返回地图
 		map.addAttribute("llist",result);

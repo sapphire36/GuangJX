@@ -183,7 +183,7 @@ public class ControlManager {
     	OpenMessage message=olist.getByIndex(ID);
     	if(message!=null) {
     		WaitPublishQueue queque=WaitPublishQueue.getInstance();
-    		queque.AddItem(new OperaType(message.EMEI,1));//加入开锁队列
+    		queque.addItem(new OperaType(message.EMEI,1));//加入开锁队列
     		olist.DelItem(ID);
     		result.put("data","true");
     	}
@@ -202,7 +202,7 @@ public class ControlManager {
     	CloseMessage message=clist.DelItem(ID);
     	if(message!=null) {
     		WaitPublishQueue queque=WaitPublishQueue.getInstance();
-    		queque.AddItem(new OperaType(message.EMEI,0));//加入关锁队列
+    		queque.addItem(new OperaType(message.EMEI,0));//加入关锁队列
     		clist.DelItem(ID);
     		result.put("data","true");
     	}

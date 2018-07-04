@@ -35,7 +35,7 @@ public class SysLogManager {
 		}
 	}
 	
-	public boolean IsEmpty() {
+	public boolean IsNotEmpty() {
 		//判断是否为空
 		if(loglist.size()>0) {
 			return true;

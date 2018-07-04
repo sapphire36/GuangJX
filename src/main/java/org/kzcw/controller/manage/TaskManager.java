@@ -51,12 +51,13 @@ public class TaskManager {
 	public void logschedule() {
 		//日志数据处理
 		SysLogManager logmanager=SysLogManager.getInstance();
-		if (!logmanager.IsEmpty()) {
+		if (logmanager.IsNotEmpty()) {
 			 List<Systemlogs> loglist=logmanager.getLogList();
 			 for(Systemlogs log:loglist) {
 				 //将日志保存到数据库
 				 logservice.save(log);
 			 }
+			 loglist.clear();
 		}
 	}
 	

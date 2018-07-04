@@ -144,7 +144,6 @@ function doaddlightbox(){
 	var type=$("#madetype").val();//获取id为madetype的值
 	var loca=$("#location").val();//获取id为location的值
 	var peo=$("#people").val();//获取id为people的值
-	var eiid=$("#emeiid").val();//获取id为emeiid的值
 	//根据选择器获取数据
 	//参考文档:http://www.w3school.com.cn/jquery/attributes_attr.asp
 	$.ajax({

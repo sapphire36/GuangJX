@@ -47,6 +47,7 @@ public class HomeManager {
             	//获取当前报警
             	result.put("IsFlush","true"); //执行成功
               	result.put("content",breakhistorymanager.getCurrentBreakMessage()); //执行成功
+              	breakhistorymanager.IsFlush=false;
             }else {
             	result.put("IsFlush","false"); //执行成功
             }

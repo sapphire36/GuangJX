@@ -21,19 +21,19 @@ public class WaitPublishQueue {
 		return list;
 	}
 	
-	public void AddItem(OperaType type) {
+	public void addItem(OperaType type) {
 		//添加项目
 		IsFlush=true;
 		list.put(type.EMEI,type);
 	}
 	
-	public void DelItem(String emei) {
+	public void delItem(String emei) {
 		//删除项目
 		IsFlush=true;
 		list.remove(emei);
 	}
 	
-	public OperaType GetItem(String emei) {
+	public OperaType getItem(String emei) {
 		return list.get(emei);
 	}
 	
@@ -48,13 +48,13 @@ public class WaitPublishQueue {
 				YouRenManger manager=YouRenManger.getInstance();
 				manager.doOpenLock(EMEI);
 				manager.doOpenLock(EMEI);
-				DelItem(EMEI);
+				delItem(EMEI);
 			}else {
 				//执行关锁
 				YouRenManger manager=YouRenManger.getInstance();
 				manager.doCloseLock(EMEI);
 				manager.doCloseLock(EMEI);
-				DelItem(EMEI);
+				delItem(EMEI);
 			}
 		}
 	}
