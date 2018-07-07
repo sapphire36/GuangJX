@@ -90,7 +90,7 @@ public class HomeManager {
 		list.add(new Module("光交箱信息管理",6,1,"/GuangJX/manage/device/getview/lightboxlist","",5)); 
 		list.add(new Module("光交箱状态管理",7,1,"/GuangJX/manage/device/getview/statuslist","",5)); 
 		list.add(new Module("NB-IoT锁管理",8,1,"/GuangJX/manage/device/getview/lockdevicelist","",5)); 
-		list.add(new Module("故障历史表",9,1,"/GuangJX/manage/device/getview/breakhistorylist","",5)); 
+		list.add(new Module("告警历史表",9,1,"/GuangJX/manage/device/getview/breakhistorylist","",5)); 
 		
 		list.add(new Module("施工方管理",10,0,"","fa-qrcode",10)); 
 		list.add(new Module("施工方信息管理",11,1,"/GuangJX/manage/constructor/getview/constructorlist","",10)); 

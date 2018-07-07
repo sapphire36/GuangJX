@@ -20,6 +20,15 @@ public class Lightbox extends General{
 	private String NAME;//箱体名称（客户自定义箱体名）
 	private String PEOPLE;//安装人员
 	private Blob PHOTO; //安装时照片
+	private int ISREGIST;//是否注册:1表示已经注册   0表示未注册
+	
+	@Column(nullable = true,columnDefinition="INT default 0")
+	public int getISREGIST() {
+		return ISREGIST;
+	}
+	public void setISREGIST(int iSREGIST) {
+		ISREGIST = iSREGIST;
+	}
 	
 	@Column(nullable = true,length=50)
 	public String getMADETYPE() {

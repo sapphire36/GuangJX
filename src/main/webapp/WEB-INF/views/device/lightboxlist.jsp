@@ -89,7 +89,7 @@ $(document).ready(function(){
 		//获取emei内容 this代表当前点击的控件
 		//详见:https://www.runoob.com/jquery/jquery-traversing-siblings.html
 		//var emeitext=emeielem.text();
-		var ieme=$(this).parent().prev().prev().prev().prev().text();
+		var ieme=$(this).parent().prev().prev().prev().prev().prev().prev().text();
 		$.ajax({
 			type : "POST",
 			url : "<%=basePath1%>/manage/device/getrephislist",
@@ -220,12 +220,14 @@ function doeditlightbox(){
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
-							<th align="center">箱体编号</th>
+							<th align="center">箱体编号</th>							
 							<th align="center">箱体名称</th>
 							<th align="center">IMEI编号</th>							
 							<th align="center">门状态</th>
 							<th align="center">锁状态</th>
-							<th align="center">在线状态</th>							
+							<th align="center">在线状态</th>
+							<th align="center">添加时间</th>	
+							<th align="center">注册状态</th>						
 							<th align="center"></th>					
 						</tr>
 					</thead>
@@ -237,7 +239,16 @@ function doeditlightbox(){
 								<td align="center">${light.IEME}</td>
 								<td align="center">${light.DOORSTATUS}</td>
 								<td align="center">${light.LOCKSTATUS}</td>
-								<td align="center">${light.ISONLINE}</td>																                                 
+								<td align="center">${light.ISONLINE}</td>
+								<td align="center">${light.ADDTIME}</td>	
+								
+								<c:if test="${light.ISREGIST==1}">
+                                 <td align="center">已注册</td>
+                                 </c:if>
+                                 <c:if test="${light.ISREGIST==0}">
+                                 <td align="center"><a>未注册</a></td>
+                                 </c:if>
+                                 													                                 
                                  <td align="center">
                                     <input type="hidden" name="field＿name" value="${light.ID}"> 
 									<button class="btn btn-primary" data-toggle="modal" data-backdrop="static" data-target="#edit">
