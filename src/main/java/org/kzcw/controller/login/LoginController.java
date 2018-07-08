@@ -34,7 +34,7 @@ public class LoginController {
 		 //判断执行登录
 		
 		 Map<String,String> ret=new HashMap<String,String>();
-		 String name=request.getParameter("NAME"); //获取用户名
+		 String name=request.getParameter("USERNAME"); //获取用户名
 	     String passwd=request.getParameter("PASSWD");
 	     String usertype=request.getParameter("USERTYPE");
 	     int flag=userservice.doLogin(name, passwd,Long.parseLong(usertype));

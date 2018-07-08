@@ -50,6 +50,7 @@ public class DeviceManager {
 			map.put("IEME",box.getIEME());
 			map.put("ADDTIME",box.getADDTIME());
 			map.put("ISREGIST",box.getISREGIST());
+			map.put("USERNAME",box.getUSERNAME());
 			//找到最近的一条上报记录
 			Status status=staservice.getRecentRecord(box.getIEME());
 			if(status!=null) {

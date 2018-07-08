@@ -21,7 +21,16 @@ public class Lightbox extends General{
 	private String PEOPLE;//安装人员
 	private Blob PHOTO; //安装时照片
 	private int ISREGIST;//是否注册:1表示已经注册   0表示未注册
+	private String USERNAME;//用户名
 	
+	
+	@Column(nullable = false,length=50)
+	public String getUSERNAME() {
+		return USERNAME;
+	}
+	public void setUSERNAME(String uSERNAME) {
+		USERNAME = uSERNAME;
+	}
 	@Column(nullable = true,columnDefinition="INT default 0")
 	public int getISREGIST() {
 		return ISREGIST;

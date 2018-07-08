@@ -41,7 +41,7 @@ function dologin(){
 	$.ajax({
 		type : "POST",
 		url : "<%=basePath%>/login/dologin",
-		data:{"NAME":username,
+		data:{"USERNAME":username,
 			  "PASSWD":passwd,
 			  "USERTYPE":type
 			  },
