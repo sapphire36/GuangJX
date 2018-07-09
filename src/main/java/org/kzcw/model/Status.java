@@ -7,7 +7,7 @@ import org.kzcw.core.General;
 
 @Entity
 @Table(name="t_status")
-public class Status extends General{
+public class Status extends General implements Comparable<Status> {
 	
 	private static final long serialVersionUID = -4654940818328212372L;
 	private String IEME;//IEME
@@ -63,5 +63,14 @@ public class Status extends General{
 	}
 	public void setDOORSTATUS(int dOORSTATUS) {
 		DOORSTATUS = dOORSTATUS;
+	}
+	@Override
+	public int compareTo(Status status) {
+		// TODO Auto-generated method stub
+		int result = (int) (this.getADDTIME().getTime() - status.getADDTIME().getTime());
+		if(result == 0) {
+			result = (int) (this.getID() - status.getID());
+		}
+		return result;
 	}
 }

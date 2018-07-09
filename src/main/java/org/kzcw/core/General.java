@@ -15,9 +15,9 @@ public abstract class General extends Model {
 	private static final long serialVersionUID = -6966387387911439572L;
 
 	//public long id; //ID
-	public long ID;//ID编号
-	public String OPERATION;  //操作人员
-	public Date ADDTIME;  //创建时间
+	private long ID;//ID编号
+	private String OPERATION;  //操作人员
+	private Date ADDTIME;  //创建时间
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

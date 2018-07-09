@@ -34,7 +34,7 @@ public class LoginController {
 		 //判断执行登录
 		
 		 Map<String,String> ret=new HashMap<String,String>();
-		 String name=request.getParameter("NAME"); //获取用户名
+		 String name=request.getParameter("USERNAME"); //获取用户名
 	     String passwd=request.getParameter("PASSWD");
 	     String usertype=request.getParameter("USERTYPE");
 	     int flag=userservice.doLogin(name, passwd,Long.parseLong(usertype));
@@ -43,6 +43,7 @@ public class LoginController {
 		    	 //设置登录session标示
 				 SystemData systemdata=SystemData.getInstance();
 				 systemdata.loginname=name; //设置当前登录用户
+				 systemdata.status=usertype;
 		    	 request.getSession().setAttribute(Globals.OnlineUserManageFlag,"true");
 		    	 request.getSession().setAttribute(Globals.USERNAME, name);//设置用户名
 		    	 request.getSession().setAttribute(Globals.USERTYPE,usertype);//设置用户类型

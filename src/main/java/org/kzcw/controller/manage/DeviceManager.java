@@ -1,10 +1,13 @@
 package org.kzcw.controller.manage;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+
+import org.kzcw.common.global.SystemData;
 import org.kzcw.model.Lightbox;
 import org.kzcw.model.Lockdevice;
 import org.kzcw.model.Status;
@@ -43,6 +46,9 @@ public class DeviceManager {
 		// 获取箱体信息列表
 		List<Map> result=new ArrayList<Map>(); 
 		List<Lightbox> lightboxslist=lservice.list();
+		Lightbox inter=lservice.findUniqueByProperty("USERNAME", SystemData.getInstance().loginname);
+		if(SystemData.getInstance().status.equals("3"))
+		{
 		for(Lightbox box:lightboxslist) {
 			Map<String,Object> map=new HashMap<String,Object>();
 			map.put("ID",box.getID());
@@ -50,6 +56,7 @@ public class DeviceManager {
 			map.put("IEME",box.getIEME());
 			map.put("ADDTIME",box.getADDTIME());
 			map.put("ISREGIST",box.getISREGIST());
+			map.put("USERNAME", box.getUSERNAME());
 			//找到最近的一条上报记录
 			Status status=staservice.getRecentRecord(box.getIEME());
 			if(status!=null) {
@@ -72,7 +79,38 @@ public class DeviceManager {
 			map.put("ISONLINE","在线");			
 			result.add(map);//添加到结果集中
 		}
-		
+		}
+		else
+		{
+			Map<String,Object> map=new HashMap<String,Object>();
+			map.put("ID",inter.getID());
+			map.put("NAME",inter.getNAME());
+			map.put("IEME",inter.getIEME());
+			map.put("ADDTIME",inter.getADDTIME());
+			map.put("ISREGIST",inter.getISREGIST());
+			map.put("USERNAME", inter.getUSERNAME());
+			//找到最近的一条上报记录
+			Status status=staservice.getRecentRecord(inter.getIEME());
+			if(status!=null) {
+				
+				if(status.getDOORSTATUS()==1) {
+					map.put("DOORSTATUS","开");
+				}else {
+					map.put("DOORSTATUS","关");
+				}
+				
+				if(status.getLOCKSTATUS()==1) {
+					map.put("LOCKSTATUS","开");
+				}else {
+					map.put("LOCKSTATUS","关");
+				}
+			}else {
+				map.put("DOORSTATUS","未找到上报数据");
+				map.put("LOCKSTATUS","未找到上报数据");
+			}
+			map.put("ISONLINE","在线");			
+			result.add(map);//添加到结果集中
+		}
 		model.addAttribute("lightlist",result);
 		return "/device/lightboxlist";
 	}
@@ -188,6 +226,7 @@ public class DeviceManager {
 		String IEME=request.getParameter("IEME");
 		try {
 			 List<Status> list=lockservice.getStatusByIEME(IEME);
+			 list.sort(Comparator.reverseOrder());
 		     StringBuffer stringBuffer = new StringBuffer();
 		     for(Status status:list)
 		     {
@@ -366,6 +405,7 @@ public class DeviceManager {
 		String IEME=request.getParameter("IEME");
 		try {
 			 List<Status> list=lockservice.getStatusByIEME(IEME);
+			 list.sort(Comparator.reverseOrder());
 		     StringBuffer stringBuffer = new StringBuffer();
 		     for(Status sta:list)
 		     {

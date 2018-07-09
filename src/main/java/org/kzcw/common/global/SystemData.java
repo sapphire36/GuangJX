@@ -15,6 +15,7 @@ public class SystemData {
 	public String name = "李环宇";  //控制用户名
 	public String passwd = "xz86512121"; //控制密码
 	public String loginname;
+	public String status;
 	
 	public SystemData() {
 		// TODO Auto-generated constructor stub

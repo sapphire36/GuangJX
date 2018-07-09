@@ -431,8 +431,19 @@ function doeditlightbox(){
                                                           上报历史
                 </h4>
             </div>
-            <div class="modal-body">
-   				<table class="table table-striped table-bordered table-hover">
+            
+            <div class="tableWrap" style="margin:20px;">
+   				<table class="table-thead table-striped table-bordered table-hover">
+	   				<colgroup> 
+			            <col width="80px">
+			            <col width="122px">
+			            <col width="80px">
+			            <col width="80px">
+			            <col width="60px">
+			            <col width="60px">
+			            <col width="86px">
+			            <col width="17px">
+			        </colgroup>
 					<thead>
 						<tr>
 						    <th align="center">箱体编号</th>
@@ -441,11 +452,25 @@ function doeditlightbox(){
 							<th align="center">机箱温度</th>
 							<th align="center">门状态</th>
 							<th align="center">锁状态</th>
-							<th align="center">上报时间</th>													
+							<th align="center">上报时间</th>
+							<th></th>													
 						</tr>
 					</thead>
-					<tbody id="reporthiscontent">
 				</table>
+	            <div class="modal-body"  style="height:300px; overflow-y:scroll; padding:0px;">
+	   				<table class="table table-striped table-bordered table-hover" >
+		   				<colgroup> 
+					            <col width="80px">
+					            <col width="122px">
+					            <col width="80px">
+					            <col width="80px">
+					            <col width="60px">
+					            <col width="60px">
+					            <col width="80px">
+					        </colgroup>
+						<tbody id="reporthiscontent" >
+					</table>
+	            </div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->

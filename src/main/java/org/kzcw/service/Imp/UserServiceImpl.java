@@ -56,7 +56,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 			Criteria criteria = session.createCriteria(User.class);
 			criteria.add(
 						Restrictions.and( //AND
-							Restrictions.eq("NAME",uname),//名字等于uname
+							Restrictions.eq("USERNAME",uname),//名字等于uname
 							Restrictions.eq("PASSWD",passwd),
 							Restrictions.eq("ROLEID",type)
 						)
