@@ -17,12 +17,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="/GuangJX/css/font-awesome.css" rel="stylesheet" />
     <link href="/GuangJX/css/custom-styles.css" rel="stylesheet" />
     <script src="/GuangJX/js/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/GuangJX/js/bootstrap.min.js"></script>
     <script src="/GuangJX/js/jquery.metisMenu.js"></script>
     <script src="/GuangJX/js/custom-scripts.js"></script>
     <link href="/GuangJX/css/toastr.css" rel="stylesheet" />
     <script src="/GuangJX/js/toastr.js"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/GuangJX/js/bootstrap.min.js"></script>
     
     <rapid:block name="title"> 
        <title>Home</title>
@@ -159,9 +161,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              </div>
         </div>
     </div>
+    
+
+
+
+ <div class="modal fade" id="warnnintModel">
+            <div class="modal-dialog">  
+              <div class="modal-content">  
+                <div class="modal-header"> 报警信息 </div>  
+                  <div class="modal-body">  
+                       
+                       <a href="https://www.baidu.com">查看报警
+                       </a>
+              
+                  </div>  
+                <div class="modal-footer">  
+                  <button class="btn btn-success" type="submit" data-dismiss="modal">Save</button>  
+                  <button class="btn btn-warning" type="reset" data-dismiss="modal">Reset</button>  
+                  <button class="btn btn-danger" data-dismiss="modal">Cancel</button>  
+                </div>  
+              </div>  
+            </div>  
+</div>  
+
 <script type="text/javascript">
 $(document).ready(function(){		
 	getwainning();
+ 
 });
 function getwainning(){
 	//获取报警信息
@@ -170,16 +196,19 @@ function getwainning(){
 		url : "<%=basePath%>/manage/home/getwainning",
 		data :"test",
 		success : function(data) {
+			$("#warnnintModel").modal("show");
 			if(data.data=="true"){
 				if(data.IsFlush=="true"){
+					
 					toastr.error(data.content);
 				}
 			}else{
+				
 				toastr.error("获取报警信息异常!");
 			}
 		}
 	});
-	setTimeout(getwainning,2000);
+	setTimeout(getwainning,20000);
 }
 </script>
 </body>
