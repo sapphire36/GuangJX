@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 //启用登陆验证拦截，保证数据保密性
 public class AppiRequest {
 	
-	
+	/*
+	 * Httpclient post请求
+	 */
 	@RequestMapping("/getdata")
 	@ResponseBody
 	public Map<String,Object> SaveDraw(HttpServletRequest request){

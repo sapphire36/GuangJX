@@ -18,6 +18,7 @@ import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.apache.tomcat.util.http.fileupload.RequestContext;
 import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import org.kzcw.common.Iot.utils.CheckMessage;
 import org.kzcw.common.Iot.utils.CloseMessage;
 import org.kzcw.common.Iot.utils.OpenMessage;
 import org.kzcw.common.global.CheckLightBoxList;
@@ -63,7 +64,7 @@ public class ServiceInterface {
 	@ResponseBody
 	public Map<String, Object> closeLock(ModelMap map, @RequestParam String UNAME, @RequestParam String EMEI,
 			HttpServletRequest request) {
-		// 开锁申请
+		// 关锁申请
 		Map<String, Object> result = new HashMap<String, Object>();
 		CloseLockList list = CloseLockList.getInstance();
 		CloseMessage message = new CloseMessage(UNAME, EMEI);
@@ -174,24 +175,62 @@ public class ServiceInterface {
 		String locationresult = request.getParameter("locationresult");
 		String name = request.getParameter("name");
 		
-		Lightbox box=new Lightbox();
-		box.setIEME(coderesult);
-		box.setIEME(coderesult);
-		box.setLOCATION(locationresult);
-		
-		CheckLightBoxList lightboxlist=CheckLightBoxList.getInstance();
-		lightboxlist.list.add(box);
+//		Lightbox box=new Lightbox();
+//		box.setNAME(name);
+//		box.setIEME(coderesult);
+//		box.setLOCATION(locationresult);
+//		
+//  	CheckLightBoxList lightboxlist=CheckLightBoxList.getInstance();
+//		lightboxlist.list.add(box);
 		
 		// 返回值 0:用户名或密码错误,1:登录成功 2:用户被禁用
 		boolean codestart=coderesult.startsWith("完成扫码");
 		boolean locationstart=locationresult.startsWith("纬度");
 		if(codestart==true&&locationstart==true&&name.isEmpty()==false)
-		result.put("data", 1);
-		else result.put("data", 0);
+		result.put("data", 0);
+		else result.put("data", 1);
 			
 		return result;
 	}
-
+	
+	@RequestMapping(value = "/checkLock", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> checkLock(ModelMap map,HttpServletRequest request) {
+		// 审核申请
+		/*
+		Map<String, Object> result = new HashMap<String, Object>();
+		CheckLightBoxList checklist = new CheckLightBoxList();
+		CheckMessage message = new CheckMessage(NAME, IEME ,LOCATION);
+		// message;
+		//String ieme = getEMEI(IEME);
+		message.NAME = NAME;
+		message.IEME = IEME;
+		message.LOCATION = LOCATION;
+		checklist.AddItem(message);
+		CheckLightBoxList.setinstance(checklist);
+		result.put("data", "申请成功,请耐心等待审核开锁..");
+		return result;
+		*/
+		Map<String, Object> result = new HashMap<String, Object>();
+		//单例模式实例化
+		CheckLightBoxList checklist = CheckLightBoxList.getInstance();
+		
+		String coderesult = request.getParameter("coderesult");
+		String locationresult = request.getParameter("locationresult");
+		String name = request.getParameter("name");
+		
+		CheckMessage message = new CheckMessage(name, coderesult ,locationresult);
+			
+		checklist.AddItem(message);
+		
+		if(name.isEmpty()==false&&coderesult.isEmpty()==false&&locationresult.isEmpty()==false)
+			result.put("data","提交审核成功");
+			else result.put("data","提交审核失败");	
+			return result;
+		
+		//result.put("data", "提交审核成功");
+		//return result;
+	}
 	public String getEMEI(String tg) {
 		tg = tg.replaceAll(" ", "");
 		int i = tg.indexOf("I:");

@@ -227,8 +227,7 @@ function doeditlightbox(){
 							<th align="center">锁状态</th>
 							<th align="center">在线状态</th>
 							<th align="center">添加时间</th>	
-							<th align="center">注册状态</th>
-							<th align="center">用户名</th>						
+							<th align="center">注册状态</th>													
 							<th align="center"></th>					
 						</tr>
 					</thead>
@@ -249,8 +248,7 @@ function doeditlightbox(){
                                  <c:if test="${light.ISREGIST==0}">
                                  <td align="center"><a>未注册</a></td>
                                  </c:if>
-                                 			
-                                 <td align="center">${light.USERNAME}</td>													                                 
+                                 			                             													                                 
                                  <td align="center">
                                     <input type="hidden" name="field＿name" value="${light.ID}"> 
 									<button class="btn btn-primary" data-toggle="modal" data-backdrop="static" data-target="#edit">

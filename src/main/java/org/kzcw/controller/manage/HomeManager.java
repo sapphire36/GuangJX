@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
+import org.kzcw.common.Iot.utils.CheckMessage;
 import org.kzcw.common.Iot.utils.OpenMessage;
 import org.kzcw.common.global.BreakHistoryManager;
+import org.kzcw.common.global.CheckLightBoxList;
 import org.kzcw.common.global.OpenLockList;
 import org.kzcw.model.Module;
 import org.kzcw.service.LightboxService;
@@ -64,17 +66,35 @@ public class HomeManager {
         return result;
     }
 	
-	@RequestMapping(value = "/getview/add", method = RequestMethod.GET)
-	public String add(ModelMap map,HttpServletRequest request){
-		OpenLockList list=OpenLockList.getInstance();
-		OpenMessage message=new OpenMessage("test","356566077983401");
-		//message;
-		message.USERNAME="test";
-		message.time=new Date().toString();
-		message.EMEI="356566077983401";
-		list.AddItem(message);
+//	@RequestMapping(value = "/getview/add", method = RequestMethod.GET)
+//	public String add(ModelMap map,HttpServletRequest request){
+//		OpenLockList list=OpenLockList.getInstance();
+//		OpenMessage message=new OpenMessage("test","356566077983401");
+//		//message;
+//		message.USERNAME="test";
+//		message.time=new Date().toString();
+//		message.EMEI="356566077983401";
+//		list.AddItem(message);
+//		return "/home/index";
+//	}
+	
+	
+	@RequestMapping(value = "/getview/addcheck", method = RequestMethod.GET)
+	public String addcheck(ModelMap map,HttpServletRequest request){
+		//单例模式实例化
+		CheckLightBoxList checklist = CheckLightBoxList.getInstance();
+		
+		CheckMessage message = new CheckMessage();
+		// message;
+		//String ieme = getEMEI(IEME);
+		message.NAME = "tttt";
+		message.IEME = "tttt";
+		message.LOCATION = "tttt";
+		checklist.AddItem(message);
 		return "/home/index";
 	}
+	
+
 	
 	@RequestMapping(value = "/additem", method = RequestMethod.GET)
 	public String additem(ModelMap map,HttpServletRequest request){
@@ -91,6 +111,7 @@ public class HomeManager {
 		list.add(new Module("光交箱状态管理",7,1,"/GuangJX/manage/device/getview/statuslist","",5)); 
 		list.add(new Module("NB-IoT锁管理",8,1,"/GuangJX/manage/device/getview/lockdevicelist","",5)); 
 		list.add(new Module("告警历史表",9,1,"/GuangJX/manage/device/getview/breakhistorylist","",5)); 
+		list.add(new Module("安装审核列表",21,1,"/GuangJX/manage/device/getview/checklist","",5));
 		
 		list.add(new Module("施工方管理",10,0,"","fa-qrcode",10)); 
 		list.add(new Module("施工方信息管理",11,1,"/GuangJX/manage/constructor/getview/constructorlist","",10)); 

@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
+import org.kzcw.common.Iot.utils.CheckMessage;
+import org.kzcw.common.Iot.utils.OpenMessage;
+import org.kzcw.common.global.CheckLightBoxList;
+import org.kzcw.common.global.OpenLockList;
 import org.kzcw.common.global.SystemData;
 import org.kzcw.model.Lightbox;
 import org.kzcw.model.Lockdevice;
@@ -20,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -445,5 +450,98 @@ public class DeviceManager {
 		model.addAttribute("breaklist", breakservice.list());
 		return "/device/breakhistorylist";
 	}
+	
+	
+	// ************************************安装审核队列管理**************************
+	// ************************************安装审核队列管理**************************
+	@RequestMapping(value = "/getview/checklist", method = RequestMethod.GET)
+	public String getcontrolview(ModelMap model, HttpServletRequest request) {
+		// 控制界面
+		return "/device/checklist";
+	}
+	
+	@RequestMapping(value = "/getchecklist", method = RequestMethod.GET)
+	@ResponseBody
+	public String addcheck(ModelMap map,HttpServletRequest request){
+		//获取审核队列
+		//单例模式实例化
+		Map<String,Object> result=new HashMap<String,Object>();
+		CheckLightBoxList checklist = CheckLightBoxList.getInstance();
+		
+//		if(checklist.IsFlush) {
+    		//执行刷新操作
+//  		StringBuffer stringBuffer = new StringBuffer();
+//  		int index=0;
+//            for (CheckMessage x : checklist.checklist) { 
+//    			stringBuffer.append("<a href=\"#\" class=\"list-group-item\" data-toggle=\"modal\" data-backdrop=\"static\" data-target=\"#apply\"> ");
+//    			stringBuffer.append("<span class=\"badge\">");	
+//    			stringBuffer.append(x.NAME+x.time);
+//    			stringBuffer.append("</span><i class=\"fa fa-fw fa-comment\"></i>");
+//    			if(x.IsReady)
+//    				stringBuffer.append("正在审核:"+x.IEME);
+//    			else
+//    				stringBuffer.append("审核通过:"+x.IEME);
+//    			    stringBuffer.append("</a>");
+//    			    index++;
+//            } 
+//    		result.put("data", stringBuffer.toString());
+//    		result.put("IsFlush","true");
+//    		checklist.IsFlush=false;//设置不刷新
+    		
+    		CheckMessage message = new CheckMessage();
+    		// message;
+    		//String ieme = getEMEI(IEME);
+    		message.NAME = "tttt";
+    		message.IEME = "tttt";
+    		message.LOCATION = "tttt";
+    		checklist.AddItem(message);    		
+//    	}else {
+//    		//不执行
+//    		result.put("data","");
+//    		result.put("IsFlush","false");
+//    	}
+		return "/device/checklist";
+	}
+	
+
+	
+//	@RequestMapping(value = "/getchecklist", method = RequestMethod.POST)
+//	@ResponseBody
+//    public Map<String,Object> getchecklist(ModelMap model,HttpServletRequest request){
+//    	//获取审核列表
+//    	Map<String,Object> result=new HashMap<String,Object>();
+//    	CheckLightBoxList list=CheckLightBoxList.getInstance();//获取审核队列
+//    	if(list.IsFlush) {
+//    		//执行刷新操作
+//    		StringBuffer stringBuffer = new StringBuffer();
+//    		int index=0;
+//            for (CheckMessage x : list.checklist) { 
+//    			stringBuffer.append("<a href=\"#\" class=\"list-group-item\" data-toggle=\"modal\" data-backdrop=\"static\" data-target=\"#apply\"> ");
+//    			stringBuffer.append("<span class=\"badge\">");	
+//    			stringBuffer.append(x.NAME+x.time);
+//    			stringBuffer.append("</span><i class=\"fa fa-fw fa-comment\"></i>");
+//    			if(x.IsReady)
+//    				stringBuffer.append("正在审核:"+x.IEME);
+//    			else
+//    				stringBuffer.append("审核通过:"+x.IEME);
+//    			    stringBuffer.append("</a>");
+//    			    index++;
+//            } 
+//    		result.put("data", stringBuffer.toString());
+//    		result.put("IsFlush","true");
+//     		list.IsFlush=false;//设置不刷新
+//    	}else {
+//    		//不执行
+//    		result.put("data","");
+//    		result.put("IsFlush","false");
+//    	}
+//		return result;
+//    }
+//	
+	/*
+	 * 报警:  1.jquery 控制模态框
+	 *       2.浮动div
+	 */
+	
 }
 
