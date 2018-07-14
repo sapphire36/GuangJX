@@ -80,7 +80,6 @@ function getcloselist(){
 		success : function(data) {
 			if(data.IsFlush=="true"){
 				$("#closelist").html(data.data); 
-			}else{
 			}
 		}
 	});
@@ -135,7 +134,7 @@ function doclose(btn){
 				}
 			}
 		});
-	}
+}
 		
 function dograde(btn){
 	$.ajax({

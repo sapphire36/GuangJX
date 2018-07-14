@@ -9,6 +9,16 @@ import org.kzcw.core.General;
 @Table(name="t_breakhistory")
 public class Breakhistory extends General{
 	
+	public Breakhistory() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Breakhistory(String ieme,String type) {
+		// TODO Auto-generated constructor stub
+		this.IEME=ieme;
+		this.TYPE=type;
+	}
+	
 	//故障信息表
 	private static final long serialVersionUID = -8342801746053290192L;
 	

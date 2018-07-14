@@ -8,9 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kzcw.common.Iot.utils.CheckMessage;
 import org.kzcw.common.Iot.utils.OpenMessage;
+import org.kzcw.common.Iot.youren.OperaType;
 import org.kzcw.common.global.BreakHistoryManager;
 import org.kzcw.common.global.CheckLightBoxList;
 import org.kzcw.common.global.OpenLockList;
+import org.kzcw.common.global.WaitPublishQueue;
+import org.kzcw.model.Breakhistory;
 import org.kzcw.model.Module;
 import org.kzcw.service.LightboxService;
 import org.kzcw.service.ModuleService;
@@ -39,32 +42,54 @@ public class HomeManager {
 	
     @RequestMapping(value="/getwainning",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,String> getwainning(ModelMap map,HttpServletRequest request){
+    public Map<String,Object> getwainning(ModelMap map,HttpServletRequest request){
 		//获取报警数据
-        Map<String,String> result=new HashMap<String,String>();
-        int len=10;
-
-        try {
-            BreakHistoryManager breakhistorymanager=BreakHistoryManager.getInstance();
-            if(breakhistorymanager.IsFlush) {
-            	//获取当前报警
-            	result.put("IsFlush","true"); //执行成功
-              	result.put("content",breakhistorymanager.getCurrentBreakMessage()); //执行成功
-              	//breakhistorymanager.IsFlush=false;
-              	len--;
-              	if(len<0) {
-              		breakhistorymanager.IsFlush=false;
-              	}
-            }else {
-            	result.put("IsFlush","false"); //执行成功
-            }
-            result.put("data","true"); //执行成功
-		} catch (Exception e) {
-			// TODO: handle exception
-			result.put("data","false");
-		}
-        return result;
-    }
+    	Map<String,Object> result=new HashMap<String,Object>();
+    	BreakHistoryManager list=BreakHistoryManager.getInstance();//获取开锁队列
+    	list.IsFlush=true;
+    	Date d=new Date();
+    	list.addItem(d.toString(),new Breakhistory(d.toString(),"test"));
+    	int max=10;
+    	if(list.IsFlush) {
+    		//执行刷新操作
+    		StringBuffer stringBuffer = new StringBuffer();
+    		Map<String,Breakhistory> sets=list.getMapEntrySet();
+	        for(Map.Entry<String, Breakhistory> entry: sets.entrySet())
+	        {
+	        	//<i class="fa fa-envelope fa-fw"></i>
+	        	max--;
+	        	if(max<0) {
+	        		//最多显示10条记录
+		    		stringBuffer.append("<li class=\"divider\"></li>");
+		    		stringBuffer.append("<li>");
+	    			stringBuffer.append("<a class=\"text-center\" href=\"#\">");	
+	    			stringBuffer.append("<strong>显示所有消息</strong>");
+	    			stringBuffer.append("<i class=\"fa fa-angle-right\"></i>");
+	    			stringBuffer.append("</a>");
+	    			stringBuffer.append("</li>");
+	    			break;
+	        	}
+	    		stringBuffer.append("<li>");
+    			stringBuffer.append("<a href=\"#\">");	
+    			stringBuffer.append("<div>");
+    			stringBuffer.append("<i class=\"fa fa-comment fa-fw\"></i> 测试消息1");
+    			stringBuffer.append("<span class=\"pull-right text-muted small\">4 min</span>");
+    			stringBuffer.append("</div>");
+    			stringBuffer.append("</a>");
+    			stringBuffer.append("</li>");
+	        }
+    		result.put("data", stringBuffer.toString());
+    		result.put("IsFlush","true");
+    		result.put("message","true");
+     		list.IsFlush=false;//设置不刷新
+    	}else {
+    		//不执行
+    		result.put("data","");
+    		result.put("IsFlush","false");
+    	}
+		return result;
+    }    	
+    	
 	
 //	@RequestMapping(value = "/getview/add", method = RequestMethod.GET)
 //	public String add(ModelMap map,HttpServletRequest request){

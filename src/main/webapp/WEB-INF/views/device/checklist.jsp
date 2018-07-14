@@ -11,10 +11,6 @@ String basePath1 = request.getScheme()+"://"+request.getServerName()+":"+request
 <rapid:override name="title">
 <title>安装审核</title>
 <script type="text/javascript">
-// 测试引用是否成功
-window.onbeforeunload=function(){
-	return "是否要离开";
-}
 function doRefresh(){
 	$.ajax({
 		type : "POST",
@@ -57,28 +53,17 @@ function getchecklist(){
 </rapid:override>
 <rapid:override name="content">
 	<div class="row">
-		<div class="col-md-4 col-sm-4">
-			<div class="panel panel-default">
-				<div class="panel-heading">申请审核队列</div>
-				<div class="panel-body">
-					<div class="list-group" id="applylist"></div>
-					<div class="text-right">
-						<a href="#">更多<i class="fa fa-arrow-circle-right"></i></a>
-					</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">申请审核队列</div>
+			<div class="panel-body">
+				<div class="list-group" id="applylist"></div>
+				<div class="text-right">
+					<a href="#">更多<i class="fa fa-arrow-circle-right"></i></a>
 				</div>
-			</div>
 		</div>
-		<div class="col-md-4 col-sm-4">
-			<div class="panel panel-default">
-				<div class="panel-heading">审核通过队列</div>
-				<div class="panel-body">
-					<div class="list-group" id="passlist"></div>
-					<div class="text-right">
-						<a href="#">更多<i class="fa fa-arrow-circle-right"></i></a>
-					</div>
-				</div>
-			</div>
-		</div>
+	</div>
+	</div>
+ 
 				
 	<!-- /.申请审核队列处理模态框 开始-->
 	<div class="modal fade" id="apply" tabindex="-1" role="dialog"

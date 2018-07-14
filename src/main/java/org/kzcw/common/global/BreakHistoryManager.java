@@ -1,11 +1,12 @@
 package org.kzcw.common.global;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.kzcw.common.Iot.youren.OperaType;
 import org.kzcw.model.Breakhistory;
 
 
 public class BreakHistoryManager {
-
     //单例模式 确保整个程序内都可以访问
 	public static BreakHistoryManager instance=new BreakHistoryManager();
 	//hashmap 提高查询速度
@@ -50,5 +51,10 @@ public class BreakHistoryManager {
 			retstring="异常";
 		}
 		return retstring;
+	}
+	
+	public Map<String,Breakhistory> getMapEntrySet(){
+		//返回MapSet
+		return list;
 	}
 }
