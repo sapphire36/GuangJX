@@ -11,7 +11,6 @@ public class BreakHistoryManager {
 	public static BreakHistoryManager instance=new BreakHistoryManager();
 	//hashmap 提高查询速度
 	private Map<String,Breakhistory> list = new HashMap<String,Breakhistory>();
-	public boolean IsFlush=false;  //是否刷新
 	private String current;//当前报警
 	
 	public static BreakHistoryManager getInstance() {
@@ -26,13 +25,11 @@ public class BreakHistoryManager {
 			//如果存在该IEME记录的报警
 			if(!temp.getTYPE().equals(content.getTYPE())) {
 				//如果存在该IEME,但上报记录不一致
-				IsFlush=true;
 				list.put(ieme,content);
 				current=ieme;
 			}
 		}else {
 			//如果不存在该IEME记录的报警
-			IsFlush=true;
 			list.put(ieme,content);
 			current=ieme;
 		}

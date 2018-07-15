@@ -2,16 +2,12 @@ package org.kzcw.controller.manage;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-
-import org.kzcw.common.Iot.utils.CheckMessage;
-import org.kzcw.common.Iot.utils.OpenMessage;
 import org.kzcw.common.global.CheckLightBoxList;
-import org.kzcw.common.global.OpenLockList;
-import org.kzcw.common.global.SystemData;
 import org.kzcw.model.Lightbox;
 import org.kzcw.model.Lockdevice;
 import org.kzcw.model.Status;
@@ -24,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -50,9 +45,8 @@ public class DeviceManager {
 	public String lightboxlist(ModelMap model, HttpServletRequest request) {
 		// 获取箱体信息列表
 		List<Map> result = new ArrayList<Map>();
-		List<Lightbox> lightboxslist = lservice.list();
-		Lightbox inter = lservice.findUniqueByProperty("USERNAME", SystemData.getInstance().loginname);
-		if (SystemData.getInstance().status.equals("3")) {
+		List<Lightbox> lightboxslist = lservice.findByAreaName("");
+		if (lightboxslist != null) {
 			for (Lightbox box : lightboxslist) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("ID", box.getID());
@@ -60,8 +54,7 @@ public class DeviceManager {
 				map.put("IEME", box.getIEME());
 				map.put("ADDTIME", box.getADDTIME());
 				map.put("ISREGIST", box.getISREGIST());
-				map.put("USERNAME", box.getUSERNAME());
-
+				map.put("USERNAME", box.getAREANAME());
 				// 找到最近的一条上报记录
 				Status status = staservice.getRecentRecord(box.getIEME());
 				if (status != null) {
@@ -84,38 +77,43 @@ public class DeviceManager {
 				map.put("ISONLINE", "在线");
 				result.add(map);// 添加到结果集中
 			}
-		} else {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("ID", inter.getID());
-			map.put("NAME", inter.getNAME());
-			map.put("IEME", inter.getIEME());
-			map.put("ADDTIME", inter.getADDTIME());
-			map.put("ISREGIST", inter.getISREGIST());
-			map.put("USERNAME", inter.getUSERNAME());
-			// 找到最近的一条上报记录
-			Status status = staservice.getRecentRecord(inter.getIEME());
-			if (status != null) {
-
-				if (status.getDOORSTATUS() == 1) {
-					map.put("DOORSTATUS", "开");
-				} else {
-					map.put("DOORSTATUS", "关");
-				}
-
-				if (status.getLOCKSTATUS() == 1) {
-					map.put("LOCKSTATUS", "开");
-				} else {
-					map.put("LOCKSTATUS", "关");
-				}
-			} else {
-				map.put("DOORSTATUS", "未找到上报数据");
-				map.put("LOCKSTATUS", "未找到上报数据");
-			}
-			map.put("ISONLINE", "在线");
-			result.add(map);// 添加到结果集中
+			model.addAttribute("lightlist", result);
 		}
-		model.addAttribute("lightlist", result);
 		return "/device/lightboxlist";
+		/*
+		 * Lightbox inter = lservice.findUniqueByProperty("USERNAME",
+		 * SystemData.getInstance().loginname); if
+		 * (SystemData.getInstance().status.equals("3")) { for (Lightbox box :
+		 * lightboxslist) { Map<String, Object> map = new HashMap<String, Object>();
+		 * map.put("ID", box.getID()); map.put("NAME", box.getNAME()); map.put("IEME",
+		 * box.getIEME()); map.put("ADDTIME", box.getADDTIME()); map.put("ISREGIST",
+		 * box.getISREGIST()); map.put("USERNAME", box.getUSERNAME());
+		 * 
+		 * // 找到最近的一条上报记录 Status status = staservice.getRecentRecord(box.getIEME()); if
+		 * (status != null) {
+		 * 
+		 * if (status.getDOORSTATUS() == 1) { map.put("DOORSTATUS", "开"); } else {
+		 * map.put("DOORSTATUS", "关"); }
+		 * 
+		 * if (status.getLOCKSTATUS() == 1) { map.put("LOCKSTATUS", "开"); } else {
+		 * map.put("LOCKSTATUS", "关"); } } else { map.put("DOORSTATUS", "未找到上报数据");
+		 * map.put("LOCKSTATUS", "未找到上报数据"); } map.put("ISONLINE", "在线");
+		 * result.add(map);// 添加到结果集中 } } else { Map<String, Object> map = new
+		 * HashMap<String, Object>(); map.put("ID", inter.getID()); map.put("NAME",
+		 * inter.getNAME()); map.put("IEME", inter.getIEME()); map.put("ADDTIME",
+		 * inter.getADDTIME()); map.put("ISREGIST", inter.getISREGIST());
+		 * map.put("USERNAME", inter.getUSERNAME()); // 找到最近的一条上报记录 Status status =
+		 * staservice.getRecentRecord(inter.getIEME()); if (status != null) {
+		 * 
+		 * if (status.getDOORSTATUS() == 1) { map.put("DOORSTATUS", "开"); } else {
+		 * map.put("DOORSTATUS", "关"); }
+		 * 
+		 * if (status.getLOCKSTATUS() == 1) { map.put("LOCKSTATUS", "开"); } else {
+		 * map.put("LOCKSTATUS", "关"); } } else { map.put("DOORSTATUS", "未找到上报数据");
+		 * map.put("LOCKSTATUS", "未找到上报数据"); } map.put("ISONLINE", "在线");
+		 * result.add(map);// 添加到结果集中 } model.addAttribute("lightlist", result); return
+		 * "/device/lightboxlist";
+		 */
 	}
 
 	@RequestMapping(value = "/addlightbox", method = RequestMethod.POST)
@@ -453,62 +451,106 @@ public class DeviceManager {
 		return "/device/checklist";
 	}
 
-	@RequestMapping(value = "/getchecklist", method = RequestMethod.GET)
+	@RequestMapping(value = "/getchecklist", method = RequestMethod.POST)
 	@ResponseBody
-	public String addcheck(ModelMap map, HttpServletRequest request) {
+	public Map<String, Object> getchecklist(ModelMap map, HttpServletRequest request) {
 		// 获取审核队列
-		// 单例模式实例化
 		Map<String, Object> result = new HashMap<String, Object>();
-		CheckLightBoxList checklist = CheckLightBoxList.getInstance();
-
-		// if(checklist.IsFlush) {
+		// 单例模式实例化
+		CheckLightBoxList list = CheckLightBoxList.getInstance();// 获取开锁队列
 		// 执行刷新操作
-		// StringBuffer stringBuffer = new StringBuffer();
-		// int index=0;
-		// for (CheckMessage x : checklist.checklist) {
-		// stringBuffer.append("<a href=\"#\" class=\"list-group-item\"
-		// data-toggle=\"modal\" data-backdrop=\"static\" data-target=\"#apply\"> ");
-		// stringBuffer.append("<span class=\"badge\">");
-		// stringBuffer.append(x.NAME+x.time);
-		// stringBuffer.append("</span><i class=\"fa fa-fw fa-comment\"></i>");
-		// if(x.IsReady)
-		// stringBuffer.append("正在审核:"+x.IEME);
-		// else
-		// stringBuffer.append("审核通过:"+x.IEME);
-		// stringBuffer.append("</a>");
-		// index++;
-		// }
-		// result.put("data", stringBuffer.toString());
-		// result.put("IsFlush","true");
-		// checklist.IsFlush=false;//设置不刷新
-
-		CheckMessage message = new CheckMessage();
-		// message;
-		// String ieme = getEMEI(IEME);
-		message.NAME = "tttt";
-		message.IEME = "tttt";
-		message.LOCATION = "tttt";
-		checklist.AddItem(message);
-		// }else {
-		// //不执行
-		// result.put("data","");
-		// result.put("IsFlush","false");
-		// }
-		return "/device/checklist";
+		StringBuffer stringBuffer = new StringBuffer();
+		int index = 0;
+		for (Lightbox x : list.checklist) {
+			stringBuffer.append(
+					"<a href=\"#\" class=\"list-group-item\" data-toggle=\"modal\" data-backdrop=\"static\" data-target=\"#docheck\"> ");
+			stringBuffer.append("<span class=\"badge\">");
+			stringBuffer.append(new Date().toString());
+			stringBuffer.append("</span><i class=\"fa fa-fw fa-comment\">");
+			stringBuffer.append(x.getNAME() + ":" + x.getIEME() + ":" + x.getLOCATION());
+			stringBuffer.append("</i></a>");
+			index++;
+		}
+		result.put("data", stringBuffer.toString());
+		// 不执行
+		return result;
 	}
 
-	// @RequestMapping(value = "/getchecklist", method = RequestMethod.POST)
-	// @ResponseBody
-	// public Map<String,Object> getchecklist(ModelMap model,HttpServletRequest
-	// request){
-	// //获取审核列表
-	// Map<String,Object> result=new HashMap<String,Object>();
-	// CheckLightBoxList list=CheckLightBoxList.getInstance();//获取审核队列
-	// if(list.IsFlush) {
-	// //执行刷新操作
+	@RequestMapping(value = "/doPassCheck", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> doPassCheck(ModelMap map, HttpServletRequest request) {
+		// 通过审核
+		Map<String,Object> result=new HashMap<String,Object>();
+		// 单例模式实例化
+		//editlightboxname editlockid editspec editmadetype editlocation editpeople
+		try {
+			String editlightboxname=request.getParameter("editlightboxname");
+			String editlockid=request.getParameter("editlockid");
+			String editspec=request.getParameter("editspec");
+			String editmadetype=request.getParameter("editmadetype");
+			String editlocation=request.getParameter("editlocation");
+			String editpeople=request.getParameter("editpeople");
+			CheckLightBoxList list=CheckLightBoxList.getInstance();//获取开锁队列
+			Lightbox box=list.delItemByEMEI(editlockid);
+			if(box!=null) {
+				box.setIEME(editlockid);
+				box.setNAME(editlightboxname); 
+				box.setSPEC(editspec); 
+				box.setMADETYPE(editmadetype); 
+				box.setLOCATION(editlocation);
+				box.setPEOPLE(editpeople); 
+				lservice.save(box);
+				result.put("data", "true");
+			}else {
+				result.put("data", "异常");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data", e.getMessage());
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/doRejectCheck", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> doRejectCheck(ModelMap map, HttpServletRequest request) {
+		// 拒绝审核
+		Map<String,Object> result=new HashMap<String,Object>();
+		// 单例模式实例化
+		//editlightboxname editlockid editspec editmadetype editlocation editpeople
+		try {
+			String editlightboxname=request.getParameter("editlightboxname");
+			String editlockid=request.getParameter("editlockid");
+			String editspec=request.getParameter("editspec");
+			String editmadetype=request.getParameter("editmadetype");
+			String editlocation=request.getParameter("editlocation");
+			String editpeople=request.getParameter("editpeople");
+			CheckLightBoxList list=CheckLightBoxList.getInstance();//获取开锁队列
+			Lightbox box=list.delItemByEMEI(editlockid);
+			if(box!=null) {
+				box.setIEME(editlockid);
+				box.setNAME(editlightboxname); 
+				box.setSPEC(editspec); 
+				box.setMADETYPE(editmadetype); 
+				box.setLOCATION(editlocation);
+				box.setPEOPLE(editpeople); 
+				lservice.save(box);
+				result.put("data", "true");
+			}else {
+				result.put("data", "异常");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("data", e.getMessage());
+		}
+		return result;
+	}
+
+	// if(checklist.IsFlush) {
+	// 执行刷新操作
 	// StringBuffer stringBuffer = new StringBuffer();
 	// int index=0;
-	// for (CheckMessage x : list.checklist) {
+	// for (CheckMessage x : checklist.checklist) {
 	// stringBuffer.append("<a href=\"#\" class=\"list-group-item\"
 	// data-toggle=\"modal\" data-backdrop=\"static\" data-target=\"#apply\"> ");
 	// stringBuffer.append("<span class=\"badge\">");
@@ -523,17 +565,58 @@ public class DeviceManager {
 	// }
 	// result.put("data", stringBuffer.toString());
 	// result.put("IsFlush","true");
-	// list.IsFlush=false;//设置不刷新
+	// checklist.IsFlush=false;//设置不刷新
+
+	// CheckMessage message = new CheckMessage();
+	// message;
+	// String ieme = getEMEI(IEME);
+	// message.NAME = "tttt";
+	// message.IEME = "tttt";
+	// message.LOCATION = "tttt";
+	// checklist.AddItem(message);
 	// }else {
 	// //不执行
 	// result.put("data","");
 	// result.put("IsFlush","false");
 	// }
-	// return result;
-	// }
-	//
-	/*
-	 * 报警: 1.jquery 控制模态框 2.浮动div
-	 */
-
+	// return "/device/checklist";
 }
+
+// @RequestMapping(value = "/getchecklist", method = RequestMethod.POST)
+// @ResponseBody
+// public Map<String,Object> getchecklist(ModelMap model,HttpServletRequest
+// request){
+// //获取审核列表
+// Map<String,Object> result=new HashMap<String,Object>();
+// CheckLightBoxList list=CheckLightBoxList.getInstance();//获取审核队列
+// if(list.IsFlush) {
+// //执行刷新操作
+// StringBuffer stringBuffer = new StringBuffer();
+// int index=0;
+// for (CheckMessage x : list.checklist) {
+// stringBuffer.append("<a href=\"#\" class=\"list-group-item\"
+// data-toggle=\"modal\" data-backdrop=\"static\" data-target=\"#apply\"> ");
+// stringBuffer.append("<span class=\"badge\">");
+// stringBuffer.append(x.NAME+x.time);
+// stringBuffer.append("</span><i class=\"fa fa-fw fa-comment\"></i>");
+// if(x.IsReady)
+// stringBuffer.append("正在审核:"+x.IEME);
+// else
+// stringBuffer.append("审核通过:"+x.IEME);
+// stringBuffer.append("</a>");
+// index++;
+// }
+// result.put("data", stringBuffer.toString());
+// result.put("IsFlush","true");
+// list.IsFlush=false;//设置不刷新
+// }else {
+// //不执行
+// result.put("data","");
+// result.put("IsFlush","false");
+// }
+// return result;
+// }
+//
+/*
+ * 报警: 1.jquery 控制模态框 2.浮动div
+ */

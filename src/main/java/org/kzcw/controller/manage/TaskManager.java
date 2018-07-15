@@ -1,13 +1,11 @@
 package org.kzcw.controller.manage;
-
 import java.util.List;
-
+import org.kzcw.common.global.CheckLightBoxList;
 import org.kzcw.common.global.CloseLockList;
 import org.kzcw.common.global.OpenLockList;
 import org.kzcw.common.global.SysLogManager;
 import org.kzcw.common.global.SystemData;
 import org.kzcw.common.global.WaitPublishQueue;
-import org.kzcw.model.Breakhistory;
 import org.kzcw.model.Status;
 import org.kzcw.model.Systemlogs;
 import org.kzcw.service.BreakhistoryService;
@@ -71,5 +69,6 @@ public class TaskManager {
 		
 		CloseLockList close=CloseLockList.getInstance();
 		close.IsFlush=true;
+		
 	}
 }

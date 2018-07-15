@@ -15,7 +15,7 @@ public class CloseLockList {
 		return instance;
 	}
 
-	public void AddItem(CloseMessage message) {
+	public void addItem(CloseMessage message) {
 		// 入队,有人申请关闭锁时添加该队列
 		IsFlush=true; //执行更新
 		list.add(message);

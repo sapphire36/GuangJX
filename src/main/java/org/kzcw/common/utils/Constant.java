@@ -12,10 +12,6 @@
  */
 package org.kzcw.common.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 public class Constant {
 
     //please replace the IP and Port, when you use the demo.

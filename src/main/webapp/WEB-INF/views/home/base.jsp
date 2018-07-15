@@ -36,11 +36,9 @@ function getwainning(){
 		success : function(data) {
 			//$("#warnnintModel").modal("show");
 			if(data.IsFlush=="true"){
-				$("#warningmenu").html(data.data); 
 				toastr.warning(data.message);
-			}else{
-				toastr.error("获取报警信息异常!");
-			}
+			} 
+			$("#warningmenu").html(data.data); 
 		}
 	});
 	setTimeout(getwainning,10000);

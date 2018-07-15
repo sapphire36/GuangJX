@@ -11,26 +11,60 @@ String basePath1 = request.getScheme()+"://"+request.getServerName()+":"+request
 <rapid:override name="title">
 <title>安装审核</title>
 <script type="text/javascript">
-function doRefresh(){
+
+$(document).ready(function(e) {
+	getchecklist();
+	$('#applylist').on('click','a',function(){
+		var text=$(this).find("i").text();
+		var data = text.split(':');
+		$("#editlightboxname").attr("value",data[0]);
+		$("#editlockid").attr("value",data[1]);
+		$("#editlocation").attr("value",data[2]);
+	 })
+	 
+	 $("#dopass").click(function(){
+		//通过审核
+		 dopass();//执行编辑
+     });
+	 $("#doreject").click(function(){
+		//拒绝审核
+		 doreject();//执行编辑
+     }); 
+});
+function dopass(){
+	//通过审核 editlightboxname editlockid editspec editmadetype editlocation editpeople
+	var editlightboxname=$("#editlightboxname").val();//获取id为lightboxname的值
+	var editlockid=$("#editlockid").val();//获取id为lockid的值
+	var editspec=$("#editspec").val();//获取id为spec的值
+	var editmadetype=$("#editmadetype").val();//获取id为madetype的值
+	var editlocation=$("#editlocation").val();//获取id为location的值
+	var editpeople=$("#editpeople").val();//获取id为people的值
+	//根据选择器获取数据
+	//参考文档:http://www.w3school.com.cn/jquery/attributes_attr.asp
 	$.ajax({
 		type : "POST",
-		url : "<%=basePath1%>/manage/control/dorefresh",
-		data :"test",
+		url : "<%=basePath1%>/manage/device/doPassCheck",
+		data:{"editlightboxname":editlightboxname,
+			  "editlockid":editlockid,
+			  "editspec":editspec,
+			  "editmadetype":editmadetype,
+			  "editlocation":editlocation,
+			  "editpeople":editpeople
+			  },
 		success : function(data) {
 			if(data.data=="true"){
+				toastr.success("审核成功!");
 			}else{
-				return "是否要离开";
+				toastr.error(data.data);
 			}
 		}
 	});
 }
 
-$(document).ready(function(e) {
-	doRefresh();//刷新页面
-	getchecklist();
-});
-//var waittime=1000; //等待时间
-
+function doreject(){
+	//拒绝审核
+	 toastr.success("已拒绝该请求!");
+}
 function getchecklist(){
 	//获取审核队列
 	$.ajax({
@@ -38,15 +72,10 @@ function getchecklist(){
 		url : "<%=basePath1%>/manage/device/getchecklist",
 		data :"test",
 		success : function(data) {
-			if(data.IsFlush=="true"){
-				$("#applylist").html(data.data); 
-				//toastr.error("获取报警信息异常1!");
-			}else{
-				toastr.error("获取报警信息异常2!");
-			}
+		    $("#applylist").html(data.data); 
 		}
 	});
-	setTimeout(getchecklist,1000);
+	setTimeout(getchecklist,1000); //设置定时器,每1000ms执行一次
 }
 
 </script>
@@ -62,11 +91,11 @@ function getchecklist(){
 				</div>
 		</div>
 	</div>
-	</div>
+</div>
  
 				
 	<!-- /.申请审核队列处理模态框 开始-->
-	<div class="modal fade" id="apply" tabindex="-1" role="dialog"
+	<div class="modal fade" id="docheck" tabindex="-1" role="dialog"
 		aria-labelledby="open" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -127,11 +156,12 @@ function getchecklist(){
                         </tr>                                                                                                           
 						<tr>
 							<td align="right">-
-								<button id="doopen" class="btn btn-default" data-dismiss="modal"
-									onclick="doopen(this)">通过</button>
+								<button id="dopass" class="btn btn-default" data-dismiss="modal">
+								   通过
+								</button>
 							</td>
 							<td align="center">
-								<button id="jujueopen" type="button" class="btn btn-default"
+								<button id="doreject" type="button" class="btn btn-default"
 									data-dismiss="modal">拒绝</button>
 							</td>
 							<td align="left">
