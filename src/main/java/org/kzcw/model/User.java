@@ -17,7 +17,7 @@ public class User extends General{
 	private String PASSWD;//密码
 	private long ROLEID;//角色ID
 	private int STATUS;//状态:1表示正常,0表示禁用
-	private long YUID;//有人网用户ID
+	private String AREANAME;//有人网络区域名字
 	
 	@Column(nullable = false,length=50)
 	public String getUSERNAME() {
@@ -52,12 +52,12 @@ public class User extends General{
 		STATUS = sTATUS;
 	}
 	
-	@Column(nullable = true)
-	public long getYUID() {
-		return YUID;
+	@Column(nullable = true,length=50)
+	public String getAREANAME() {
+		return AREANAME;
 	}
-	public void setYUID(long yUID) {
-		YUID = yUID;
+	public void setAREANAME(String aREANAME) {
+		AREANAME = aREANAME;
 	}
 }
 

@@ -16,4 +16,5 @@ public interface UserService extends BaseService<User>{
 	
     public int doLogin(String uname,String passwd,long type);
 	
+    public User getUserByNameAndPasswd(String uname,String passwd,long type);
 }

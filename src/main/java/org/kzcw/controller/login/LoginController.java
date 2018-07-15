@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kzcw.common.global.Globals;
 import org.kzcw.common.global.SystemData;
+import org.kzcw.model.User;
 import org.kzcw.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,6 +48,9 @@ public class LoginController {
 		    	 request.getSession().setAttribute(Globals.OnlineUserManageFlag,"true");
 		    	 request.getSession().setAttribute(Globals.USERNAME, name);//设置用户名
 		    	 request.getSession().setAttribute(Globals.USERTYPE,usertype);//设置用户类型
+		    	 SystemData sysdata=SystemData.getInstance();
+		    	 User user=userservice.getUserByNameAndPasswd(name, passwd,Long.parseLong(usertype));
+		    	 sysdata.status=user.getAREANAME(); //设置区域名
 		    	 ret.put("data","1");
 			    }
 				break;

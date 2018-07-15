@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.kzcw.common.global.CheckLightBoxList;
+import org.kzcw.common.global.SystemData;
 import org.kzcw.model.Lightbox;
 import org.kzcw.model.Lockdevice;
 import org.kzcw.model.Status;
@@ -45,7 +46,8 @@ public class DeviceManager {
 	public String lightboxlist(ModelMap model, HttpServletRequest request) {
 		// 获取箱体信息列表
 		List<Map> result = new ArrayList<Map>();
-		List<Lightbox> lightboxslist = lservice.findByAreaName("");
+		SystemData sysdata=SystemData.getInstance();
+		List<Lightbox> lightboxslist = lservice.findByAreaName(sysdata.status);
 		if (lightboxslist != null) {
 			for (Lightbox box : lightboxslist) {
 				Map<String, Object> map = new HashMap<String, Object>();
@@ -493,12 +495,14 @@ public class DeviceManager {
 			CheckLightBoxList list=CheckLightBoxList.getInstance();//获取开锁队列
 			Lightbox box=list.delItemByEMEI(editlockid);
 			if(box!=null) {
+				SystemData sysdata=SystemData.getInstance();
 				box.setIEME(editlockid);
 				box.setNAME(editlightboxname); 
 				box.setSPEC(editspec); 
 				box.setMADETYPE(editmadetype); 
 				box.setLOCATION(editlocation);
 				box.setPEOPLE(editpeople); 
+				box.setAREANAME(sysdata.status);
 				lservice.save(box);
 				result.put("data", "true");
 			}else {
@@ -519,22 +523,11 @@ public class DeviceManager {
 		// 单例模式实例化
 		//editlightboxname editlockid editspec editmadetype editlocation editpeople
 		try {
-			String editlightboxname=request.getParameter("editlightboxname");
 			String editlockid=request.getParameter("editlockid");
-			String editspec=request.getParameter("editspec");
-			String editmadetype=request.getParameter("editmadetype");
-			String editlocation=request.getParameter("editlocation");
-			String editpeople=request.getParameter("editpeople");
+ 
 			CheckLightBoxList list=CheckLightBoxList.getInstance();//获取开锁队列
 			Lightbox box=list.delItemByEMEI(editlockid);
 			if(box!=null) {
-				box.setIEME(editlockid);
-				box.setNAME(editlightboxname); 
-				box.setSPEC(editspec); 
-				box.setMADETYPE(editmadetype); 
-				box.setLOCATION(editlocation);
-				box.setPEOPLE(editpeople); 
-				lservice.save(box);
 				result.put("data", "true");
 			}else {
 				result.put("data", "异常");

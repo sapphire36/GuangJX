@@ -63,7 +63,23 @@ function dopass(){
 
 function doreject(){
 	//拒绝审核
-	 toastr.success("已拒绝该请求!");
+	var editlockid=$("#editlockid").val();//获取id为lockid的值
+	//根据选择器获取数据
+	//参考文档:http://www.w3school.com.cn/jquery/attributes_attr.asp
+	$.ajax({
+		type : "POST",
+		url : "<%=basePath1%>/manage/device/doRejectCheck",
+		data:{
+			  "editlockid":editlockid
+			  },
+		success : function(data) {
+			if(data.data=="true"){
+				toastr.success("已拒绝该申请!");
+			}else{
+				toastr.error(data.data);
+			}
+		}
+	});
 }
 function getchecklist(){
 	//获取审核队列

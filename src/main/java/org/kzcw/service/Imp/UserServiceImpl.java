@@ -80,5 +80,35 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		}
 		return ret;
 	}
-	
+
+	@Override
+	public User getUserByNameAndPasswd(String uname, String passwd, long type) {
+		// TODO Auto-generated method stub
+		List<User> total;
+		User ret=null; //返回值
+		Session session = null;
+		try {
+			session = dao.OpenSession();
+			Criteria criteria = session.createCriteria(User.class);
+			criteria.add(
+						Restrictions.and( //AND
+							Restrictions.eq("USERNAME",uname),//名字等于uname
+							Restrictions.eq("PASSWD",passwd),
+							Restrictions.eq("ROLEID",type)
+						)
+					);
+			total=criteria.list();
+			if(total!=null) {
+				//如果找到该用户
+				if(total.size()>0) {
+					ret = total.get(0);
+				}
+			}
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return ret;
+	}
 }
