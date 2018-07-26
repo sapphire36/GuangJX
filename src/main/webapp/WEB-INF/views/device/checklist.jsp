@@ -5,12 +5,14 @@
 <%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-String path1 = request.getContextPath();
-String basePath1 = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path1;
+	String path1 = request.getContextPath();
+	String basePath1 = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path1;
 %>
+
 <rapid:override name="title">
-<title>安装审核</title>
-<script type="text/javascript">
+	<title>安装审核</title>
+	<script type="text/javascript">
 
 $(document).ready(function(e) {
 	getchecklist();
@@ -86,15 +88,14 @@ function getchecklist(){
 	$.ajax({
 		type : "POST",
 		url : "<%=basePath1%>/manage/device/getchecklist",
-		data :"test",
+		data : "test",
 		success : function(data) {
-		    $("#applylist").html(data.data); 
+				$("#applylist").html(data.data);
+				}
+			});
+			setTimeout(getchecklist, 1000); //设置定时器,每1000ms执行一次
 		}
-	});
-	setTimeout(getchecklist,1000); //设置定时器,每1000ms执行一次
-}
-
-</script>
+	</script>
 </rapid:override>
 <rapid:override name="content">
 	<div class="row">
@@ -105,11 +106,11 @@ function getchecklist(){
 				<div class="text-right">
 					<a href="#">更多<i class="fa fa-arrow-circle-right"></i></a>
 				</div>
+			</div>
 		</div>
 	</div>
-</div>
- 
-				
+
+
 	<!-- /.申请审核队列处理模态框 开始-->
 	<div class="modal fade" id="docheck" tabindex="-1" role="dialog"
 		aria-labelledby="open" aria-hidden="true">
@@ -120,72 +121,63 @@ function getchecklist(){
 						aria-hidden="true">&times;</button>
 					<h4 class="modal-title" id="myModalLabel">申请审核</h4>
 				</div>
-				<div class="modal-body">
-					<table class="table table-striped">
-					 <tr>
-                            <td align="right">
-                                箱体名称：
-                            </td>
-                            <td align="left">
-                                <input id="editlightboxname" type="text" name="NAME" placeholder=""/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">
-           IMEI编号：
-                            </td>
-                            <td align="left">
-                                <input id="editlockid" type="text" name="LOCKID" placeholder=""/>
-                            </td>
-                        </tr>                            
-                         <tr>
-                            <td align="right">
-                                规格：
-                            </td>
-                            <td align="left">
-                                <input id="editspec" type="text" name="SPEC" placeholder=""/>
-                            </td>
-                        </tr>
-                         <tr>
-                            <td align="right">
-                                厂家型号：
-                            </td>
-                            <td align="left">
-                                <input id="editmadetype" type="text" name="MADETYPE" placeholder=""/>
-                            </td>
-                        </tr>
-                         <tr>
-                            <td align="right">
-                                安装位置：
-                            </td>
-                            <td align="left">
-                                <input id="editlocation" type="text" name="LOCATION" placeholder=""/>
-                            </td>
-                        </tr>
-                         <tr>
-                            <td align="right">
-                                安装人员：
-                            </td>
-                            <td align="left">
-                                <input id="editpeople" type="text" name="PEOPLE" placeholder=""/>
-                            </td>
-                        </tr>                                                                                                           
-						<tr>
-							<td align="right">-
-								<button id="dopass" class="btn btn-default" data-dismiss="modal">
-								   通过
-								</button>
-							</td>
-							<td align="center">
-								<button id="doreject" type="button" class="btn btn-default"
-									data-dismiss="modal">拒绝</button>
-							</td>
-							<td align="left">
-								<button type="button" class="btn btn-default"
-									data-dismiss="modal">取消</button>
-							</td>
-						</tr>
-					</table>
+
+				<div class="modal-body" style="width: 600px; height:425px;">
+
+					<div id="nav" style="width: 330px; float: left;padding:5px;">
+						<table class="table table-striped">
+							<tr>
+								<td align="right">箱体名称：</td>
+								<td align="left"><input id="editlightboxname" type="text"
+									name="NAME" placeholder="" /></td>
+							</tr>
+							<tr>
+								<td align="right">IMEI编号：</td>
+								<td align="left"><input id="editlockid" type="text"
+									name="LOCKID" placeholder="" /></td>
+							</tr>
+							<tr>
+								<td align="right">规格：</td>
+								<td align="left"><input id="editspec" type="text"
+									name="SPEC" placeholder="" /></td>
+							</tr>
+							<tr>
+								<td align="right">厂家型号：</td>
+								<td align="left"><input id="editmadetype" type="text"
+									name="MADETYPE" placeholder="" /></td>
+							</tr>
+							<tr>
+								<td align="right">安装位置：</td>
+								<td align="left"><input id="editlocation" type="text"
+									name="LOCATION" placeholder="" /></td>
+							</tr>
+							<tr>
+								<td align="right">安装人员：</td>
+								<td align="left"><input id="editpeople" type="text"
+									name="PEOPLE" placeholder="" /></td>
+							</tr>
+							<tr>
+								<td align="right">
+									<button id="dopass" class="btn btn-default"
+										data-dismiss="modal">通过</button>
+								</td>
+								<td align="center">
+									<button id="doreject" type="button" class="btn btn-default"
+										data-dismiss="modal">拒绝</button>
+								</td>
+								<td align="left">
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">取消</button>
+								</td>
+							</tr>
+						</table>
+					</div>
+
+					<div id="section" style="width: 200px; float: left; padding:10px;">
+						 <img id="newpic" src="/GuangJX/manage/device/showImage"  width="220" height="300" alt="Applied picture" />
+					</div>
+
+
 				</div>
 			</div>
 			<!-- /.modal-content -->

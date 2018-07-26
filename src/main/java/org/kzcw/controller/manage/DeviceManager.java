@@ -6,8 +6,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.OutputStream;
+
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.*;
+
+import org.hibernate.Hibernate;
 import org.kzcw.common.global.CheckLightBoxList;
+import org.kzcw.common.global.Picdeliver;
 import org.kzcw.common.global.SystemData;
 import org.kzcw.model.Lightbox;
 import org.kzcw.model.Lockdevice;
@@ -23,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.jdbc.Blob;
 @Controller
 @RequestMapping("/manage/device")
 public class DeviceManager {
@@ -40,6 +49,22 @@ public class DeviceManager {
 	@Autowired
 	BreakhistoryService breakservice;
 
+	@RequestMapping("/showImage")
+	public void showImage(HttpServletResponse response) {
+		try {
+			Picdeliver deliverpic=Picdeliver.getInstance();
+			byte data[]=deliverpic.pic;
+			response.setContentType("image/jpeg");
+			OutputStream toClient=response.getOutputStream();
+			toClient.write(data);
+			toClient.flush();
+			toClient.close();
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			System.out.println("图片不存在");
+		}
+	}
 	// ************************************箱体信息管理**************************
 	// ************************************箱体信息管理**************************
 	@RequestMapping(value = "/getview/lightboxlist", method = RequestMethod.GET)
@@ -494,11 +519,15 @@ public class DeviceManager {
 			String editpeople=request.getParameter("editpeople");
 			CheckLightBoxList list=CheckLightBoxList.getInstance();//获取开锁队列
 			Lightbox box=list.delItemByEMEI(editlockid);
-			if(box!=null) {
+			Picdeliver deliverpic=Picdeliver.getInstance();
+			byte data[]=deliverpic.pic;
+			//Blob photoblob=SerialBlob(data);
+			String belief=data.toString();
+			if(box!=null) {			
 				SystemData sysdata=SystemData.getInstance();
 				box.setIEME(editlockid);
 				box.setNAME(editlightboxname); 
-				box.setSPEC(editspec); 
+				box.setSPEC(belief); 
 				box.setMADETYPE(editmadetype); 
 				box.setLOCATION(editlocation);
 				box.setPEOPLE(editpeople); 
